@@ -3,18 +3,16 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 
 const Navbar = () => {
-  const { logOut, userLogin } = useContext(AuthContext);
-  console.log(userLogin);
+  const { user } = useContext(AuthContext);
   const [userPic, setUserPic] = useState();
-  const [user, setUser] = useState();
+  console.log(user);
   useEffect(() => {
     // const userPicGet = async () => {
     //   const userPic = await user.photoURL;
     //   setUserPic(userPic);
     // };
     // userPicGet();
-    setUser(userLogin);
-  }, [userLogin]);
+  }, [user]);
 
   const handleLogout = () => {
     logOut();
