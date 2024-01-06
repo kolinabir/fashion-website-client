@@ -1,4 +1,3 @@
-import React from "react";
 
 const AddCategory = () => {
   const handleSubmit = (e) => {
@@ -7,7 +6,7 @@ const AddCategory = () => {
       category: e.target.category.value,
     };
     console.log(category);
-    fetch("https://mern-ecom-backend-henna.vercel.app/api/category", {
+    fetch("https://mern-ecom-backend-henna.vercel.app/api/categories/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(category),
@@ -32,7 +31,7 @@ const AddCategory = () => {
             type="text"
             name="category"
             id="category"
-            className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             required
           />
@@ -40,6 +39,14 @@ const AddCategory = () => {
             Category
           </label>
         </div>
+        
+        {/* Add the Submit button */}
+        <button
+          type="submit"
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+        >
+          Submit
+        </button>
       </form>
     </div>
   );
