@@ -12,6 +12,8 @@ import ManageService from "../page/ManageService/ManageService";
 import UpdateService from "../page/ManageService/UpdateService";
 import ShowAllService from "../page/ShowService/ShowAllService";
 import ErrorPage from "../Components/ErrorPage/ErrorPage";
+import AddCategory from "../page/AddService/AddCategory";
+import Dashboard from "../Components/Navbar/Dashboard";
 
 const Routes = createBrowserRouter([
   {
@@ -37,6 +39,22 @@ const Routes = createBrowserRouter([
         element: (
           <PrivetsRoutes>
             <AddService></AddService>
+          </PrivetsRoutes>
+        ),
+      },
+      {
+        path: "dashboard",
+        element: (
+          <PrivetsRoutes>
+            <Dashboard></Dashboard>
+          </PrivetsRoutes>
+        ),
+      },
+      {
+        path: "addCategory",
+        element: (
+          <PrivetsRoutes>
+            <AddCategory></AddCategory>
           </PrivetsRoutes>
         ),
       },
