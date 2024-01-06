@@ -13,18 +13,26 @@ const AddService = () => {
     fetch("https://mern-ecom-backend-henna.vercel.app/api/categories")
       .then((res) => res.json())
       .then((data) => {
-        setCategories(data.data); // Assuming categories are stored in the "data" property
+        setCategories(data.data);
       });
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let categoryId = '';
+    categories.map((category) => {
+      if (category.name === selectedCategory) {
+        // console.log(category._id);
+        // return category._id;
+        categoryId = category._id;
+      }
+    });
 
     const form = e.target;
     const serviceName = form.serviceName.value;
     const yourName = user?.displayName;
     const email = user.email;
-    const price = form.price.value;
+    const price = Number(form.price.value);
     const description = form.description.value;
     const serviceArea = form.serviceArea.value;
     const image = form.image.value;
@@ -34,14 +42,16 @@ const AddService = () => {
     const companyName = form.companyName.value;
     // const type = form.type.value;
     const size = form.size.value;
+    const sizes = [];
+    sizes.push(size);
     const color = form.color.value;
     // const category = form.category.value;
-
     const policy = form.policy.value;
+    const quantity = Number(form.quantity.value);
 
     const service = {
-      serviceName,
-      yourName,
+      title: serviceName,
+      sellerName: yourName,
       email,
       price,
       description,
@@ -52,16 +62,19 @@ const AddService = () => {
       brandName,
       companyName,
       // type,
-      size,
+      sizes,
       color,
       // category,
       policy,
-      category: selectedCategory,
+      category: categoryId,
+      quantity,
     };
 
-    fetch("https://mern-ecom-backend-henna.vercel.app/api/categories", {
+    const token = localStorage.getItem("token");
+
+    fetch("https://mern-ecom-backend-henna.vercel.app/api/product", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: token },
       body: JSON.stringify(service),
     })
       .then((res) => res.json())
@@ -158,7 +171,6 @@ const AddService = () => {
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
-                readOnly
                 defaultValue={user?.displayName}
                 name="brandName"
                 id="brandName"
@@ -189,7 +201,7 @@ const AddService = () => {
           <div className="grid md:grid-cols-2 md:gap-6">
             <div className="relative z-0 w-full mb-6 group">
               <input
-                type="text"
+                type="number"
                 name="price"
                 id="price"
                 className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -224,6 +236,19 @@ const AddService = () => {
               />
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Color
+              </label>
+            </div>
+            <div className="relative z-0 w-full mb-6 group">
+              <input
+                type="number"
+                name="quantity"
+                id="quantity"
+                className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                Quantity
               </label>
             </div>
 
@@ -287,7 +312,6 @@ const AddService = () => {
                 name="authorPhoto"
                 id="authorPhoto"
                 defaultValue={user.photoURL}
-                readOnly
                 className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required

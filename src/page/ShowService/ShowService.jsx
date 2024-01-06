@@ -5,6 +5,7 @@ import Rating from "react-rating-stars-component";
 
 const ShowService = () => {
   const service = useLoaderData();
+  console.log(service);
 
   return (
     <div>

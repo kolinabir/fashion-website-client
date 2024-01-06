@@ -61,12 +61,12 @@ const Routes = createBrowserRouter([
       {
         path: "/",
         element: <ShowService></ShowService>,
-        loader: () => fetch("https://fashion-server-nine.vercel.app/services", {credentials: 'include'}),
+        // loader: () => fetch("https://mern-ecom-backend-henna.vercel.app/api/product", {credentials: 'include'}),
       },
       {
         path: "/services",
         element: <ShowAllService></ShowAllService>,
-        loader: () => fetch("https://fashion-server-nine.vercel.app/services", {credentials: 'include'}),
+        // loader: () => fetch("https://mern-ecom-backend-henna.vercel.app/api/product", {credentials: 'include'}),
       },
       {
         path: "showService/:id",
