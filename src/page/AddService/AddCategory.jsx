@@ -1,14 +1,17 @@
-
 const AddCategory = () => {
   const handleSubmit = (e) => {
+    const token = localStorage.getItem("token");
     e.preventDefault();
     const category = {
-      category: e.target.category.value,
+      name: e.target.category.value,
     };
     console.log(category);
     fetch("https://mern-ecom-backend-henna.vercel.app/api/categories/", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
       body: JSON.stringify(category),
     })
       .then((res) => res.json())
@@ -39,11 +42,11 @@ const AddCategory = () => {
             Category
           </label>
         </div>
-        
+
         {/* Add the Submit button */}
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+          className=" mb-96 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
         >
           Submit
         </button>

@@ -43,7 +43,7 @@ const Routes = createBrowserRouter([
         ),
       },
       {
-        path: "dashboard",
+        path: "/dashboard",
         element: (
           <PrivetsRoutes>
             <Dashboard></Dashboard>

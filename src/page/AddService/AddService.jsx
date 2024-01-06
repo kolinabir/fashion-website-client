@@ -1,10 +1,21 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import { Helmet } from "react-helmet-async";
 
 const AddService = () => {
   const { user } = useContext(AuthContext);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  useEffect(() => {
+    // Fetch categories from the API
+    fetch("https://mern-ecom-backend-henna.vercel.app/api/categories")
+      .then((res) => res.json())
+      .then((data) => {
+        setCategories(data.data); // Assuming categories are stored in the "data" property
+      });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,6 +36,7 @@ const AddService = () => {
     const size = form.size.value;
     const color = form.color.value;
     // const category = form.category.value;
+
     const policy = form.policy.value;
 
     const service = {
@@ -44,6 +56,7 @@ const AddService = () => {
       color,
       // category,
       policy,
+      category: selectedCategory,
     };
 
     fetch("https://mern-ecom-backend-henna.vercel.app/api/categories", {
@@ -96,10 +109,7 @@ const AddService = () => {
         <title>FASHION | Add Service</title>
       </Helmet>
       <div className="flex items-center justify-center py-6">
-        <h2
-          className="text-4xl font-extrabold text-white bg-gradient-to-r from-green-500 to-blue-500 rounded-lg p-6 shadow-lg"
-                
-        >
+        <h2 className="text-4xl font-extrabold text-white bg-gradient-to-r from-green-500 to-blue-500 rounded-lg p-6 shadow-lg">
           ADD A ITEM HERE...
         </h2>
       </div>
@@ -177,7 +187,6 @@ const AddService = () => {
             </div>
           </div>
           <div className="grid md:grid-cols-2 md:gap-6">
-            
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
@@ -217,7 +226,7 @@ const AddService = () => {
                 Color
               </label>
             </div>
-            
+
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
@@ -228,7 +237,7 @@ const AddService = () => {
                 required
               />
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-              Policy
+                Policy
               </label>
             </div>
             <div className="relative z-0 w-full mb-6 group">
@@ -288,10 +297,35 @@ const AddService = () => {
               </label>
             </div>
           </div>
+          <div className="relative z-0 w-full mb-6 group">
+            <label
+              htmlFor="category"
+              className="text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] left-0  dark:text-blue-500"
+            >
+              Category
+            </label>
+            <select
+              id="category"
+              name="category"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              required
+            >
+              <option value="" disabled>
+                Select a category
+              </option>
+              {categories.map((category) => (
+                <option key={category._id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <button
-             type="submit"
-             className="bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 text-white font-medium rounded-lg text-sm w-full py-2.5 text-center"
+            type="submit"
+            className="bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 text-white font-medium rounded-lg text-sm w-full py-2.5 text-center"
           >
             ADD HERE
           </button>
