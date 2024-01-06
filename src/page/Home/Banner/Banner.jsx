@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Typewriter, Cursor } from "react-simple-typewriter";
 
 const Banner = () => {
@@ -42,7 +43,7 @@ const Banner = () => {
                 </svg>
               </div>
               <div>
-                <button className="btn btn-neutral ">SHOP NOW</button>
+                <Link to="/services"><button className="btn btn-neutral ">SHOP NOW</button></Link>
               </div>
             </div>
           </div>

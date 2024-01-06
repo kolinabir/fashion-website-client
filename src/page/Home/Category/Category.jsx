@@ -19,7 +19,7 @@ const Category = () => {
             className=" py-1 text-center "
           >
            <div className=''>
-           <h3 className="text-base text-black font-normal">{category}</h3>
+           <h3 className="text-base text-black font-normal">{category + " " +"|"}</h3>
            </div>
             {/* You can add additional category-specific information or images here ddddddddd*/}
           </div>
