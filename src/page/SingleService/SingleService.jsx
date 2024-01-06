@@ -220,7 +220,7 @@ const SingleService = () => {
                       </div>
                       <button type="submit" className="btn"
                       >
-                        Purchase this Service
+                       Buy this product
                       </button>
                     </div>
                   </form>

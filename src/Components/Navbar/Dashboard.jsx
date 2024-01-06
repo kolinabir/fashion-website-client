@@ -6,7 +6,7 @@ const Dashboard = () => {
   const { user } = useContext(AuthContext);
 
   return (
-    <div className="drawer z-50">
+    <div className="drawer z-40">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content mb-[800px] mt-3 pl-3">
         {/* Your existing drawer content */}
