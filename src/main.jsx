@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
@@ -8,16 +8,20 @@ import Routes from "./Routes/Routes.jsx";
 import AuthProvider from "./Providers/AuthProvider/AuthProvider.jsx";
 import { HelmetProvider } from "react-helmet-async";
 
+export const userContext = createContext();
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <HelmetProvider>
-      <AuthProvider>
-        <ThemeProvider>
-          <RouterProvider router={Routes}>
-            <App />
-          </RouterProvider>
-        </ThemeProvider>
-      </AuthProvider>
+      <userContext>
+        <AuthProvider>
+          <ThemeProvider>
+            <RouterProvider router={Routes}>
+              <App />
+            </RouterProvider>
+          </ThemeProvider>
+        </AuthProvider>
+      </userContext>
     </HelmetProvider>
   </React.StrictMode>
 );

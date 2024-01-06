@@ -65,7 +65,7 @@ const ShowAllService = () => {
               id="category-menu-button"
               onClick={() => setShowCategories(!showCategories)}
             >
-              {selectedCategory} <FaArrowDown />
+              {selectedCategory} 
             </button>
             <div
               className={`${
@@ -86,6 +86,20 @@ const ShowAllService = () => {
                   All
                 </button>
                 {/* Add other category buttons based on your categories */}
+                <button
+                  onClick={() => handleCategoryChange("Category1")}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  role="menuitem"
+                >
+                  Category1
+                </button>
+                <button
+                  onClick={() => handleCategoryChange("Category1")}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  role="menuitem"
+                >
+                  Category1
+                </button>
                 <button
                   onClick={() => handleCategoryChange("Category1")}
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"

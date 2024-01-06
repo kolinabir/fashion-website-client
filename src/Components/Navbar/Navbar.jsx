@@ -3,16 +3,18 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 
 const Navbar = () => {
-  const { user, logOut } = useContext(AuthContext);
+  const { logOut, userLogin } = useContext(AuthContext);
+  console.log(userLogin);
   const [userPic, setUserPic] = useState();
-
+  const [user, setUser] = useState();
   useEffect(() => {
-    const userPicGet = async () => {
-      const userPic = await user.photoURL;
-      setUserPic(userPic);
-    };
-    userPicGet();
-  }, [user]);
+    // const userPicGet = async () => {
+    //   const userPic = await user.photoURL;
+    //   setUserPic(userPic);
+    // };
+    // userPicGet();
+    setUser(userLogin);
+  }, [userLogin]);
 
   const handleLogout = () => {
     logOut();
@@ -57,7 +59,7 @@ const Navbar = () => {
             </NavLink>
           </div>
 
-          {user?.email && ( // Add a conditional check for user authentication
+          {user?.username && ( // Add a conditional check for user authentication
             <div className="relative group">
               <button onClick={toggleDropdown} className="btn btn-sm btn-ghost">
                 <a className="flex items-center" href="#">

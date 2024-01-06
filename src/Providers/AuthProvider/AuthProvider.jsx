@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -8,6 +9,7 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
+
 import app from "../../Config/firebase.config";
 import axios from "axios";
 
@@ -19,6 +21,7 @@ const googlProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  let userLogin = null;
   // Google Login
   const googleSignIn = () => {
     setLoading(true);
@@ -26,9 +29,30 @@ const AuthProvider = ({ children }) => {
   };
 
   // sign with email password
-  const signIn = (email, password) => {
+  const signIn = (username, password) => {
     setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
+    const service = { username, password };
+    fetch("https://mern-ecom-backend-henna.vercel.app/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(service),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        localStorage.setItem("token", data.token);
+        userLogin = data.data.user;
+        console.log(data.data.user);
+        Swal.fire({
+          title: "Success!",
+          text: "Login successfully!",
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // create user with email and password
@@ -40,7 +64,7 @@ const AuthProvider = ({ children }) => {
   // Logout button
   const logOut = () => {
     setLoading(true);
-    return signOut(auth);
+    userLogin = null;
   };
 
   // for observe user
@@ -81,6 +105,7 @@ const AuthProvider = ({ children }) => {
     createUser,
     signIn,
     logOut,
+    userLogin,
   };
 
   return (
