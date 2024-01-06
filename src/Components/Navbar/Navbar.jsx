@@ -18,11 +18,8 @@ const Navbar = () => {
     logOut();
   };
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
+ 
 
   return (
     <div>
@@ -57,71 +54,15 @@ const Navbar = () => {
             </NavLink>
           </div>
 
-          {user?.username && ( // Add a conditional check for user authentication
+          {user?.username && ( 
             <div className="relative group">
-              <button onClick={toggleDropdown} className="btn btn-sm btn-ghost">
-                <a className="flex items-center" href="#">
-                  Dropdown
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 ml-2 transform group-hover:rotate-0 group-focus:rotate-0 group-active:rotate-180 transition-transform"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </a>
+              <Link to="/dashboard">
+              <button className="btn btn-sm btn-ghost">
+                <p className="flex items-center" >
+                  Dashboard
+                </p>
               </button>
-              <ul
-                style={{ display: dropdownOpen ? "block" : "none" }}
-                className="dropdown-content text-white z-10 menu p-2 shadow bg-base-100 rounded-box w-36 mt-2 absolute left-0"
-              >
-                {user && (
-                  <NavLink
-                    to="/manageService"
-                    className={({ isActive }) =>
-                      isActive
-                        ? "btn btn-primary btn-sm"
-                        : "btn btn-sm btn-ghost"
-                    }
-                    onClick={toggleDropdown}
-                  >
-                    Manage Service
-                  </NavLink>
-                )}
-                {user && (
-                  <NavLink
-                    to="/cart"
-                    className={({ isActive }) =>
-                      isActive
-                        ? "btn btn-primary btn-sm"
-                        : "btn btn-sm btn-ghost"
-                    }
-                    onClick={toggleDropdown}
-                  >
-                    My Schedules
-                  </NavLink>
-                )}
-                {user && (
-                  <NavLink
-                    to="/addService"
-                    className={({ isActive }) =>
-                      isActive
-                        ? "btn btn-primary btn-sm"
-                        : "btn btn-sm btn-ghost"
-                    }
-                    onClick={toggleDropdown}
-                  >
-                    Add Service
-                  </NavLink>
-                )}
-              </ul>
+              </Link>
             </div>
           )}
 

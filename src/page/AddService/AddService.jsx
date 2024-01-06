@@ -24,7 +24,7 @@ const AddService = () => {
     // const type = form.type.value;
     const size = form.size.value;
     const color = form.color.value;
-    const category = form.category.value;
+    // const category = form.category.value;
     const policy = form.policy.value;
 
     const service = {
@@ -42,13 +42,11 @@ const AddService = () => {
       // type,
       size,
       color,
-      category,
+      // category,
       policy,
-      
-      
     };
 
-    fetch("https://fashion-server-nine.vercel.app/addService", {
+    fetch("https://mern-ecom-backend-henna.vercel.app/api/categories", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(service),
@@ -69,6 +67,28 @@ const AddService = () => {
       confirmButtonText: "Cool",
     });
   };
+
+  //   fetch("https://fashion-server-nine.vercel.app/addService", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(service),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //   console.log(service);
+  //   form.reset();
+  //   Swal.fire({
+  //     title: "Success!",
+  //     text: "Service added successfully!",
+  //     icon: "success",
+  //     confirmButtonText: "Cool",
+  //   });
+  // };
 
   return (
     <div>
@@ -197,19 +217,7 @@ const AddService = () => {
                 Color
               </label>
             </div>
-            <div className="relative z-0 w-full mb-6 group">
-              <input
-                type="text"
-                name="category"
-                id="category"
-                className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
-              />
-              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-              Category
-              </label>
-            </div>
+            
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
