@@ -5,53 +5,79 @@ export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const checkAuthentication = async () => {
+      setLoading(true);
+      const token = localStorage.getItem("token");
 
-    if (token) {
-      fetch("https://mern-ecom-backend-henna.vercel.app/api/auth/user", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setUser(data.data.user);
+      if (token) {
+        try {
+          const response = await fetch(
+            "https://mern-ecom-backend-henna.vercel.app/api/auth/check-auth",
+            {
+              headers: {
+                Authorization: token,
+              },
+            }
+          );
+          if (response.ok) {
+            const data = await response.json(); // Convert the ReadableStream to JSON
+            console.log(data);
+            setUser(data.data); // Assuming the user object is directly under the "user" key in the response data
+          } else {
+            // Handle invalid token or other errors
+            console.error("Error fetching user details");
+            localStorage.removeItem("token");
+            setUser(null);
+          }
+        } catch (error) {
+          console.error("Error fetching user details", error);
+        } finally {
           setLoading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false);
-        });
-    } else {
-      setLoading(false);
-    }
+        }
+      } else {
+        setLoading(false);
+      }
+    };
+
+    checkAuthentication();
   }, []);
 
-  const signIn = (username, password) => {
+  const signIn = async (username, password) => {
     setLoading(true);
     const service = { username, password };
-    fetch("https://mern-ecom-backend-henna.vercel.app/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(service),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        localStorage.setItem("token", data.token);
+
+    try {
+      const response = await fetch(
+        "https://mern-ecom-backend-henna.vercel.app/api/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(service),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("token", data.data.token);
         setUser(data.data.user);
-        setLoading(false);
         Swal.fire({
           title: "Success!",
           text: "Login successfully!",
           icon: "success",
           confirmButtonText: "Cool",
         });
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
+      } else {
+        // Handle login failure
+        console.error("Login failed");
+      }
+    } catch (error) {
+      console.error("Error during login", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const signOut = () => {
