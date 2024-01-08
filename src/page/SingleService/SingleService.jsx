@@ -7,7 +7,6 @@ import { Helmet } from "react-helmet-async";
 const SingleService = () => {
   const service = useLoaderData();
   const { user } = useContext(AuthContext);
-  console.log(service);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -68,40 +67,64 @@ const SingleService = () => {
       <Helmet>
         <title>FASHION | Checkout</title>
       </Helmet>
-      <div className="max-w-xl mx-auto p-4">
-        <div className="bg-white rounded-lg p-4 shadow-md">
-          <div className="relative aspect-w-16 aspect-h-9 mb-4">
-            <img
-              src={service.image}
-              alt={service.name}
-              className="object-cover rounded-lg"
-            />
-          </div>
-          {/* <h3 className="text-2xl font-medium">{service.name}</h3> */}
-          <p className="text-2xl font-medium text-orange-900 mb-2">
-            {service.serviceName}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="relative aspect-w-16 aspect-h-9 mb-4 md:mb-0">
+          <img
+            src={service?.data.image}
+            alt={service?.data.name}
+            className="object-cover rounded-lg w-full h-full"
+          />
+        </div>
+        <div className="flex flex-col justify-center">
+          <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-orange-900">
+            {service?.data.title}
+          </h2>
+          <p className="text-base md:text-lg text-blue-gray-900 mb-4">
+            {service?.data.policy}
           </p>
-          <p className="text-blue-gray-900 mb-2">{service.description}</p>
-          <div className="flex items-center mt-4 mb-3 gap-3">
+          <p className="text-base md:text-lg text-blue-gray-900 mb-4">
+            {service?.data.description}
+          </p>
+          <div className="flex items-center mb-4">
             <img
               className="h-12 w-12 rounded-full"
-              src={service.authorPhoto}
+              src={service?.data?.authorPhoto}
               alt=""
             />
-            <h2 className="text-base font-medium text-black mt-2">
-              {service.yourName}
+            <h2 className="text-lg md:text-xl font-medium text-black ml-2">
+              {service?.data?.sellerName}
             </h2>
           </div>
           <div>
-            <h3 className="text-lg text-black font-medium">Service Area</h3>
-            <p className="text-base text-black font-normal mb-2">
-              {service.serviceArea}
+            <h3 className="text-lg md:text-xl text-black font-medium">
+              {service?.data.companyName}
+            </h3>
+            <p className="text-base md:text-lg text-blue-gray-700">
+              Category: {service?.data.category.name}
             </p>
           </div>
-
+          <div className="mt-4">
+            <h3 className="text-lg md:text-xl text-black font-medium">Service Area</h3>
+            <p className="text-base md:text-lg text-blue-gray-700 mb-2">
+              Quantity: {service?.data.quantity}
+            </p>
+            <p className="text-base md:text-lg text-blue-gray-700 mb-2">
+              Sizes: {service?.data.sizes.join(", ")}
+            </p>
+            <p className="text-base md:text-lg text-blue-gray-700 mb-2">
+              Color: {service?.data.color}
+            </p>
+          </div>
+          <div className="mt-4">
+            <h3 className="text-lg md:text-xl text-black font-medium">User review</h3>
+            <p className="text-base md:text-lg text-blue-gray-700">
+              {service.data.review}
+            </p>
+          </div>
           <div className="flex justify-between items-center mt-4">
-            <p className="text-lg text-blue-600">${service.price}</p>
-            {/* Open the modal using document.getElementById('ID').showModal() method */}
+            <p className="text-lg md:text-xl text-blue-600 font-semibold">
+              ${service.data?.price}
+            </p>
             <button
               className="btn"
               onClick={() => document.getElementById("my_modal_1").showModal()}
@@ -136,7 +159,7 @@ const SingleService = () => {
                     <div className="space-y-5">
                       <div className="relative h-11 w-full min-w-[200px]">
                         <input
-                          defaultValue={service.serviceName}
+                          defaultValue={service.data?.serviceName}
                           readOnly
                           name="serviceName"
                           className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
@@ -148,7 +171,7 @@ const SingleService = () => {
                       </div>
                       <div className="relative h-11 w-full min-w-[200px]">
                         <input
-                          defaultValue={service.image}
+                          defaultValue={service?.data.image}
                           readOnly
                           name="image"
                           className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
@@ -160,7 +183,7 @@ const SingleService = () => {
                       </div>
                       <div className="relative h-11 w-full min-w-[200px]">
                         <input
-                          defaultValue={service.email}
+                          defaultValue={service?.data.email}
                           readOnly
                           name="serviceEmail"
                           className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
@@ -172,7 +195,7 @@ const SingleService = () => {
                       </div>
                       <div className="relative h-11 w-full min-w-[200px]">
                         <input
-                          defaultValue={user.email}
+                          defaultValue={user?.email}
                           readOnly
                           name="email"
                           className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
@@ -208,7 +231,7 @@ const SingleService = () => {
                       </div>
                       <div className="relative h-11 w-full min-w-[200px]">
                         <input
-                          defaultValue={"$" + service.price}
+                          defaultValue={"$" + service?.data.price}
                           readOnly
                           name="price"
                           className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
@@ -218,9 +241,8 @@ const SingleService = () => {
                           Price
                         </label>
                       </div>
-                      <button type="submit" className="btn"
-                      >
-                       Buy this product
+                      <button type="submit" className="btn">
+                        Buy this product
                       </button>
                     </div>
                   </form>
