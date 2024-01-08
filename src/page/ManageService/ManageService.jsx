@@ -1,23 +1,23 @@
 import ServiceCard from "./ServiceCard";
 import Swal from "sweetalert2";
-import { useContext, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 
 const ManageService = () => {
-  const { user } = useContext(AuthContext);
   const [services, setServices] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   console.log(cartItems);
   useEffect(() => {
-    fetch(`https://mern-ecom-backend-henna.vercel.app/api/product/${user?.email}`)
+    fetch(`https://mern-ecom-backend-henna.vercel.app/api/product/`)
       .then((res) => res.json())
       .then((data) => {
-        setServices(data);
-        setCartItems(data);
+        console.log(data);
+        setServices(data.data);
+        setCartItems(data.data);
       });
-  }, [user?.email]);
+  }, []);
 
+  
   const handleDelete = (itemId) => {
     Swal.fire({
       title: "Are you sure?",
@@ -29,9 +29,18 @@ const ManageService = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://mern-ecom-backend-henna.vercel.app/api/product/${itemId}`, {
-          method: "DELETE",
-        })
+        const token = localStorage.getItem("token");
+
+        fetch(
+          `https://mern-ecom-backend-henna.vercel.app/api/product/${itemId}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+          }
+        )
           .then((response) => response.json())
           .then((data) => {
             if (data.deletedCount === 1) {

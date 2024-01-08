@@ -1,62 +1,77 @@
+import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const UpdateService = () => {
-  const services = useLoaderData();
-  console.log(services.data);
-  const {
-    _id,
-    email,
-    yourName,
-    serviceName,
-    description,
-    price,
-    serviceArea,
-    image,
-  } = services;
+  const product = useLoaderData();
+  console.log(product.data);
+
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    // Fetch categories from the API
+    fetch("https://mern-ecom-backend-henna.vercel.app/api/categories")
+      .then((res) => res.json())
+      .then((data) => {
+        setCategories(data.data);
+      });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    let categoryId = "";
+    categories.map((category) => {
+      if (category.name === selectedCategory) {
+        categoryId = category._id;
+      }
+    });
     const form = e.target;
-    const yourName = form.yourName.value;
-    const serviceName = form.serviceName.value;
+    const sellerName = form.sellerName.value;
+    const title = form.title.value;
     const price = form.price.value;
     const description = form.description.value;
     const image = form.image.value;
-    const serviceArea = form.serviceArea.value;
-    const email = form.email.value;
-    const brandName = form.brandName.value;
+    // const serviceArea = form.serviceArea.value;
+    // const email = form.email.value;
+    // const brandName = form.brandName.value;
     const companyName = form.companyName.value;
     const size = form.size.value;
+    const sizes = [];
+    sizes.push(size);
     const color = form.color.value;
-    const category = form.category.value;
+    // const category = form.category.value;
     const policy = form.policy.value;
-    const rating = form.rating.value;
+    const quantity = form.quantity.value;
 
     const service = {
-      yourName,
-      serviceName,
-      serviceArea,
+      sellerName,
+      title,
+      // serviceArea,
       price,
       description,
-      email,
+      // email,
       image,
-      brandName,
+      // brandName,
       companyName,
       size,
+      sizes,
       color,
-      category,
+      category: categoryId,
       policy,
-      rating,
+      quantity,
     };
+
     const token = localStorage.getItem("token");
 
-    fetch(`https://mern-ecom-backend-henna.vercel.app/api/product/${_id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json", Authorization: token },
-      body: JSON.stringify(service),
-    })
+    fetch(
+      `https://mern-ecom-backend-henna.vercel.app/api/product/${product.data._id}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", Authorization: token },
+        body: JSON.stringify(service),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -92,7 +107,7 @@ const UpdateService = () => {
               type="text"
               name="image"
               id="image"
-              defaultValue={image}
+              defaultValue={product.data.image}
               className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
@@ -104,14 +119,15 @@ const UpdateService = () => {
           <div className="relative z-0 w-full mb-6 group">
             <input
               type="text"
-              name="serviceName"
-              id="serviceName"
+              name="title"
+              id="title"
+              defaultValue={product.data.title}
               className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
             />
             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-              Service Name
+              Product Name
             </label>
           </div>
           <div className="relative z-0 w-full mb-6 group">
@@ -119,6 +135,7 @@ const UpdateService = () => {
               type="text"
               name="companyName"
               id="companyName"
+              defaultValue={product.data.companyName}
               className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
@@ -131,19 +148,19 @@ const UpdateService = () => {
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
-                name="yourName"
-                id="yourName"
-                defaultValue={yourName}
+                name="sellerName"
+                id="sellerName"
+                defaultValue={product.data.addedBy.username}
                 readOnly
                 className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
               />
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Name
+                Seller Name
               </label>
             </div>
-            <div className="relative z-0 w-full mb-6 group">
+            {/* <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
                 name="email"
@@ -157,10 +174,10 @@ const UpdateService = () => {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Email
               </label>
-            </div>
+            </div> */}
           </div>
           <div className="grid md:grid-cols-2 md:gap-6">
-            <div className="relative z-0 w-full mb-6 group">
+            {/* <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
                 name="serviceName"
@@ -173,13 +190,13 @@ const UpdateService = () => {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Service Name
               </label>
-            </div>
+            </div> */}
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
                 name="price"
                 id="price"
-                defaultValue={price}
+                defaultValue={product.data.price}
                 className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
@@ -193,6 +210,7 @@ const UpdateService = () => {
                 type="text"
                 name="size"
                 id="size"
+                defaultValue={product.data.sizes}
                 className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
@@ -206,6 +224,7 @@ const UpdateService = () => {
                 type="text"
                 name="color"
                 id="color"
+                defaultValue={product.data.color}
                 className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
@@ -215,23 +234,36 @@ const UpdateService = () => {
               </label>
             </div>
             <div className="relative z-0 w-full mb-6 group">
-              <input
-                type="text"
-                name="category"
-                id="category"
-                className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
-              />
-              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+              <label
+                htmlFor="category"
+                className="text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] left-0  dark:text-blue-500"
+              >
                 Category
               </label>
+              <select
+                id="category"
+                name="category"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                required
+              >
+                <option value="" disabled>
+                  Select a category
+                </option>
+                {categories.map((category) => (
+                  <option key={category._id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
                 name="policy"
                 id="policy"
+                defaultValue={product.data.policy}
                 className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
@@ -243,14 +275,15 @@ const UpdateService = () => {
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
-                name="rating"
-                id="rating"
+                name="quantity"
+                id="quantity"
                 className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
+                defaultValue={product.data.quantity}
                 required
               />
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Rating
+                Quantity
               </label>
             </div>
           </div>
@@ -260,7 +293,7 @@ const UpdateService = () => {
                 type="tel"
                 name="description"
                 id="description"
-                defaultValue={description}
+                defaultValue={product.data.description}
                 className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
@@ -269,7 +302,7 @@ const UpdateService = () => {
                 Description
               </label>
             </div>
-            <div className="relative z-0 w-full mb-6 group">
+            {/* <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
                 name="serviceArea"
@@ -282,7 +315,7 @@ const UpdateService = () => {
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Service Area
               </label>
-            </div>
+            </div> */}
           </div>
 
           <button
