@@ -10,7 +10,7 @@ const ManageService = () => {
   const [cartItems, setCartItems] = useState([]);
   console.log(cartItems);
   useEffect(() => {
-    fetch(`https://fashion-server-nine.vercel.app/services/${user?.email}`)
+    fetch(`https://mern-ecom-backend-henna.vercel.app/api/product/${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
         setServices(data);
@@ -29,7 +29,7 @@ const ManageService = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://fashion-server-nine.vercel.app/delete/${itemId}`, {
+        fetch(`https://mern-ecom-backend-henna.vercel.app/api/product/${itemId}`, {
           method: "DELETE",
         })
           .then((response) => response.json())

@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 
 const UpdateService = () => {
   const services = useLoaderData();
-  // console.log(services);
+  console.log(services.data);
   const {
     _id,
     email,
@@ -34,7 +34,6 @@ const UpdateService = () => {
     const policy = form.policy.value;
     const rating = form.rating.value;
 
-
     const service = {
       yourName,
       serviceName,
@@ -50,12 +49,12 @@ const UpdateService = () => {
       category,
       policy,
       rating,
-
     };
+    const token = localStorage.getItem("token");
 
-    fetch(`https://fashion-server-nine.vercel.app/update/${_id}`, {
+    fetch(`https://mern-ecom-backend-henna.vercel.app/api/product/${_id}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: token },
       body: JSON.stringify(service),
     })
       .then((res) => res.json())
@@ -67,7 +66,7 @@ const UpdateService = () => {
             text: "Service added successfully!",
             icon: "success",
             confirmButtonText: "Cool",
-            });
+          });
         }
       })
       .catch((err) => {
@@ -80,7 +79,7 @@ const UpdateService = () => {
     <div>
       <div className="flex items-center justify-center py-6">
         <h2
-         className="text-3xl font-bold bg-black rounded-lg p-4 text-white shadow-lg
+          className="text-3xl font-bold bg-black rounded-lg p-4 text-white shadow-lg
                 "
         >
           Update Your Service Details..
@@ -103,31 +102,31 @@ const UpdateService = () => {
             </label>
           </div>
           <div className="relative z-0 w-full mb-6 group">
-              <input
-                type="text"
-                name="serviceName"
-                id="serviceName"
-                className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
-              />
-              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Service Name
-              </label>
-            </div>
-            <div className="relative z-0 w-full mb-6 group">
-              <input
-                type="text"
-                name="companyName"
-                id="companyName"
-                className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
-              />
-              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Company Name
-              </label>
-            </div>
+            <input
+              type="text"
+              name="serviceName"
+              id="serviceName"
+              className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              required
+            />
+            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+              Service Name
+            </label>
+          </div>
+          <div className="relative z-0 w-full mb-6 group">
+            <input
+              type="text"
+              name="companyName"
+              id="companyName"
+              className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              required
+            />
+            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+              Company Name
+            </label>
+          </div>
           <div className="grid md:grid-cols-2 md:gap-6">
             <div className="relative z-0 w-full mb-6 group">
               <input
@@ -225,7 +224,7 @@ const UpdateService = () => {
                 required
               />
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-              Category
+                Category
               </label>
             </div>
             <div className="relative z-0 w-full mb-6 group">
@@ -238,7 +237,7 @@ const UpdateService = () => {
                 required
               />
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-              Policy
+                Policy
               </label>
             </div>
             <div className="relative z-0 w-full mb-6 group">

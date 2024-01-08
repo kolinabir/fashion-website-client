@@ -102,7 +102,7 @@ const Routes = createBrowserRouter([
             <UpdateService />
           </PrivetsRoutes>
         ),
-        loader: ({params}) => fetch(`https://fashion-server-nine.vercel.app/service/${params.id}`),
+        loader: ({params}) => fetch(`https://mern-ecom-backend-henna.vercel.app/api/product/${params.id}`),
       },
     ],
   },

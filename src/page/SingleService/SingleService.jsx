@@ -5,39 +5,41 @@ import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
 
 const SingleService = () => {
-  const service = useLoaderData();
+  const product = useLoaderData();
   const { user } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const form = e.target;
-    const serviceName = form.serviceName.value;
-    const yourName = user?.displayName;
-    const email = user.email;
-    const price = form.price.value;
-    const comment = form.comment.value;
-    const date = form.date.value;
-    const image = form.image.value;
-    const serviceEmail = form.serviceEmail.value;
+    const customerName = form.customerName.value;
+    // const yourName = user?.displayName;
+    const address = form.address.value;
+    const additionalInfo = form.additionalInfo.value;
+    const email = form.email.value;
+    const phoneNumber = form.phoneNumber.value;
+    const district = form.district.value;
+    const thana = form.thana.value;
+    const quantity = form.quantity.value;
 
     const service = {
-      serviceName,
-      yourName,
+      customerName,
+      // yourName,
+      quantity,
+      address,
+      additionalInfo,
+      phoneNumber,
       email,
-      price,
-      date,
-      comment,
-      image,
-      serviceEmail,
+      district,
+      thana,
     };
     console.log(service);
 
-    console.log(service);
+    const token = localStorage.getItem("token");
 
-    fetch("https://fashion-server-nine.vercel.app/addOrder", {
+    fetch("https://mern-ecom-backend-henna.vercel.app/api/order", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: token },
       body: JSON.stringify(service),
     })
       .then((res) => res.json())
@@ -70,60 +72,64 @@ const SingleService = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="relative aspect-w-16 aspect-h-9 mb-4 md:mb-0">
           <img
-            src={service?.data.image}
-            alt={service?.data.name}
+            src={product?.data.image}
+            alt={product?.data.name}
             className="object-cover rounded-lg w-full h-full"
           />
         </div>
         <div className="flex flex-col justify-center">
           <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-orange-900">
-            {service?.data.title}
+            {product?.data.title}
           </h2>
           <p className="text-base md:text-lg text-blue-gray-900 mb-4">
-            {service?.data.policy}
+            {product?.data.policy}
           </p>
           <p className="text-base md:text-lg text-blue-gray-900 mb-4">
-            {service?.data.description}
+            {product?.data.description}
           </p>
           <div className="flex items-center mb-4">
             <img
               className="h-12 w-12 rounded-full"
-              src={service?.data?.authorPhoto}
+              src={product?.data?.authorPhoto}
               alt=""
             />
             <h2 className="text-lg md:text-xl font-medium text-black ml-2">
-              {service?.data?.sellerName}
+              {product?.data?.sellerName}
             </h2>
           </div>
           <div>
             <h3 className="text-lg md:text-xl text-black font-medium">
-              {service?.data.companyName}
+              {product?.data.companyName}
             </h3>
             <p className="text-base md:text-lg text-blue-gray-700">
-              Category: {service?.data.category.name}
+              Category: {product?.data.category.name}
             </p>
           </div>
           <div className="mt-4">
-            <h3 className="text-lg md:text-xl text-black font-medium">Service Area</h3>
+            <h3 className="text-lg md:text-xl text-black font-medium">
+              Service Area
+            </h3>
             <p className="text-base md:text-lg text-blue-gray-700 mb-2">
-              Quantity: {service?.data.quantity}
+              Quantity: {product?.data.quantity}
             </p>
             <p className="text-base md:text-lg text-blue-gray-700 mb-2">
-              Sizes: {service?.data.sizes.join(", ")}
+              Sizes: {product?.data.sizes.join(", ")}
             </p>
             <p className="text-base md:text-lg text-blue-gray-700 mb-2">
-              Color: {service?.data.color}
+              Color: {product?.data.color}
             </p>
           </div>
           <div className="mt-4">
-            <h3 className="text-lg md:text-xl text-black font-medium">User review</h3>
+            <h3 className="text-lg md:text-xl text-black font-medium">
+              User review
+            </h3>
             <p className="text-base md:text-lg text-blue-gray-700">
-              {service.data.review}
+              {product.data.review}
             </p>
           </div>
           <div className="flex justify-between items-center mt-4">
             <p className="text-lg md:text-xl text-blue-600 font-semibold">
-              ${service.data?.price}
+              ${product.data?.price}
             </p>
             <button
               className="btn"
@@ -159,45 +165,63 @@ const SingleService = () => {
                     <div className="space-y-5">
                       <div className="relative h-11 w-full min-w-[200px]">
                         <input
-                          defaultValue={service.data?.serviceName}
-                          readOnly
-                          name="serviceName"
+                          defaultValue={user?.displayName}
+                          name="customerName"
                           className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                           placeholder=" "
                         />
                         <label className="behtmlFore:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-                          Service Name
+                          Customer Name
                         </label>
                       </div>
                       <div className="relative h-11 w-full min-w-[200px]">
                         <input
-                          defaultValue={service?.data.image}
-                          readOnly
-                          name="image"
+                          name="district"
                           className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                           placeholder=" "
                         />
                         <label className="behtmlFore:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-                          Image URL
+                          Your District
                         </label>
                       </div>
                       <div className="relative h-11 w-full min-w-[200px]">
                         <input
-                          defaultValue={service?.data.email}
-                          readOnly
-                          name="serviceEmail"
+                          name="thana"
                           className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                           placeholder=" "
                         />
                         <label className="behtmlFore:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-                          Service Provider Email
+                        Your Thana
                         </label>
                       </div>
                       <div className="relative h-11 w-full min-w-[200px]">
                         <input
-                          defaultValue={user?.email}
-                          readOnly
+                          name="address"
+                          className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                          placeholder=" "
+                        />
+                        <label className="behtmlFore:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+                          Full Address
+                        </label>
+                      </div>
+                      <div className="relative h-11 w-full min-w-[200px]">
+                        <input
+                          type="text"
+                          name="phoneNumber"
+                          required
+                          className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                          placeholder=" "
+                        />
+                        <label className="behtmlFore:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+                          Your Phone Number
+                        </label>
+                      </div>
+                      <div className="relative h-11 w-full min-w-[200px]">
+                        <input
+                          type="email"
                           name="email"
+                          required
+                          defaultValue={user?.email}
                           className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                           placeholder=" "
                         />
@@ -206,39 +230,24 @@ const SingleService = () => {
                         </label>
                       </div>
                       <div className="relative h-11 w-full min-w-[200px]">
-                        <input
-                          type="date"
-                          name="date"
-                          required
+                        <input      
+                          name="additionalInfo"
                           className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                           placeholder=" "
                         />
                         <label className="behtmlFore:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-                          When you wanna do?
+                        Additional Info
                         </label>
                       </div>
                       <div className="relative h-11 w-full min-w-[200px]">
-                        <input
-                          type="text"
-                          name="comment"
-                          required
+                        <input      
+                          name="quantity"
+                          type="number"
                           className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                           placeholder=" "
                         />
                         <label className="behtmlFore:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-                          Say/Suggest anything to seller.
-                        </label>
-                      </div>
-                      <div className="relative h-11 w-full min-w-[200px]">
-                        <input
-                          defaultValue={"$" + service?.data.price}
-                          readOnly
-                          name="price"
-                          className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                          placeholder=" "
-                        />
-                        <label className="behtmlFore:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-                          Price
+                        Quantity
                         </label>
                       </div>
                       <button type="submit" className="btn">
