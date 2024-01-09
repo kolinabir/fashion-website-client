@@ -7,7 +7,7 @@ const ServiceCart = ({ service, handleDelete }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md w-64 p-4 m-4">
+    <div className="bg-white rounded-lg shadow-md w-96 p-4 m-4">
       <img
         src={service.image} // Replace with your service's image source
         alt={service.serviceName}

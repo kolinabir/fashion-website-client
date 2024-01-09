@@ -6,8 +6,6 @@ import { Helmet } from "react-helmet-async";
 
 const SingleService = () => {
   const product = useLoaderData();
-  console.log(product);
-
   const { user } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
@@ -28,7 +26,6 @@ const SingleService = () => {
     };
     const service = {
       customerName,
-      // yourName,
       products: [booking],
       address,
       additionalInfo,

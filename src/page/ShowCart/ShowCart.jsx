@@ -1,25 +1,25 @@
 import { useContext, useEffect, useState } from "react";
 import ServiceCart from "./ServiceCart";
 import { Helmet } from "react-helmet-async";
-import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import ConfirmServices from "./ConfirmService/ConfirmServices";
-// import { useLoaderData } from "react-router-dom";
+import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 
 const ShowCart = () => {
-  // const allData = useLoaderData();
-  // console.log(allData);
   const [cart, setCart] = useState([]);
   const [allCart, setAllCart] = useState([]);
-
-  console.log(allCart);
-  // const [pending, setPending] = useState([]);
   const { user } = useContext(AuthContext);
-  //  console.log(cart);
+
   useEffect(() => {
-    fetch(`https://fashion-server-nine.vercel.app/orders/${user?.email}`,{credentials: 'include'} )
+    const token = localStorage.getItem("token");
+    fetch(`https://mern-ecom-backend-henna.vercel.app/api/order/`, {
+      headers: {
+        Authorization: token,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
-        setCart(data);
+        console.log(data.data);
+        setCart(data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -27,20 +27,30 @@ const ShowCart = () => {
   }, [user]);
 
   useEffect(() => {
-    fetch(`https://fashion-server-nine.vercel.app/serviceMail/${user?.email}`,{credentials: 'include'} )
+    const token = localStorage.getItem("token");
+
+    fetch(`https://mern-ecom-backend-henna.vercel.app/api/order?status=pending`, {
+      headers: {
+        Authorization: token,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
-        setAllCart(data);
+        console.log(data);
+        setAllCart(data.data);
       });
   }, [user]);
 
   const handleDelete = (itemId) => {
-    fetch(`https://fashion-server-nine.vercel.app/deleteOrder/${itemId}`, {
+    fetch(`https://mern-ecom-backend-henna.vercel.app/api/order/${itemId}`, {
       method: "DELETE",
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.deletedCount === 1) {
+        if (data.success) {
           setCart((prevCartItems) =>
             prevCartItems.filter((item) => item._id !== itemId)
           );
@@ -49,16 +59,17 @@ const ShowCart = () => {
   };
 
   const handleBookingConfirm = (id, newStatus) => {
-    fetch(`https://fashion-server-nine.vercel.app/updateOrder/${id}`, {
+    fetch(`https://mern-ecom-backend-henna.vercel.app/api/order/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
+        Authorization: localStorage.getItem("token"),
       },
       body: JSON.stringify({ status: newStatus }),
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.modifiedCount > 0) {
+        if (data.success) {
           // Update state with the new status
           const updatedOrder = allCart.map((booking) => {
             if (booking._id === id) {
@@ -81,13 +92,13 @@ const ShowCart = () => {
           <title>FASHION | Cart</title>
         </Helmet>
 
-        <div className="flex">
+        <div className="grid md:grid-cols-1">
           {cart.length === 0 ? (
             <p className="text-red-700">You have no Booking Service at cart</p>
           ) : (
             cart.map((service) => (
               <ServiceCart
-                key={service.id}
+                key={service._id}
                 handleDelete={handleDelete}
                 service={service}
               />

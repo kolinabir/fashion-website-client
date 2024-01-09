@@ -4,8 +4,6 @@ import Swal from "sweetalert2";
 
 const UpdateService = () => {
   const product = useLoaderData();
-  console.log(product.data);
-
   const [selectedCategory, setSelectedCategory] = useState("");
   const [categories, setCategories] = useState([]);
 
@@ -32,27 +30,20 @@ const UpdateService = () => {
     const price = form.price.value;
     const description = form.description.value;
     const image = form.image.value;
-    // const serviceArea = form.serviceArea.value;
-    // const email = form.email.value;
-    // const brandName = form.brandName.value;
     const companyName = form.companyName.value;
     const size = form.size.value;
     const sizes = [];
     sizes.push(size);
     const color = form.color.value;
-    // const category = form.category.value;
     const policy = form.policy.value;
     const quantity = form.quantity.value;
 
     const service = {
       sellerName,
       title,
-      // serviceArea,
       price,
       description,
-      // email,
       image,
-      // brandName,
       companyName,
       size,
       sizes,
@@ -75,10 +66,10 @@ const UpdateService = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        if (data.modifiedCount) {
+        if (data.success) {
           Swal.fire({
             title: "Success!",
-            text: "Service added successfully!",
+            text: "Product details update successfully!",
             icon: "success",
             confirmButtonText: "Cool",
           });
@@ -97,46 +88,49 @@ const UpdateService = () => {
           className="text-3xl font-bold bg-black rounded-lg p-4 text-white shadow-lg
                 "
         >
-          Update Your Service Details..
+          <span className="text-red-700">Update</span> Your Product Details..
         </h2>
       </div>
       <div className="container my-5 mx-auto">
         <form onSubmit={handleSubmit}>
-          <div className="relative z-0 w-full mb-6 group">
-            <input
-              type="text"
-              name="image"
-              id="image"
-              defaultValue={product.data.image}
-              className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-              Image
-            </label>
+          <div className="grid md:grid-cols-2 md:gap-6">
+            <div className="relative z-0 w-full mb-6 group">
+              <input
+                type="text"
+                name="image"
+                id="image"
+                defaultValue={product.data.image}
+                className="block py-2.5 px-0 w-full text-sm text-gray-800 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                Image
+              </label>
+            </div>
+            <div className="relative z-0 w-full mb-6 group">
+              <input
+                type="text"
+                name="title"
+                id="title"
+                defaultValue={product.data.title}
+                className="block py-2.5 px-0 w-full text-sm text-gray-800  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                Product Name
+              </label>
+            </div>
           </div>
-          <div className="relative z-0 w-full mb-6 group">
-            <input
-              type="text"
-              name="title"
-              id="title"
-              defaultValue={product.data.title}
-              className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-              Product Name
-            </label>
-          </div>
+
           <div className="relative z-0 w-full mb-6 group">
             <input
               type="text"
               name="companyName"
               id="companyName"
               defaultValue={product.data.companyName}
-              className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-gray-800 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
             />
@@ -152,57 +146,12 @@ const UpdateService = () => {
                 id="sellerName"
                 defaultValue={product.data.addedBy.username}
                 readOnly
-                className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                className="block py-2.5 px-0 w-full text-sm text-gray-800 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
               />
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Seller Name
-              </label>
-            </div>
-            {/* <div className="relative z-0 w-full mb-6 group">
-              <input
-                type="text"
-                name="email"
-                id="email"
-                defaultValue={email}
-                readOnly
-                className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
-              />
-              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Email
-              </label>
-            </div> */}
-          </div>
-          <div className="grid md:grid-cols-2 md:gap-6">
-            {/* <div className="relative z-0 w-full mb-6 group">
-              <input
-                type="text"
-                name="serviceName"
-                id="serviceName"
-                defaultValue={serviceName}
-                className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
-              />
-              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Service Name
-              </label>
-            </div> */}
-            <div className="relative z-0 w-full mb-6 group">
-              <input
-                type="text"
-                name="price"
-                id="price"
-                defaultValue={product.data.price}
-                className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
-              />
-              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Price
               </label>
             </div>
             <div className="relative z-0 w-full mb-6 group">
@@ -211,7 +160,7 @@ const UpdateService = () => {
                 name="size"
                 id="size"
                 defaultValue={product.data.sizes}
-                className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                className="block py-2.5 px-0 w-full text-sm text-gray-800  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
               />
@@ -219,13 +168,30 @@ const UpdateService = () => {
                 Size
               </label>
             </div>
+          </div>
+          <div className="grid md:grid-cols-2 md:gap-6">
+            <div className="relative z-0 w-full mb-6 group">
+              <input
+                type="text"
+                name="price"
+                id="price"
+                defaultValue={product.data.price}
+                className="block py-2.5 px-0 w-full text-sm text-gray-800 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                Price
+              </label>
+            </div>
+
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
                 name="color"
                 id="color"
                 defaultValue={product.data.color}
-                className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                className="block py-2.5 px-0 w-full text-sm text-gray-800  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
               />
@@ -245,7 +211,7 @@ const UpdateService = () => {
                 name="category"
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                className="block py-2.5 px-0 w-full text-sm text-gray-800 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 required
               >
                 <option value="" disabled>
@@ -264,7 +230,7 @@ const UpdateService = () => {
                 name="policy"
                 id="policy"
                 defaultValue={product.data.policy}
-                className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                className="block py-2.5 px-0 w-full text-sm text-gray-800  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
               />
@@ -277,7 +243,7 @@ const UpdateService = () => {
                 type="text"
                 name="quantity"
                 id="quantity"
-                className="block py-2.5 px-0 w-full text-sm text-white  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                className="block py-2.5 px-0 w-full text-sm text-gray-800  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 defaultValue={product.data.quantity}
                 required
@@ -286,15 +252,13 @@ const UpdateService = () => {
                 Quantity
               </label>
             </div>
-          </div>
-          <div className="grid md:grid-cols-2 md:gap-6">
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="tel"
                 name="description"
                 id="description"
                 defaultValue={product.data.description}
-                className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                className="block py-2.5 px-0 w-full text-sm text-gray-800 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
               />
@@ -302,25 +266,10 @@ const UpdateService = () => {
                 Description
               </label>
             </div>
-            {/* <div className="relative z-0 w-full mb-6 group">
-              <input
-                type="text"
-                name="serviceArea"
-                id="serviceArea"
-                defaultValue={serviceArea}
-                className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
-              />
-              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Service Area
-              </label>
-            </div> */}
           </div>
-
           <button
             type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2.5 px-4 rounded focus:outline-none focus:shadow-outline-blue"
           >
             Update Product Here
           </button>

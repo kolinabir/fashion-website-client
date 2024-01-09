@@ -1,23 +1,21 @@
 import ServiceCard from "./ServiceCard";
 import Swal from "sweetalert2";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 
 const ManageService = () => {
-  const [services, setServices] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
-  console.log(cartItems);
+  const [addedItem, setAddedItem] = useState([]);
+
+  console.log(addedItem);
+
   useEffect(() => {
     fetch(`https://mern-ecom-backend-henna.vercel.app/api/product/`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        setServices(data.data);
-        setCartItems(data.data);
+        setAddedItem(data.data);
       });
   }, []);
 
-  
   const handleDelete = (itemId) => {
     Swal.fire({
       title: "Are you sure?",
@@ -44,29 +42,29 @@ const ManageService = () => {
           .then((response) => response.json())
           .then((data) => {
             if (data.deletedCount === 1) {
-              setCartItems((prevCartItems) =>
+              setAddedItem((prevCartItems) =>
                 prevCartItems.filter((item) => item._id !== itemId)
               );
+              Swal.fire("Deleted!", "Your file has been deleted.", "success");
             }
           });
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
       }
     });
   };
-  console.log(services);
+
   return (
     <div className="container mx-auto my-8">
       <Helmet>
         <title>FASHION | Manage Service</title>
       </Helmet>
-      {cartItems.length === 0 ? (
+      {addedItem.length === 0 ? (
         <p>You Have No Service Available</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {cartItems.map((serviceDetail, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-2">
+          {addedItem.map((itemDetails, index) => (
             <ServiceCard
               key={index}
-              serviceDetail={serviceDetail}
+              itemDetails={itemDetails}
               handleDelete={handleDelete}
             ></ServiceCard>
           ))}
