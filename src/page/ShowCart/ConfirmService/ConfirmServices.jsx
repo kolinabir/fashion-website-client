@@ -38,7 +38,7 @@ const ConfirmServices = ({ booking, handleBookingConfirm }) => {
         id={`statusDropdown_${_id}`}
         onClick={() => toggleDropdown(`statusDropdownOptions_${_id}`)}
       >
-        {status === "pending" ? "Pending" : status === "in-progress" ? "In Progress" : "Complete"}
+        {status === "pending" ? "Pending" : status === "processing" ? "processing" : "delivered"}
       </button>
     </div>
     <div
@@ -56,13 +56,13 @@ const ConfirmServices = ({ booking, handleBookingConfirm }) => {
         Pending
       </button>
       <button
-        onClick={() => handleBookingConfirm(_id, "in-progress")}
+        onClick={() => handleBookingConfirm(_id, "processing")}
         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
       >
         In Progress
       </button>
       <button
-        onClick={() => handleBookingConfirm(_id, "complete")}
+        onClick={() => handleBookingConfirm(_id, "delivered")}
         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
       >
         Complete

@@ -8,14 +8,18 @@ const ShowCart = () => {
   const [cart, setCart] = useState([]);
   const [allCart, setAllCart] = useState([]);
   const { user } = useContext(AuthContext);
+  // console.log(user);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch(`https://mern-ecom-backend-henna.vercel.app/api/order/`, {
-      headers: {
-        Authorization: token,
-      },
-    })
+    fetch(
+      `https://mern-ecom-backend-henna.vercel.app/api/order/user/${user._id}`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data.data);
@@ -29,14 +33,17 @@ const ShowCart = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch(`https://mern-ecom-backend-henna.vercel.app/api/order?status=pending`, {
-      headers: {
-        Authorization: token,
-      },
-    })
+    fetch(
+      `https://mern-ecom-backend-henna.vercel.app/api/order?status=pending`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log(data.data);
         setAllCart(data.data);
       });
   }, [user]);
@@ -87,57 +94,60 @@ const ShowCart = () => {
       <h2 className="text-center font-normal text-3xl underline my-4">
         My Bookings
       </h2>
+      <div className="grid md:grid-cols-1 gap-2 px-2">
+        {cart.length === 0 ? (
+          <p className="text-red-700">You have no Booking Service at cart</p>
+        ) : (
+          cart.map((service) => (
+            <ServiceCart
+              key={service._id}
+              handleDelete={handleDelete}
+              service={service}
+            />
+          ))
+        )}
+      </div>
       <div className="flex flex-wrap justify-center">
         <Helmet>
           <title>FASHION | Cart</title>
         </Helmet>
 
-        <div className="grid md:grid-cols-1">
-          {cart.length === 0 ? (
-            <p className="text-red-700">You have no Booking Service at cart</p>
-          ) : (
-            cart.map((service) => (
-              <ServiceCart
-                key={service._id}
-                handleDelete={handleDelete}
-                service={service}
-              />
-            ))
-          )}
-        </div>
-
         <div className="overflow-x-auto w-full">
-          <h2 className="text-center text-3xl font-normal underline my-4">
-            MY PENDING WORK
-          </h2>
-          {allCart.length === 0 ? (
-            <p className="text-center text-red-700">No Pending Work</p>
-          ) : (
-            <table className="table w-full">
-              <thead>
-                <tr>
-                  <th>
-                    <label>
-                      <input type="checkbox" className="checkbox" />
-                    </label>
-                  </th>
-                  <th>Service Image</th>
-                  <th>Service</th>
-                  <th>Customer Email</th>
-                  <th>Price</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {allCart.map((booking) => (
-                  <ConfirmServices
-                    key={booking._id}
-                    booking={booking}
-                    handleBookingConfirm={handleBookingConfirm}
-                  ></ConfirmServices>
-                ))}
-              </tbody>
-            </table>
+          {user.role === "admin" && (
+            <div>
+              <h2 className="text-center text-3xl font-normal underline my-4">
+                MY PENDING WORK
+              </h2>
+              {allCart.length === 0 ? (
+                <p className="text-center text-red-700">No Pending Work</p>
+              ) : (
+                <table className="table w-full">
+                  <thead>
+                    <tr>
+                      <th>
+                        <label>
+                          <input type="checkbox" className="checkbox" />
+                        </label>
+                      </th>
+                      <th>Service Image</th>
+                      <th>Service</th>
+                      <th>Customer Email</th>
+                      <th>Price</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allCart.map((booking) => (
+                      <ConfirmServices
+                        key={booking._id}
+                        booking={booking}
+                        handleBookingConfirm={handleBookingConfirm}
+                      ></ConfirmServices>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
           )}
         </div>
       </div>
