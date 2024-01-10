@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
@@ -8,6 +8,23 @@ const SingleProduct = () => {
   const product = useLoaderData();
   const { user } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState("description");
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    // Fetch reviews from the API endpoint
+    fetch("https://mern-ecom-backend-henna.vercel.app/api/reviews")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setReviews(data.data);
+        } else {
+          console.error("Failed to fetch reviews:", data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching reviews:", error);
+      });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -83,18 +100,17 @@ const SingleProduct = () => {
             className="object-cover rounded-lg w-full h-full"
           />
         </div>
-        <div className="flex flex-col mt-4">
+        <div className="flex flex-col mt-8">
           <h2 className="text-3xl md:text-2xl font-light mb-4 text-gray-700">
             {product?.data.title}
           </h2>
-          <hr className="w-10 border-2" />
-          <p className="text-lg md:text-xl mt-1 text-black font-semibold mb-2">
-          ৳ {product.data?.price}
+          <hr className="w-10 border-2 mt-5" />
+          <p className="text-lg md:text-xl mt-2 text-black font-semibold mb-2">
+            ৳ {product.data?.price}
           </p>
           <p className="text-base md:text-lg text-blue-gray-900  mb-2">
             {product?.data.policy}
           </p>
-          
 
           <div className="">
             <p className="text-base md:text-lg text-blue-gray-700 mb-2">
@@ -106,20 +122,24 @@ const SingleProduct = () => {
           </div>
           <div className="mt-4">
             <div className="flex gap-3">
-            <button
-              className="btn btn-outline"
-              onClick={() => document.getElementById("my_modal_1").showModal()}
-            >
-              Add to Cart
-            </button>
-            <button
-              className="btn btn-outline"
-              onClick={() => document.getElementById("my_modal_1").showModal()}
-            >
-              Buy Now
-            </button>
+              <button
+                className="btn btn-outline"
+                onClick={() =>
+                  document.getElementById("my_modal_1").showModal()
+                }
+              >
+                Add to Cart
+              </button>
+              <button
+                className="btn btn-outline"
+                onClick={() =>
+                  document.getElementById("my_modal_1").showModal()
+                }
+              >
+                Buy Now
+              </button>
             </div>
-            
+
             <div className="mt-5">
               <div>
                 <p>
@@ -307,13 +327,16 @@ const SingleProduct = () => {
             )}
             {activeTab === "reviews" && (
               <div>
-                <h3 className="text-lg md:text-xl text-black font-medium">
-                  User review
-                </h3>
-                <p className="text-base md:text-lg text-blue-gray-700">
-                  {product.data.review}
-                </p>
-                {/* Display other review data here */}
+                {reviews.map((review) => (
+                  <div key={review._id} className="mb-4">
+                    <h3 className="text-lg md:text-xl text-black font-medium">
+                      {review.createdBy.username} - Rating: {review.rating}
+                    </h3>
+                    <p className="text-base md:text-lg text-blue-gray-700">
+                      {review.review}
+                    </p>
+                  </div>
+                ))}
               </div>
             )}
           </div>
