@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 
-const ServiceCard = ({ itemDetails, handleDelete }) => {
+const ProductCard = ({ itemDetails, handleDelete }) => {
   const { _id, title, price, image } = itemDetails;
 
   return (
@@ -37,4 +37,4 @@ const ServiceCard = ({ itemDetails, handleDelete }) => {
   );
 };
 
-export default ServiceCard;
+export default ProductCard;

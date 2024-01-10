@@ -31,7 +31,7 @@ const Dashboard = () => {
                     : "btn btn-sm btn-ghost"
                 }
               >
-                Manage Service
+                Manage Product
               </NavLink>
             </li>
           )}
@@ -52,7 +52,7 @@ const Dashboard = () => {
           {user.role == "admin" && (
             <li>
               <NavLink
-                to="/addService"
+                to="/addProduct"
                 className={({ isActive }) =>
                   isActive
                     ? "btn btn-primary btn-sm"

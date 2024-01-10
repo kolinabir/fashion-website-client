@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import { Helmet } from "react-helmet-async";
 
-const AddService = () => {
+const AddProduct = () => {
   const { user } = useContext(AuthContext);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -19,7 +19,7 @@ const AddService = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let categoryId = '';
+    let categoryId = "";
     categories.map((category) => {
       if (category.name === selectedCategory) {
         // console.log(category._id);
@@ -359,4 +359,4 @@ const AddService = () => {
   );
 };
 
-export default AddService;
+export default AddProduct;

@@ -4,7 +4,7 @@ import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
 
-const SingleService = () => {
+const SingleProduct = () => {
   const product = useLoaderData();
   const { user } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState("description");
@@ -83,26 +83,20 @@ const SingleService = () => {
             className="object-cover rounded-lg w-full h-full"
           />
         </div>
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col mt-4">
           <h2 className="text-3xl md:text-2xl font-light mb-4 text-gray-700">
             {product?.data.title}
           </h2>
-          <p className="text-lg md:text-xl text-black font-semibold">
-            ${product.data?.price}
+          <hr className="w-10 border-2" />
+          <p className="text-lg md:text-xl mt-1 text-black font-semibold mb-2">
+          ৳ {product.data?.price}
           </p>
-          <p className="text-base md:text-lg text-blue-gray-900 mb-4">
+          <p className="text-base md:text-lg text-blue-gray-900  mb-2">
             {product?.data.policy}
           </p>
-          <p className="text-base md:text-lg text-blue-gray-900 mb-4">
-            {product?.data.description}
-          </p>
+          
 
-          <div>
-            <p className="text-base md:text-lg text-blue-gray-700">
-              Category: {product?.data.category.name}
-            </p>
-          </div>
-          <div className="mt-4">
+          <div className="">
             <p className="text-base md:text-lg text-blue-gray-700 mb-2">
               Sizes: {product?.data.sizes.join(", ")}
             </p>
@@ -110,13 +104,42 @@ const SingleService = () => {
               Color: {product?.data.color}
             </p>
           </div>
-          <div className="flex justify-between items-center mt-4">
+          <div className="mt-4">
+            <div className="flex gap-3">
             <button
-              className="btn"
+              className="btn btn-outline"
+              onClick={() => document.getElementById("my_modal_1").showModal()}
+            >
+              Add to Cart
+            </button>
+            <button
+              className="btn btn-outline"
               onClick={() => document.getElementById("my_modal_1").showModal()}
             >
               Buy Now
             </button>
+            </div>
+            
+            <div className="mt-5">
+              <div>
+                <p>
+                  {product.data.quantity > 0 ? (
+                    <span className="text-green-500">In Stock</span>
+                  ) : (
+                    <span className="text-red-500">Out of Stock</span>
+                  )}
+                </p>
+              </div>
+              <p className="text-base md:text-xs text-blue-gray-700">
+                <div>
+                  ................................................................................
+                </div>
+                Category: {product?.data.category.name}
+                <div>
+                  ................................................................................
+                </div>
+              </p>
+            </div>
             <dialog id="my_modal_1" className="modal">
               <div className="modal-box">
                 <div className="flex justify-end">
@@ -240,6 +263,7 @@ const SingleService = () => {
             </dialog>
           </div>
         </div>
+
         <div className="mt-4">
           <div className="flex justify-between items-center">
             <button
@@ -299,4 +323,4 @@ const SingleService = () => {
   );
 };
 
-export default SingleService;
+export default SingleProduct;

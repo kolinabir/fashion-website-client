@@ -3,7 +3,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Helmet } from "react-helmet-async";
 import Rating from "react-rating-stars-component";
 
-const ShowService = () => {
+const ShowProduct = () => {
   const service = useLoaderData();
   console.log(service);
 
@@ -86,4 +86,4 @@ const ShowService = () => {
   );
 };
 
-export default ShowService;
+export default ShowProduct;

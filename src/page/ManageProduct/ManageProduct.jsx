@@ -1,9 +1,9 @@
-import ServiceCard from "./ServiceCard";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import ProductCard from "./ProductCard";
 
-const ManageService = () => {
+const ManageProduct = () => {
   const [addedItem, setAddedItem] = useState([]);
 
   console.log(addedItem);
@@ -62,11 +62,11 @@ const ManageService = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-2">
           {addedItem.map((itemDetails, index) => (
-            <ServiceCard
+            <ProductCard
               key={index}
               itemDetails={itemDetails}
               handleDelete={handleDelete}
-            ></ServiceCard>
+            ></ProductCard>
           ))}
         </div>
       )}
@@ -74,4 +74,4 @@ const ManageService = () => {
   );
 };
 
-export default ManageService;
+export default ManageProduct;

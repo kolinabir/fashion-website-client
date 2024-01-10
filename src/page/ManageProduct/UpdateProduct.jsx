@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const UpdateService = () => {
+const UpdateProduct = () => {
   const product = useLoaderData();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [categories, setCategories] = useState([]);
@@ -279,4 +279,4 @@ const UpdateService = () => {
   );
 };
 
-export default UpdateService;
+export default UpdateProduct;

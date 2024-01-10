@@ -3,23 +3,24 @@ import MainLayout from "../Components/Layout/MainLayout";
 import Login from "../Components/Login/Login";
 import Register from "../Components/Register/Register";
 import Home from "../page/Home/Home";
-import AddService from "../page/AddService/AddService";
 import PrivetsRoutes from "./PrivetRoutes/PrivetsRoutes";
-import ShowService from "../page/ShowService/ShowService";
-import SingleService from "../page/SingleService/SingleService";
 import ShowCart from "../page/ShowCart/ShowCart";
-import ManageService from "../page/ManageService/ManageService";
-import UpdateService from "../page/ManageService/UpdateService";
-import ShowAllService from "../page/ShowService/ShowAllService";
+import UpdateService from "../page/ManageProduct/UpdateProduct";
 import ErrorPage from "../Components/ErrorPage/ErrorPage";
-import AddCategory from "../page/AddService/AddCategory";
 import Dashboard from "../Components/Navbar/Dashboard";
+import AddCategory from "../page/AddProduct/AddCategory";
+import AddProduct from "../page/AddProduct/AddProduct";
+import ShowProduct from "../page/ShowService/ShowProduct";
+import ShowAllProduct from "../page/ShowService/ShowAllProduct";
+import SingleProduct from "../page/SingleProduct/SingleProduct";
+import ManageProduct from "../page/ManageProduct/ManageProduct";
+import UpdateProduct from "../page/ManageProduct/UpdateProduct";
 
 const Routes = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout></MainLayout>,
-    errorElement:<ErrorPage/>,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/login",
@@ -32,13 +33,16 @@ const Routes = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () => fetch("https://fashion-server-nine.vercel.app/services", {credentials: 'include'}),
+        loader: () =>
+          fetch("https://fashion-server-nine.vercel.app/services", {
+            credentials: "include",
+          }),
       },
       {
-        path: "addService",
+        path: "addProduct",
         element: (
           <PrivetsRoutes>
-            <AddService></AddService>
+            <AddProduct></AddProduct>
           </PrivetsRoutes>
         ),
       },
@@ -60,23 +64,21 @@ const Routes = createBrowserRouter([
       },
       {
         path: "/",
-        element: <ShowService></ShowService>,
+        element: <ShowProduct></ShowProduct>,
         // loader: () => fetch("https://mern-ecom-backend-henna.vercel.app/api/product", {credentials: 'include'}),
       },
       {
         path: "/services",
-        element: <ShowAllService></ShowAllService>,
+        element: <ShowAllProduct></ShowAllProduct>,
         // loader: () => fetch("https://mern-ecom-backend-henna.vercel.app/api/product", {credentials: 'include'}),
       },
       {
         path: "/showProduct/:id",
-        element: (
-          <PrivetsRoutes>
-            <SingleService></SingleService>
-          </PrivetsRoutes>
-        ),
+        element: <SingleProduct></SingleProduct>,
         loader: ({ params }) =>
-          fetch(`https://mern-ecom-backend-henna.vercel.app/api/product/${params.id}`),
+          fetch(
+            `https://mern-ecom-backend-henna.vercel.app/api/product/${params.id}`
+          ),
       },
       {
         path: "/cart",
@@ -91,7 +93,7 @@ const Routes = createBrowserRouter([
         path: "/manageService",
         element: (
           <PrivetsRoutes>
-            <ManageService />
+            <ManageProduct />
           </PrivetsRoutes>
         ),
       },
@@ -99,10 +101,13 @@ const Routes = createBrowserRouter([
         path: "/update/:id",
         element: (
           <PrivetsRoutes>
-            <UpdateService />
+            <UpdateProduct></UpdateProduct>
           </PrivetsRoutes>
         ),
-        loader: ({params}) => fetch(`https://mern-ecom-backend-henna.vercel.app/api/product/${params.id}`),
+        loader: ({ params }) =>
+          fetch(
+            `https://mern-ecom-backend-henna.vercel.app/api/product/${params.id}`
+          ),
       },
     ],
   },

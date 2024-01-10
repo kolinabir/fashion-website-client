@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { FaArrowDown } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const ShowAllService = () => {
+const ShowAllProduct = () => {
   // const service = useLoaderData();
 
   const [product, setProduct] = useState();
@@ -101,4 +101,4 @@ const ShowAllService = () => {
   );
 };
 
-export default ShowAllService;
+export default ShowAllProduct;
