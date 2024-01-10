@@ -91,22 +91,28 @@ const ShowCart = () => {
 
   return (
     <div>
-      <h2 className="text-center font-normal text-3xl underline my-4">
-        My Bookings
-      </h2>
-      <div className="grid md:grid-cols-1 gap-2 px-2">
-        {cart.length === 0 ? (
-          <p className="text-red-700">You have no Booking Service at cart</p>
-        ) : (
-          cart.map((service) => (
-            <ServiceCart
-              key={service._id}
-              handleDelete={handleDelete}
-              service={service}
-            />
-          ))
-        )}
-      </div>
+      {user.role === "user" && (
+        <div>
+          <h2 className="text-center text-3xl dark:text-white font-normal my-4">
+            MY CART
+          </h2>
+          {cart.length === 0 ? (
+            <p className="text-center text-red-700">No Items in your cart</p>
+          ) : (
+            <div className="grid md:grid-cols-1 gap-2 px-2">
+              {cart.map((service) => (
+                <ServiceCart
+                  key={service._id}
+                  service={service}
+                  handleDelete={handleDelete}
+                ></ServiceCart>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+      
+
       <div className="flex flex-wrap justify-center">
         <Helmet>
           <title>FASHION | Cart</title>
@@ -125,13 +131,17 @@ const ShowCart = () => {
                   <thead>
                     <tr>
                       <th>
-                        <label>
+                        {/* <label>
                           <input type="checkbox" className="checkbox" />
-                        </label>
+                        </label> */}
                       </th>
-                      <th>Service Image</th>
-                      <th>Service</th>
+                      <th>Customer Name</th>
+                      <th>Product ID</th>
                       <th>Customer Email</th>
+                      <th>Customer Phone Number</th>
+                      <th>district</th>
+                      <th>Thana</th>
+                      <th>Full Address</th>
                       <th>Price</th>
                       <th>Status</th>
                     </tr>

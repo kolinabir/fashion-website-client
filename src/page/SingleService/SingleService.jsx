@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet-async";
 const SingleService = () => {
   const product = useLoaderData();
   const { user } = useContext(AuthContext);
+  const [activeTab, setActiveTab] = useState("description");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -65,13 +66,17 @@ const SingleService = () => {
     document.getElementById("my_modal_1").close();
   };
 
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
+
   return (
     <div>
       <Helmet>
         <title>FASHION | Checkout</title>
       </Helmet>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="relative aspect-w-16 aspect-h-9 mb-4 md:mb-0">
+      <div className="grid container mx-auto my-6 grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="relative h-[655px] w-[655px] object-cover mb-4 md:mb-0">
           <img
             src={product?.data.image}
             alt={product?.data.name}
@@ -79,40 +84,25 @@ const SingleService = () => {
           />
         </div>
         <div className="flex flex-col justify-center">
-          <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-orange-900">
+          <h2 className="text-3xl md:text-2xl font-light mb-4 text-gray-700">
             {product?.data.title}
           </h2>
+          <p className="text-lg md:text-xl text-black font-semibold">
+            ${product.data?.price}
+          </p>
           <p className="text-base md:text-lg text-blue-gray-900 mb-4">
             {product?.data.policy}
           </p>
           <p className="text-base md:text-lg text-blue-gray-900 mb-4">
             {product?.data.description}
           </p>
-          <div className="flex items-center mb-4">
-            <img
-              className="h-12 w-12 rounded-full"
-              src={product?.data?.authorPhoto}
-              alt=""
-            />
-            <h2 className="text-lg md:text-xl font-medium text-black ml-2">
-              {product?.data?.sellerName}
-            </h2>
-          </div>
+
           <div>
-            <h3 className="text-lg md:text-xl text-black font-medium">
-              {product?.data.companyName}
-            </h3>
             <p className="text-base md:text-lg text-blue-gray-700">
               Category: {product?.data.category.name}
             </p>
           </div>
           <div className="mt-4">
-            <h3 className="text-lg md:text-xl text-black font-medium">
-              Service Area
-            </h3>
-            <p className="text-base md:text-lg text-blue-gray-700 mb-2">
-              Quantity: {product?.data.quantity}
-            </p>
             <p className="text-base md:text-lg text-blue-gray-700 mb-2">
               Sizes: {product?.data.sizes.join(", ")}
             </p>
@@ -120,18 +110,7 @@ const SingleService = () => {
               Color: {product?.data.color}
             </p>
           </div>
-          <div className="mt-4">
-            <h3 className="text-lg md:text-xl text-black font-medium">
-              User review
-            </h3>
-            <p className="text-base md:text-lg text-blue-gray-700">
-              {product.data.review}
-            </p>
-          </div>
           <div className="flex justify-between items-center mt-4">
-            <p className="text-lg md:text-xl text-blue-600 font-semibold">
-              ${product.data?.price}
-            </p>
             <button
               className="btn"
               onClick={() => document.getElementById("my_modal_1").showModal()}
@@ -259,6 +238,60 @@ const SingleService = () => {
                 </h3>
               </div>
             </dialog>
+          </div>
+        </div>
+        <div className="mt-4">
+          <div className="flex justify-between items-center">
+            <button
+              className={`tab-btn ${
+                activeTab === "description" ? "active" : ""
+              }`}
+              onClick={() => handleTabClick("description")}
+            >
+              <span
+                className={`${
+                  activeTab === "description"
+                    ? "border-b-2 border-blue-500"
+                    : ""
+                }`}
+              >
+                Description
+              </span>
+            </button>
+
+            <button
+              className={`tab-btn ${activeTab === "reviews" ? "active" : ""}`}
+              onClick={() => handleTabClick("reviews")}
+            >
+              <span
+                className={`${
+                  activeTab === "reviews" ? "border-b-2 border-blue-500" : ""
+                }`}
+              >
+                Reviews
+              </span>
+            </button>
+          </div>
+          <div className="tab-content">
+            {activeTab === "description" && (
+              <div>
+                <p className="text-base md:text-lg text-blue-gray-900 mb-4">
+                  {product?.data.description}
+                </p>
+                {/* Display other description data here */}
+              </div>
+            )}
+            {activeTab === "reviews" && (
+              <div>
+                <h3 className="text-lg md:text-xl text-black font-medium">
+                  User review
+                </h3>
+                <p className="text-base md:text-lg text-blue-gray-700">
+                  {product.data.review}
+                </p>
+                {/* Display other review data here */}
+              </div>
+            )}
           </div>
         </div>
       </div>

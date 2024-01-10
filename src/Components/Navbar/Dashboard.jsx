@@ -21,7 +21,7 @@ const Dashboard = () => {
           className="drawer-overlay"
         ></label>
         <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-          {user && (
+          {user.role == "admin" && (
             <li>
               <NavLink
                 to="/manageService"
@@ -49,7 +49,7 @@ const Dashboard = () => {
               </NavLink>
             </li>
           )}
-          {user && (
+          {user.role == "admin" && (
             <li>
               <NavLink
                 to="/addService"
@@ -63,7 +63,7 @@ const Dashboard = () => {
               </NavLink>
             </li>
           )}
-          {user && (
+          {user.role == "admin" && (
             <li>
               <NavLink
                 to="/addCategory"
