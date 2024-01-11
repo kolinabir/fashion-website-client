@@ -16,6 +16,7 @@ const SingleProduct = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
+          console.log(data.data);
           setReviews(data.data);
         } else {
           console.error("Failed to fetch reviews:", data.message);
@@ -318,7 +319,7 @@ const SingleProduct = () => {
           </div>
           <div className="tab-content">
             {activeTab === "description" && (
-              <div>
+              <div className="mt-8">
                 <p className="text-base md:text-lg text-blue-gray-900 mb-4">
                   {product?.data.description}
                 </p>
@@ -326,7 +327,7 @@ const SingleProduct = () => {
               </div>
             )}
             {activeTab === "reviews" && (
-              <div>
+              <div className="mt-8">
                 {reviews.map((review) => (
                   <div key={review._id} className="mb-4">
                     <h3 className="text-lg md:text-xl text-black font-medium">

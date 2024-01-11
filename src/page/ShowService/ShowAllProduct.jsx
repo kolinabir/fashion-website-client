@@ -56,37 +56,22 @@ const ShowAllProduct = () => {
             ></button>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {product &&
             product?.data?.map((productDetail, index) => (
               <div key={index} className={`bg-white p-4 rounded-lg shadow-md`}>
                 <img
                   src={productDetail?.image}
                   alt={productDetail?.sellerName}
-                  className="w-full h-[600px] object-cover rounded-md"
+                  className="w-[335px] h-[335px] object-cover rounded-md"
                 />
                 <h3 className="text-2xl font-medium mt-2 mx-5 text-black">
                   {productDetail?.title}
                 </h3>
-                <h3 className="text-base font-light mt-2 mx-5 text-black">
-                  {productDetail?.description}
-                </h3>
-                <h3 className="text-base font-light mt-2 mx-5 text-black">
-                  {productDetail?.productArea}
-                </h3>
+              
                 <h3 className="text-base font-medium mt-2 mx-5 text-green-500">
                   Price: ${productDetail?.price}
                 </h3>
-                <div className="flex items-center mt-4 mb-3 mx-5 gap-3">
-                  <img
-                    className="h-12 w-12 rounded-full"
-                    src={productDetail?.category}
-                    alt=""
-                  />
-                  <h2 className="text-base font-medium text-black mt-2">
-                    {productDetail?.companyName}
-                  </h2>
-                </div>
                 <Link
                   to={`/showProduct/${productDetail?._id}`}
                   className="flex justify-end btn btn-ghost text-black"

@@ -2,7 +2,7 @@ const ConfirmServices = ({ booking, handleBookingConfirm }) => {
   console.log(booking);
   const {
     _id,
-    serviceName,
+    title,
     district,
     thana,
     address,

@@ -1,19 +1,27 @@
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import { NavLink } from "react-router-dom";
-
+import Lottie from "lottie-react";
+import Animation from "../../../public/Animation - 1704964655302.json";
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
 
   return (
     <div className="drawer z-40">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content mb-[800px] mt-3 pl-3">
+      <div className="drawer-content  mt-3 pl-3">
         {/* Your existing drawer content */}
         <label htmlFor="my-drawer" className="btn btn-primary drawer-button">
           Open dashboard
         </label>
+
+        <Lottie
+          animationData={Animation}
+          loop={true}
+          className="w-[1300px] ml-96  h-auto pl-14"
+        />
       </div>
+
       <div className="drawer-side">
         <label
           htmlFor="my-drawer"
@@ -26,9 +34,7 @@ const Dashboard = () => {
               <NavLink
                 to="/manageService"
                 className={({ isActive }) =>
-                  isActive
-                    ? "btn btn-primary btn-sm"
-                    : "btn btn-sm btn-ghost"
+                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
                 }
               >
                 Manage Product
@@ -40,9 +46,7 @@ const Dashboard = () => {
               <NavLink
                 to="/cart"
                 className={({ isActive }) =>
-                  isActive
-                    ? "btn btn-primary btn-sm"
-                    : "btn btn-sm btn-ghost"
+                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
                 }
               >
                 My Schedules
@@ -54,9 +58,7 @@ const Dashboard = () => {
               <NavLink
                 to="/addProduct"
                 className={({ isActive }) =>
-                  isActive
-                    ? "btn btn-primary btn-sm"
-                    : "btn btn-sm btn-ghost"
+                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
                 }
               >
                 Add Product
@@ -68,9 +70,7 @@ const Dashboard = () => {
               <NavLink
                 to="/addCategory"
                 className={({ isActive }) =>
-                  isActive
-                    ? "btn btn-primary btn-sm"
-                    : "btn btn-sm btn-ghost"
+                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
                 }
               >
                 Add Category

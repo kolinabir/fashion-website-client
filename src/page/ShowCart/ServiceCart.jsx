@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
 const ServiceCart = ({ service, handleDelete }) => {
-  console.log(service._id);
+  console.log(service.products.map((product) => product.productId._id));
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
@@ -26,7 +26,7 @@ const ServiceCart = ({ service, handleDelete }) => {
         Authorization: localStorage.getItem("token"),
       },
       body: JSON.stringify({
-        productID: service._id,
+        productID: service.products.map((product) => product.productId._id),
         rating,
         review,
       }),
@@ -34,7 +34,7 @@ const ServiceCart = ({ service, handleDelete }) => {
       .then((response) => response.json())
       .then((data) => {
         // Handle success or error response
-        console.log("Review submitted:", data);
+        // console.log("Review submitted:", data);
 
         // Close the modal after submitting the review
         setReviewModalOpen(false);
