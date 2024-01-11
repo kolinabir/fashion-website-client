@@ -27,26 +27,31 @@ const AddCategory = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div className="relative z-0 w-full mb-6 group">
-          <input
-            type="text"
-            name="category"
-            id="category"
-            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+    <div className="container mx-auto mt-10 h-[650px]">
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto ">
+        <div className="mb-6">
+          <label
+            htmlFor="category"
+            className="block text-sm font-medium text-gray-600 dark:text-gray-400"
+          >
             Category
           </label>
+          <div className="relative">
+            <input
+              type="text"
+              name="category"
+              id="category"
+              className="mt-1 block w-full py-2.5 px-4 text-sm text-gray-800 dark:text-white bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter category"
+              required
+            />
+          </div>
         </div>
 
         {/* Add the Submit button */}
         <button
           type="submit"
-          className=" mb-96 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           Submit
         </button>

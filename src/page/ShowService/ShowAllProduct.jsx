@@ -56,31 +56,26 @@ const ShowAllProduct = () => {
             ></button>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {product &&
             product?.data?.map((productDetail, index) => (
-              
-              <div key={index} className={`bg-white p-4 rounded-lg shadow-md`}>
-                <img
-                  src={productDetail?.image}
-                  alt={productDetail?.sellerName}
-                  className="w-[335px] h-[335px] object-cover rounded-md"
-                />
-                <h3 className="text-lg flex justify-center font-normal mt-2  text-black">
-                  {productDetail?.title}
-                </h3>
-              
-                <h3 className="text-base flex justify-center font-normal mt-2 text-green-500">
-                  Price: ${productDetail?.price}
-                </h3>
-                <Link
-                  to={`/showProduct/${productDetail?._id}`}
-                  className="flex justify-end btn btn-ghost text-black"
-                >
-                  View Details <FaArrowDown></FaArrowDown>
-                </Link>
-              </div>
+              <Link to={`/showProduct/${productDetail?._id}`} key={index}>
+                <div className={`bg-white p-4 rounded-lg shadow-md`}>
+                  <img
+                    src={productDetail?.image}
+                    alt={productDetail?.sellerName}
+                    className="w-[335px] h-[335px] object-cover rounded-md"
+                  />
+                  <h3 className="text-base flex justify-center font-normal mt-2  text-gray-600">
+                    {productDetail?.title}
+                  </h3>
+
+                  <h3 className="text-base flex justify-center font-medium mt-2 text-black">
+                    Price: ${productDetail?.price}
+                  </h3>
+                </div>
+              </Link>
             ))}
         </div>
       </div>
