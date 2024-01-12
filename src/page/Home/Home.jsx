@@ -8,7 +8,7 @@ import Category from "./Category/Category";
 
 const Home = () => {
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <Helmet>
         <title>FASHION | Home</title>
       </Helmet>
