@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
@@ -6,26 +6,9 @@ import { Helmet } from "react-helmet-async";
 
 const SingleProduct = () => {
   const product = useLoaderData();
+  // console.log(product.data.addedBy.username);
   const { user } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState("description");
-  const [reviews, setReviews] = useState([]);
-
-  useEffect(() => {
-    // Fetch reviews from the API endpoint
-    fetch("https://mern-ecom-backend-henna.vercel.app/api/reviews")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          console.log(data.data);
-          setReviews(data.data);
-        } else {
-          console.error("Failed to fetch reviews:", data.message);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching reviews:", error);
-      });
-  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,7 +36,7 @@ const SingleProduct = () => {
       district,
       thana,
     };
-    console.log(service);
+    // console.log(service);
 
     const token = localStorage.getItem("token");
 
@@ -64,7 +47,7 @@ const SingleProduct = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
       })
       .catch((err) => {
         console.log(err);
@@ -328,12 +311,18 @@ const SingleProduct = () => {
               )}
               {activeTab === "reviews" && (
                 <div className="mt-8">
-                  {reviews.map((review) => (
+                  {product.data.review.map((review) => (
                     <div key={review._id} className="mb-4">
-                      <h3 className="text-lg md:text-xl text-black font-medium">
-                        {review.createdBy.username} - Rating: {review.rating}
-                      </h3>
-                      <p className="text-base md:text-lg text-blue-gray-700">
+                      <div className="flex items-center mb-2">
+                        <span className="text-xl font-bold text-blue-500">
+                          Rating: {review.rating} / 5
+                        </span>
+                        <span className="text-gray-600 ml-2">|</span>
+                        <span className="text-gray-600 ml-2">
+                          By User: {product.data.addedBy.username}
+                        </span>
+                      </div>
+                      <p className="text-base md:text-lg text-blue-gray-900 mb-2">
                         {review.review}
                       </p>
                     </div>

@@ -22,49 +22,34 @@ const AddProduct = () => {
     let categoryId = "";
     categories.map((category) => {
       if (category.name === selectedCategory) {
-        // console.log(category._id);
-        // return category._id;
         categoryId = category._id;
       }
     });
 
     const form = e.target;
-    const serviceName = form.serviceName.value;
-    const yourName = user?.displayName;
-    const email = user.email;
+    const title = form.title.value;
     const price = Number(form.price.value);
-    const description = form.description.value;
-    const serviceArea = form.serviceArea.value;
     const image = form.image.value;
-    const authorPhoto = user?.photoURL;
-    // const rating = form.rating.value;
-    const brandName = form.brandName.value;
+    const description = form.description.value;
     const companyName = form.companyName.value;
-    // const type = form.type.value;
-    const size = form.size.value;
-    const sizes = [];
-    sizes.push(size);
-    const color = form.color.value;
-    // const category = form.category.value;
     const policy = form.policy.value;
+    const size = form.size.value;
+    const singleSize = form.singleSize.value;
+    const sizes = [];
+    const color = form.color.value;
+    sizes.push(size);
     const quantity = Number(form.quantity.value);
 
     const service = {
-      title: serviceName,
-      sellerName: yourName,
-      email,
+      title,
+      sellerName: user.email,
       price,
       description,
-      serviceArea,
       image,
-      authorPhoto,
-      // rating,
-      brandName,
       companyName,
-      // type,
+      size: singleSize,
       sizes,
       color,
-      // category,
       policy,
       category: categoryId,
       quantity,
@@ -94,39 +79,17 @@ const AddProduct = () => {
     });
   };
 
-  //   fetch("https://fashion-server-nine.vercel.app/addService", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(service),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  //   console.log(service);
-  //   form.reset();
-  //   Swal.fire({
-  //     title: "Success!",
-  //     text: "Service added successfully!",
-  //     icon: "success",
-  //     confirmButtonText: "Cool",
-  //   });
-  // };
-
   return (
     <div>
       <Helmet>
-        <title>FASHION | Add Service</title>
+        <title>FASHION | Add Product</title>
       </Helmet>
       <div className="container mx-auto my-8 p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
         <h2 className="text-3xl font-extrabold text-center text-gray-800 dark:text-white mb-8">
           ADD A <span className="text-red-600">PRODUCT</span> HERE...
         </h2>
       </div>
-      <div className="">
+      <div>
         <form onSubmit={handleSubmit} className="max-w-3xl mx-auto">
           <div className="grid md:grid-cols-2 md:gap-6">
             <div className="relative z-0 w-full mb-6 group">
@@ -145,43 +108,14 @@ const AddProduct = () => {
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
-                name="serviceName"
-                id="serviceName"
+                name="title"
+                id="title"
                 className="block py-2.5 px-0 w-full text-sm text-gray-700  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
               />
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Service Name
-              </label>
-            </div>
-            <div className="relative z-0 w-full mb-6 group">
-              <input
-                readOnly
-                defaultValue={user.email}
-                type="text"
-                name="type"
-                id="type"
-                className="block py-2.5 px-0 w-full text-sm text-gray-700  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
-              />
-              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Your Email
-              </label>
-            </div>
-            <div className="relative z-0 w-full mb-6 group">
-              <input
-                type="text"
-                defaultValue={user?.displayName}
-                name="brandName"
-                id="brandName"
-                className="block py-2.5 px-0 w-full text-sm text-gray-700  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
-              />
-              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Your Name
+                Product Name
               </label>
             </div>
           </div>
@@ -213,8 +147,6 @@ const AddProduct = () => {
                 Policy
               </label>
             </div>
-           
-            
           </div>
           <div className="grid md:grid-cols-2 md:gap-6">
             <div className="relative z-0 w-full mb-6 group">
@@ -269,9 +201,6 @@ const AddProduct = () => {
                 Quantity
               </label>
             </div>
-
-          
-            
           </div>
           <div className="grid md:grid-cols-2 md:gap-6">
             <div className="relative z-0 w-full mb-6 group">
@@ -290,57 +219,43 @@ const AddProduct = () => {
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
-                name="serviceArea"
-                id="serviceArea"
+                name="singleSize"
+                id="singleSize"
                 className="block py-2.5 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
               />
               <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Service Area
+                Product Size
               </label>
             </div>
+
             <div className="relative z-0 w-full mb-6 group">
-              <input
-                type="text"
-                name="authorPhoto"
-                id="authorPhoto"
-                defaultValue={user.photoURL}
-                className="block py-2.5 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
+              <label
+                htmlFor="category"
+                className="text-sm text-gray-600 dark:text-gray-400 font-medium"
+              >
+                Category
+              </label>
+              <select
+                id="category"
+                name="category"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="block w-full py-2.5 px-4 text-sm text-gray-800 dark:text-white bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
-              />
-              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Author Photo
-              </label>
-            </div>
-            <div className="relative z-0 w-full mb-6 group">
-            <label
-              htmlFor="category"
-              className="text-sm text-gray-600 dark:text-gray-400 font-medium"
-            >
-              Category
-            </label>
-            <select
-              id="category"
-              name="category"
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="block w-full py-2.5 px-4 text-sm text-gray-800 dark:text-white bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-            >
-              <option value="" disabled>
-                Select a category
-              </option>
-              {categories.map((category) => (
-                <option key={category._id} value={category.name}>
-                  {category.name}
+              >
+                <option value="" disabled>
+                  Select a category
                 </option>
-              ))}
-            </select>
+                {categories.map((category) => (
+                  <option key={category._id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          </div>
-          
 
           <button
             type="submit"

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { FaArrowDown } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const ShowAllProduct = () => {
@@ -17,7 +16,7 @@ const ShowAllProduct = () => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
+          // console.log(data);
           setProduct(data); // Assuming the API response is an array of products
         } else {
           console.error("Error fetching product data");
