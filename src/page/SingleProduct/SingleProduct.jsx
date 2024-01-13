@@ -78,14 +78,14 @@ const SingleProduct = () => {
           <title>FASHION | Checkout</title>
         </Helmet>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="relative h-[300px] md:h-[500px] w-full mb-4 md:mb-0">
+          <div className="relative h-[655px] md:h-[655px] w-[655px] mb-4 md:mb-0">
             <img
               src={product?.data.image}
               alt={product?.data.name}
               className="object-cover w-full h-full rounded-lg"
             />
           </div>
-          <div className="flex flex-col mt-8 md:mt-0 md:ml-2">
+          <div className="flex flex-col mt-8 md:mt-10 md:ml-2">
             <h2 className="text-3xl md:text-2xl font-light mb-4 text-gray-700">
               {product?.data.title}
             </h2>
@@ -311,6 +311,11 @@ const SingleProduct = () => {
               )}
               {activeTab === "reviews" && (
                 <div className="mt-8">
+                  {product.data.review.length === 0 && (
+                    <p className="text-base md:text-lg text-red-700 mb-4">
+                      No reviews yet.
+                    </p>
+                  )}
                   {product.data.review.map((review) => (
                     <div key={review._id} className="mb-4">
                       <div className="flex items-center mb-2">

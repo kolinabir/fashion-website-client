@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import { Helmet } from "react-helmet-async";
+import { NavLink } from "react-router-dom";
 
 const AddProduct = () => {
   const { user } = useContext(AuthContext);
@@ -81,9 +82,78 @@ const AddProduct = () => {
 
   return (
     <div>
+      <div className="drawer z-40 absolute top-20">
+      <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+      <div className="drawer-content  mt-3 pl-3">
+        {/* Your existing drawer content */}
+        <label htmlFor="my-drawer" className="btn btn-primary drawer-button">
+          Open dashboard
+        </label>
+      </div>
+
+      <div className="drawer-side">
+        <label
+          htmlFor="my-drawer"
+          aria-label="close sidebar"
+          className="drawer-overlay"
+        ></label>
+        <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+          {user.role == "admin" && (
+            <li>
+              <NavLink
+                to="/manageProduct"
+                className={({ isActive }) =>
+                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
+                }
+              >
+                Manage Product
+              </NavLink>
+            </li>
+          )}
+          {user && (
+            <li>
+              <NavLink
+                to="/cart"
+                className={({ isActive }) =>
+                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
+                }
+              >
+                My Schedules
+              </NavLink>
+            </li>
+          )}
+          {user.role == "admin" && (
+            <li>
+              <NavLink
+                to="/addProduct"
+                className={({ isActive }) =>
+                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
+                }
+              >
+                Add Product
+              </NavLink>
+            </li>
+          )}
+          {user.role == "admin" && (
+            <li>
+              <NavLink
+                to="/addCategory"
+                className={({ isActive }) =>
+                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
+                }
+              >
+                Add Category
+              </NavLink>
+            </li>
+          )}
+        </ul>
+      </div>
+    </div>
+    <div>
       <Helmet>
         <title>FASHION | Add Product</title>
-      </Helmet>
+      </Helmet> 
+      
       <div className="container mx-auto my-8 p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
         <h2 className="text-3xl font-extrabold text-center text-gray-800 dark:text-white mb-8">
           ADD A <span className="text-red-600">PRODUCT</span> HERE...
@@ -266,6 +336,8 @@ const AddProduct = () => {
         </form>
       </div>
     </div>
+    </div>
+    
   );
 };
 
