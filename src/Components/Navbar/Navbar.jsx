@@ -1,15 +1,14 @@
-import { useContext} from "react";
+import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 
 const Navbar = () => {
-  const { user, signOut } = useContext(AuthContext);
- 
+  const { user, signOut, loading } = useContext(AuthContext);
+
   const handleLogout = () => {
     signOut();
   };
 
-  
   return (
     <div>
       <nav className="sticky inset-0 z-10 block h-max w-full max-w-full rounded-none border border-white/100 bg-white  py-2 px-4 text-white shadow-md backdrop-blur-2xl backdrop-saturate-200 lg:px-8 lg:py-4">
@@ -42,22 +41,21 @@ const Navbar = () => {
               Products
             </NavLink>
           </div>
-          {user?.email ? (
-            <div className="relative group">
-              <Link to="/dashboard">
-                <button className="btn btn-sm btn-ghost">
-                  <a className="flex items-center" href="#">
-                    Dashboard
-                  </a>
-                </button>
-              </Link>
-            </div>
-          ) : (
-            <div className="hidden"> </div>
-          )}
 
-          {user?.email ? (
-            <div>
+          {loading ? (
+            <div>Loading...</div>
+          ) : user?.email ? (
+            <>
+              <div className="relative group">
+                <Link to="/dashboard">
+                  <button className="btn btn-sm btn-ghost">
+                    <a className="flex items-center" href="#">
+                      Dashboard
+                    </a>
+                  </button>
+                </Link>
+              </div>
+
               <div className="dropdown text-white dropdown-bottom dropdown-end">
                 <label tabIndex={0} className="">
                   {!user ? (
@@ -94,7 +92,7 @@ const Navbar = () => {
                   </li>
                 </ul>
               </div>
-            </div>
+            </>
           ) : (
             <Link
               to="/login"
@@ -105,6 +103,7 @@ const Navbar = () => {
               <span>SIGN UP/Login</span>
             </Link>
           )}
+
           <button
             className="middle none relative ml-auto h-6 max-h-[40px] w-6 max-w-[40px] rounded-lg text-center font-sans text-xs font-medium uppercase text-blue-gray-500 transition-all hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:hidden"
             data-collapse-target="sticky-navar"
