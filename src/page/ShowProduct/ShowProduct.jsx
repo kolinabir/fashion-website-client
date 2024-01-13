@@ -15,7 +15,7 @@ const ShowProduct = () => {
       <div className="container mx-auto py-6">
         <h1 className="text-2xl font-semibold mb-4">NEW ARRIVALS</h1>
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-          {product.map((productDetail, index) => (
+          {product.data.map((productDetail, index) => (
             <div
               key={index}
               className={`bg-white p-4 rounded-lg shadow-md col-span-1 ${
@@ -25,17 +25,17 @@ const ShowProduct = () => {
               <div className="">
                 <div className="">
                   <img
-                    src={productDetail.image}
-                    alt={productDetail.yourName}
+                    src={productDetail?.image}
+                    alt={productDetail?.yourName}
                     className="w-full h-[200px] sm:h-[250px] object-cover rounded-md" // Adjusted height
                   />
-                  <h3 className="text-2xl text-deep-orange-900 font-semibold mt-2 mx-3">
-                    {productDetail.productName}
+                  <h3 className="text-base text-deep-orange-900 font-normal mt-2 flex justify-center">
+                    {productDetail?.title}
                   </h3>
 
-                  <div className="ml-3">
+                  <div className="flex justify-center">
                     <Rating
-                      value={productDetail.rating}
+                      value={productDetail?.averageRating}
                       count={5}
                       size={24}
                       activeColor="#ffd700"
@@ -43,27 +43,25 @@ const ShowProduct = () => {
                     />
                   </div>
 
-                  <h3 className="text-base font-light mt-3 mx-3 text-black">
-                    {productDetail.productArea}
+                  
+                  <h3 className="text-sm font-medium mx-3 flex justify-center text-green-500">
+                  ৳ {productDetail?.price}
                   </h3>
-                  <h3 className="text-sm font-medium mx-3 text-green-500">
-                    Price: ${productDetail.price}
-                  </h3>
-                  <div className="flex items-center mt-4 mb-3 mx-1 gap-3">
-                    <img
+                  <div className="flex justify-center  mt-4 mb-3 mx-1 gap-3">
+                    {/* <img
                       className="h-7 w-7 rounded-full"
-                      src={productDetail.authorPhoto}
+                      src={productDetail?.authorPhoto}
                       alt=""
-                    />
-                    <h2 className="text-xs text-black">
-                      {productDetail.yourName}
+                    /> */}
+                    <h2 className="text-xs  text-black">
+                      {productDetail?.companyName}
                     </h2>
                   </div>
                 </div>
 
                 <div className="">
                   <Link
-                    to={`/showProduct/${productDetail._id}`}
+                    to={`/showProduct/${productDetail?._id}`}
                     className=" text-center md:py-2 flex justify-center items-center rounded-md   bg-blue-400 text-white hover:bg-indigo-700"
                   >
                     <h1 className="text-sm md:text-xs  md:font-semibold ">
@@ -77,9 +75,9 @@ const ShowProduct = () => {
           ))}
         </div>
 
-        {product.length > 5 ? (
+        {product?.length > 5 ? (
           <div className="flex justify-center mt-4">
-            <Link to="/services" className="btn">
+            <Link to="/Products" className="btn">
               Show All SERVICES
             </Link>
           </div>

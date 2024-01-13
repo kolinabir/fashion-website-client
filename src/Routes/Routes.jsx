@@ -32,10 +32,7 @@ const Routes = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () =>
-          fetch("https://fashion-server-nine.vercel.app/services", {
-            credentials: "include",
-          }),
+        loader: () => fetch("https://mern-ecom-backend-henna.vercel.app/api/product"),
       },
       {
         path: "addProduct",
@@ -64,7 +61,7 @@ const Routes = createBrowserRouter([
       {
         path: "/",
         element: <ShowProduct></ShowProduct>,
-        // loader: () => fetch("https://mern-ecom-backend-henna.vercel.app/api/product", {credentials: 'include'}),
+        // loader: () => fetch("https://mern-ecom-backend-henna.vercel.app/api/product"),
       },
       {
         path: "/Products",

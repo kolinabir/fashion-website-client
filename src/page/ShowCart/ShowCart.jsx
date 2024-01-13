@@ -22,7 +22,7 @@ const ShowCart = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.data);
+        // console.log(data.data);
         setCart(data.data);
       })
       .catch((err) => {
@@ -43,7 +43,7 @@ const ShowCart = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.data);
+        // console.log(data.data);
         setAllCart(data.data);
       });
   }, [user]);

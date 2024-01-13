@@ -47,7 +47,7 @@ const Banner = () => {
                 </div>
                 <div className="flex justify-center mx-auto md:mx-0">
                   <div className="">
-                    <Link className="" to="/services">
+                    <Link className="" to="/products">
                       <button className="btn btn-neutral  md:btn-lg ">
                         SHOP NOW
                       </button>
