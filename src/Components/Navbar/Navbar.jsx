@@ -34,7 +34,7 @@ const Navbar = () => {
               HOME
             </NavLink>
             <NavLink
-              to="/services"
+              to="/products"
               className={({ isActive }) =>
                 isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
               }

@@ -5,13 +5,12 @@ import Register from "../Components/Register/Register";
 import Home from "../page/Home/Home";
 import PrivetsRoutes from "./PrivetRoutes/PrivetsRoutes";
 import ShowCart from "../page/ShowCart/ShowCart";
-import UpdateService from "../page/ManageProduct/UpdateProduct";
 import ErrorPage from "../Components/ErrorPage/ErrorPage";
 import Dashboard from "../Components/Navbar/Dashboard";
 import AddCategory from "../page/AddProduct/AddCategory";
 import AddProduct from "../page/AddProduct/AddProduct";
-import ShowProduct from "../page/ShowService/ShowProduct";
-import ShowAllProduct from "../page/ShowService/ShowAllProduct";
+import ShowProduct from "../page/ShowProduct/ShowProduct";
+import ShowAllProduct from "../page/ShowProduct/ShowAllProduct";
 import SingleProduct from "../page/SingleProduct/SingleProduct";
 import ManageProduct from "../page/ManageProduct/ManageProduct";
 import UpdateProduct from "../page/ManageProduct/UpdateProduct";
@@ -68,7 +67,7 @@ const Routes = createBrowserRouter([
         // loader: () => fetch("https://mern-ecom-backend-henna.vercel.app/api/product", {credentials: 'include'}),
       },
       {
-        path: "/services",
+        path: "/Products",
         element: <ShowAllProduct></ShowAllProduct>,
         // loader: () => fetch("https://mern-ecom-backend-henna.vercel.app/api/product", {credentials: 'include'}),
       },
@@ -90,7 +89,7 @@ const Routes = createBrowserRouter([
         // loader: () => fetch("https://fashion-server-nine.vercel.app/orders", {credentials: 'include'}),
       },
       {
-        path: "/manageService",
+        path: "/manageProduct",
         element: (
           <PrivetsRoutes>
             <ManageProduct />

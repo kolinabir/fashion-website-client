@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import ServiceCart from "./ServiceCart";
 import { Helmet } from "react-helmet-async";
-import ConfirmServices from "./ConfirmService/ConfirmServices";
+import ConfirmServices from "./ConfirmProduct/ConfirmProduct";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 
 const ShowCart = () => {
