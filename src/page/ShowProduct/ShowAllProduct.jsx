@@ -56,15 +56,15 @@ const ShowAllProduct = () => {
     <Helmet>
       <title>FASHION | All Products</title>
     </Helmet>
-    <div className="container mx-auto py-6">
-      <div className="flex justify-between items-center mb-4">
+    <div className="container mx-auto">
+      <div className="flex justify-between items-center ">
         <h1 className="text-2xl font-semibold">NEW ARRIVALS</h1>
         <div className="flex space-x-4">
-          <div className="relative inline-block text-left">
+          <div className="flex items-center text-left">
             <button
               onClick={toggleSortDropdown}
               type="button"
-              className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm  py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               {sortBy === "latest" && "Sort by latest"} {sortBy === "lowToHigh" && "Price: Low to High"} {sortBy === "highToLow" && "Price: High to Low"} 
               <FaChevronDown className="ml-8 h-4 w-5" />
@@ -220,7 +220,12 @@ const ShowAllProduct = () => {
             </div>
           </div> */}
 
-          {/* <div className="relative h-10 w-full min-w-[200px] my-4">
+         
+        </div>
+      </div>
+
+    <div className="flex">
+    <div className="relative h-10 w-80 mr-6 min-w-[200px] my-4">
             <input
               name="search"
               className="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-indigo-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
@@ -229,11 +234,8 @@ const ShowAllProduct = () => {
             <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-indigo-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-indigo-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
               Search Products by NAME
             </label>
-          </div> */}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {product &&
           product?.data
             .filter((productDetail) => {
@@ -258,6 +260,7 @@ const ShowAllProduct = () => {
               </Link>
             ))}
       </div>
+    </div>
     </div>
   </div>
 );
