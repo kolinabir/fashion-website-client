@@ -2,12 +2,19 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { FaChevronDown } from "react-icons/fa6";
+import { FaSearch } from "react-icons/fa";
 
 const ShowAllProduct = () => {
   const [product, setProduct] = useState();
   const [sortBy, setSortBy] = useState("latest");
   const [category, setCategory] = useState("all");
   const [singleCategory, setSingleCategory] = useState();
+
+  const handleSearchSubmit = () => {
+    // Implement the logic for handling the search submit
+    // You may want to fetch data based on the search query or perform other actions.
+    console.log("Search submitted!");
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +55,7 @@ const ShowAllProduct = () => {
         console.error("Error fetching product data", error);
       }
     };
-    fetchData()
+    fetchData();
   }, []);
 
   const handleSortChange = (value) => {
@@ -154,8 +161,8 @@ const ShowAllProduct = () => {
         </div>
 
         <div className="flex">
-          <div>
-            <div className="relative h-10 w-80 mr-6 min-w-[200px] my-4">
+          <div className="mr-6 min-w-[200px] my-4">
+            <div className="relative flex ">
               <input
                 name="search"
                 className="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-indigo-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
@@ -164,25 +171,30 @@ const ShowAllProduct = () => {
               <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-indigo-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-indigo-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
                 Search Products by NAME
               </label>
+              <button
+                className="absolute right-0 top-0 h-full w-10 text-gray-600 hover:text-gray-800 transition-all outline-none focus:outline-none"
+                onClick={handleSearchSubmit}
+              >
+                <FaSearch className="ml-3" />
+              </button>
             </div>
+
             <div className="mt-4">
               <h2 className="text-lg font-semibold mb-2">Product Category</h2>
               {singleCategory ? (
                 <ul className="space-y-2">
                   {singleCategory.map((categoryItem, index) => (
                     <li key={index} className="flex items-center">
-                       {/* <hr className="flex-grow border-t border-gray-300"/> */}
-                     <div>
-                     <span className="mr-2   ">{categoryItem.name}</span>
-                     <hr className="w-80  border-gray-300"/>
-                     </div>
-                     
+                      {/* <hr className="flex-grow border-t border-gray-300"/> */}
+                      <div>
+                        <span className="mr-2   ">{categoryItem.name}</span>
+                        <hr className="w-80  border-gray-300" />
+                      </div>
                     </li>
                   ))}
                 </ul>
               ) : (
                 <p>Loading categories...</p>
-               
               )}
             </div>
           </div>
