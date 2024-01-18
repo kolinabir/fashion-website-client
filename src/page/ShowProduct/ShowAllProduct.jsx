@@ -11,21 +11,31 @@ const ShowAllProduct = () => {
   const [singleCategory, setSingleCategory] = useState();
 
   const handleSearchSubmit = () => {
-    // Implement the logic for handling the search submit
-    // You may want to fetch data based on the search query or perform other actions.
     console.log("Search submitted!");
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://mern-ecom-backend-henna.vercel.app/api/product"
-        );
+        let apiUrl = "https://mern-ecom-backend-henna.vercel.app/api/product";
+
+        if (category !== "all") {
+          apiUrl += `?category=${category}`;
+        }
+        // Append sorting parameter to API URL based on sortBy value
+        if (sortBy === "latest") {
+          apiUrl += "?sort=-createdAt"; // Use the appropriate date field from your API response
+        } else if (sortBy === "lowToHigh") {
+          apiUrl += "?sort=price";
+        } else if (sortBy === "highToLow") {
+          apiUrl += "?sort=-price";
+        }
+
+        const response = await fetch(apiUrl);
 
         if (response.ok) {
           const data = await response.json();
-          setProduct(data); // Assuming the API response is an array of products
+          setProduct(data);
         } else {
           console.error("Error fetching product data");
         }
@@ -35,7 +45,7 @@ const ShowAllProduct = () => {
     };
 
     fetchData();
-  }, []);
+  }, [sortBy, category]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,7 +56,7 @@ const ShowAllProduct = () => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data.data);
+          // console.log(data.data);
           setSingleCategory(data.data); // Assuming the API response is an array of products
         } else {
           console.error("Error fetching product data");
@@ -63,9 +73,23 @@ const ShowAllProduct = () => {
     // Implement your sorting logic here based on the selected value (latest, lowToHigh, highToLow)
   };
 
-  const handleCategoryChange = (value) => {
-    setCategory(value);
-    // Implement your logic to filter products by category
+  const handleCategoryChange = async (categoryId) => {
+    setCategory(categoryId);
+    try {
+      const response = await fetch(
+        `https://mern-ecom-backend-henna.vercel.app/api/categories/${categoryId}`
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setProduct(data.data);
+        console.log(data.data.name);
+      } else {
+        console.error("Error fetching product data for the selected category");
+      }
+    } catch (error) {
+      console.error("Error fetching product data", error);
+    }
   };
 
   const toggleSortDropdown = () => {
@@ -87,7 +111,7 @@ const ShowAllProduct = () => {
       </Helmet>
       <div className="container mx-auto">
         <div className="flex justify-between items-center ">
-          <h1 className="text-2xl font-semibold">NEW ARRIVALS</h1>
+          <h1 className="text-2xl font-semibold">All Products</h1>
           <div className="flex space-x-4 ">
             <div className="flex items-center text-left relative left-[98px]">
               <button
@@ -185,10 +209,15 @@ const ShowAllProduct = () => {
                 <ul className="space-y-2">
                   {singleCategory.map((categoryItem, index) => (
                     <li key={index} className="flex items-center">
-                      {/* <hr className="flex-grow border-t border-gray-300"/> */}
+                     
                       <div>
-                        <span className="mr-2   ">{categoryItem.name}</span>
-                        <hr className="w-80  border-gray-300" />
+                        <Link
+                          to={`/showProduct?category=${categoryItem._id}`}
+                          onClick={() => handleCategoryChange(categoryItem._id)}
+                        >
+                        <span className="mr-2">{categoryItem.name}</span>
+                        </Link>
+                        <hr className="w-60  border-gray-300" />
                       </div>
                     </li>
                   ))}

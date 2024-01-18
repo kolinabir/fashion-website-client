@@ -5,7 +5,7 @@ import Rating from "react-rating-stars-component";
 
 const ShowProduct = () => {
   const product = useLoaderData();
-  console.log(product.data.length);
+  // console.log(product.data.length);
 
   return (
     <div>
