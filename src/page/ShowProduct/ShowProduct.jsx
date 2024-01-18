@@ -5,7 +5,7 @@ import Rating from "react-rating-stars-component";
 
 const ShowProduct = () => {
   const product = useLoaderData();
-  console.log(product);
+  console.log(product.data.length);
 
   return (
     <div>
@@ -15,7 +15,7 @@ const ShowProduct = () => {
       <div className="container mx-auto py-6">
         <h1 className="text-2xl font-semibold mb-4">NEW ARRIVALS</h1>
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-          {product.data.map((productDetail, index) => (
+          {product.data.slice(0, 12).map((productDetail, index) => (
             <div
               key={index}
               className={`bg-white p-4 rounded-lg shadow-md col-span-1 ${
@@ -43,9 +43,8 @@ const ShowProduct = () => {
                     />
                   </div>
 
-                  
                   <h3 className="text-sm font-medium mx-3 flex justify-center text-green-500">
-                  ৳ {productDetail?.price}
+                    ৳ {productDetail?.price}
                   </h3>
                   <div className="flex justify-center  mt-4 mb-3 mx-1 gap-3">
                     {/* <img
@@ -59,10 +58,10 @@ const ShowProduct = () => {
                   </div>
                 </div>
 
-                <div className="">
+                <div>
                   <Link
                     to={`/showProduct/${productDetail?._id}`}
-                    className=" text-center md:py-2 flex justify-center items-center rounded-md   bg-blue-400 text-white hover:bg-indigo-700"
+                    className=" text-center md:py-2 flex justify-center items-center rounded-md  bg-blue-400 text-white hover:bg-indigo-700"
                   >
                     <h1 className="text-sm md:text-xs  md:font-semibold ">
                       Show details
@@ -75,8 +74,8 @@ const ShowProduct = () => {
           ))}
         </div>
 
-        {product?.length > 5 ? (
-          <div className="flex justify-center mt-4">
+        {product?.data.length > 5 ? (
+          <div className="flex justify-center mt-10">
             <Link to="/Products" className="btn">
               Show All SERVICES
             </Link>

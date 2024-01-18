@@ -3,7 +3,7 @@ import Lottie from "lottie-react";
 
 const MobileApp = () => {
   return (
-    <div className="container flex justify-center items-center mx-auto my-10">
+    <div className="container flex justify-center items-center mx-auto my-4">
       <div className="">
         <div className="w-1/2 space-y-9">
           <h2 className="text-5xl font-black">
