@@ -11,7 +11,11 @@ const ShowAllProduct = () => {
   const [singleCategory, setSingleCategory] = useState();
 
   const handleSearchSubmit = () => {
-    console.log("Search submitted!");
+    const search = document.querySelector("input[name=search]").value;
+    const filteredProduct = product.data.filter((productDetail) => {
+      return productDetail.title.toLowerCase().includes(search.toLowerCase());
+    });
+    setProduct({ data: filteredProduct });
   };
 
   useEffect(() => {
