@@ -14,6 +14,7 @@ import ShowAllProduct from "../page/ShowProduct/ShowAllProduct";
 import SingleProduct from "../page/SingleProduct/SingleProduct";
 import ManageProduct from "../page/ManageProduct/ManageProduct";
 import UpdateProduct from "../page/ManageProduct/UpdateProduct";
+import ShowProductByCategory from "../page/ShowProduct/ShowProductByCategory";
 
 const Routes = createBrowserRouter([
   {
@@ -32,7 +33,8 @@ const Routes = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () => fetch("https://mern-ecom-backend-henna.vercel.app/api/product"),
+        loader: () =>
+          fetch("https://mern-ecom-backend-henna.vercel.app/api/product"),
       },
       {
         path: "addProduct",
@@ -67,6 +69,11 @@ const Routes = createBrowserRouter([
         path: "/Products",
         element: <ShowAllProduct></ShowAllProduct>,
         // loader: () => fetch("https://mern-ecom-backend-henna.vercel.app/api/product", {credentials: 'include'}),
+      },
+      {
+        path: "/showProduct?category=:id",
+        element: <ShowProductByCategory></ShowProductByCategory>,
+        // loader: ({params}) => fetch("https://mern-ecom-backend-henna.vercel.app/api/product"),
       },
       {
         path: "/showProduct/:id",

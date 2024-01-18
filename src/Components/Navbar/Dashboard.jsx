@@ -1,83 +1,21 @@
-import { useContext } from "react";
-import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
-import { NavLink } from "react-router-dom";
+
 import Lottie from "lottie-react";
 import Animation from "../../../public/Animation - 1704964655302.json";
+import MainDashboard from "./MainDashboard";
+
 const Dashboard = () => {
-  const { user } = useContext(AuthContext);
 
   return (
-    <div className="drawer z-40">
-      <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content  mt-3 pl-3">
-        {/* Your existing drawer content */}
-        <label htmlFor="my-drawer" className="btn btn-primary drawer-button">
-          Open dashboard
-        </label>
+    <div className="flex">
+      <MainDashboard></MainDashboard>
 
+      <div className="ml-3">
+        {/* Your existing drawer content */}
         <Lottie
           animationData={Animation}
           loop={true}
-          className="w-[1300px] ml-96  h-auto pl-14"
+          className="w-[1300px] h-auto pl-14"
         />
-      </div>
-
-      <div className="drawer-side">
-        <label
-          htmlFor="my-drawer"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        ></label>
-        <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-          {user.role == "admin" && (
-            <li>
-              <NavLink
-                to="/manageProduct"
-                className={({ isActive }) =>
-                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
-                }
-              >
-                Manage Product
-              </NavLink>
-            </li>
-          )}
-          {user && (
-            <li>
-              <NavLink
-                to="/cart"
-                className={({ isActive }) =>
-                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
-                }
-              >
-                My Schedules
-              </NavLink>
-            </li>
-          )}
-          {user.role == "admin" && (
-            <li>
-              <NavLink
-                to="/addProduct"
-                className={({ isActive }) =>
-                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
-                }
-              >
-                Add Product
-              </NavLink>
-            </li>
-          )}
-          {user.role == "admin" && (
-            <li>
-              <NavLink
-                to="/addCategory"
-                className={({ isActive }) =>
-                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
-                }
-              >
-                Add Category
-              </NavLink>
-            </li>
-          )}
-        </ul>
       </div>
     </div>
   );

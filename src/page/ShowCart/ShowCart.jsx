@@ -3,6 +3,7 @@ import ServiceCart from "./ServiceCart";
 import { Helmet } from "react-helmet-async";
 import ConfirmServices from "./ConfirmProduct/ConfirmProduct";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
+import MainDashboard from "../../Components/Navbar/MainDashboard";
 
 const ShowCart = () => {
   const [cart, setCart] = useState([]);
@@ -90,7 +91,13 @@ const ShowCart = () => {
   };
 
   return (
-    <div>
+    <div className="flex">
+      <div>
+        <MainDashboard></MainDashboard>
+      </div>
+      <div className="flex-grow">
+
+     
       {user.role === "user" && (
         <div>
           <h2 className="text-center text-3xl dark:text-white font-normal my-4">
@@ -160,6 +167,7 @@ const ShowCart = () => {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

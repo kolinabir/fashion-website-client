@@ -28,7 +28,7 @@ const ShowAllProduct = () => {
         }
         // Append sorting parameter to API URL based on sortBy value
         if (sortBy === "latest") {
-          apiUrl += "?sort=-createdAt"; // Use the appropriate date field from your API response
+          apiUrl += "?sort=-createdAt"; 
         } else if (sortBy === "lowToHigh") {
           apiUrl += "?sort=price";
         } else if (sortBy === "highToLow") {
