@@ -5,7 +5,7 @@ const MobileApp = () => {
   return (
     <div className="container flex justify-center items-center mx-auto my-4">
       <div className="">
-        <div className="w-1/2 space-y-9">
+        <div className="md:w-1/2 space-y-9">
           <h2 className="text-5xl font-black">
             DOWNLOAD APP & GET THE VOUCHER!
           </h2>
@@ -24,7 +24,7 @@ const MobileApp = () => {
         </div>
       </div>
 
-      <div className="container">
+      <div className="container hidden md:block">
         <Lottie
           animationData={Animation}
           loop={true}
