@@ -96,78 +96,77 @@ const ShowCart = () => {
         <MainDashboard></MainDashboard>
       </div>
       <div className="flex-grow">
+        {user.role === "user" && (
+          <div>
+            <h2 className="text-center text-3xl dark:text-white font-normal my-4">
+              MY CART
+            </h2>
+            {cart.length === 0 ? (
+              <p className="text-center text-red-700">No Items in your cart</p>
+            ) : (
+              <div className="grid md:grid-cols-1 gap-2 px-2">
+                {cart.map((service) => (
+                  <ServiceCart
+                    key={service._id}
+                    service={service}
+                    handleDelete={handleDelete}
+                  ></ServiceCart>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
-     
-      {user.role === "user" && (
-        <div>
-          <h2 className="text-center text-3xl dark:text-white font-normal my-4">
-            MY CART
-          </h2>
-          {cart.length === 0 ? (
-            <p className="text-center text-red-700">No Items in your cart</p>
-          ) : (
-            <div className="grid md:grid-cols-1 gap-2 px-2">
-              {cart.map((service) => (
-                <ServiceCart
-                  key={service._id}
-                  service={service}
-                  handleDelete={handleDelete}
-                ></ServiceCart>
-              ))}
-            </div>
-          )}
+        <div className="flex flex-wrap justify-center">
+          <Helmet>
+            <title>FASHION | Cart</title>
+          </Helmet>
+
+          <div className="overflow-x-auto w-full">
+            {user.role === "admin" && (
+              <div>
+                <h2 className="text-center text-3xl font-normal underline my-4">
+                  MY PENDING WORK
+                </h2>
+                {allCart.length === 0 ? (
+                  <p className="text-center text-red-700">No Pending Work</p>
+                ) : (
+                  <div className="table-responsive overflow-x-auto">
+                    <table className="table w-full">
+                      <thead>
+                        <tr>
+                          <th>
+                            {/* <label>
+                    <input type="checkbox" className="checkbox" />
+                  </label> */}
+                          </th>
+                          <th>Customer Name</th>
+                          <th>Product ID</th>
+                          <th>Customer Email</th>
+                          <th>Customer Phone Number</th>
+                          <th>district</th>
+                          <th>Thana</th>
+                          <th>Full Address</th>
+                          <th>Price</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {allCart.map((booking) => (
+                          <ConfirmServices
+                            key={booking._id}
+                            booking={booking}
+                            handleBookingConfirm={handleBookingConfirm}
+                          ></ConfirmServices>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-      )}
-      
-
-      <div className="flex flex-wrap justify-center">
-        <Helmet>
-          <title>FASHION | Cart</title>
-        </Helmet>
-
-        <div className="overflow-x-auto w-full">
-          {user.role === "admin" && (
-            <div>
-              <h2 className="text-center text-3xl font-normal underline my-4">
-                MY PENDING WORK
-              </h2>
-              {allCart.length === 0 ? (
-                <p className="text-center text-red-700">No Pending Work</p>
-              ) : (
-                <table className="table w-full">
-                  <thead>
-                    <tr>
-                      <th>
-                        {/* <label>
-                          <input type="checkbox" className="checkbox" />
-                        </label> */}
-                      </th>
-                      <th>Customer Name</th>
-                      <th>Product ID</th>
-                      <th>Customer Email</th>
-                      <th>Customer Phone Number</th>
-                      <th>district</th>
-                      <th>Thana</th>
-                      <th>Full Address</th>
-                      <th>Price</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {allCart.map((booking) => (
-                      <ConfirmServices
-                        key={booking._id}
-                        booking={booking}
-                        handleBookingConfirm={handleBookingConfirm}
-                      ></ConfirmServices>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
       </div>
     </div>
   );

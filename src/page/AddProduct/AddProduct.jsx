@@ -91,13 +91,13 @@ const AddProduct = () => {
           <title>FASHION | Add Product</title>
         </Helmet>
 
-        <div className="container mx-auto my-8 p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
-          <h2 className="text-3xl w-full font-extrabold text-center text-gray-800 dark:text-white mb-8">
+        <div className="container mx-auto my-3 md:my-8 p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
+          <h2 className="text-3xl  font-medium md:font-extrabold text-center text-gray-800 dark:text-white md:mb-8">
             ADD A <span className="text-red-600">PRODUCT</span> HERE...
           </h2>
         </div>
-        <div>
-          <form onSubmit={handleSubmit} className="max-w-3xl mx-auto">
+        <div className="mx-2 my-4">
+          <form onSubmit={handleSubmit} className="max-w-md mx-auto">
             <div className="grid md:grid-cols-2 md:gap-6">
               <div className="relative z-0 w-full mb-6 group">
                 <input

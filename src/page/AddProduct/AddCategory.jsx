@@ -34,7 +34,7 @@ const AddCategory = () => {
       <MainDashboard></MainDashboard>
       </div>
 
-      <div className="container mx-auto mt-10 h-[650px]">
+      <div className="container mx-auto mt-4 md:mt-10 h-[650px]">
         <form onSubmit={handleSubmit} className="max-w-md mx-auto ">
           <div className="mb-6">
             <label

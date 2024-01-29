@@ -1,14 +1,11 @@
 import Swal from "sweetalert2";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import ProductCard from "./ProductCard";
-import { NavLink } from "react-router-dom";
-import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import MainDashboard from "../../Components/Navbar/MainDashboard";
 
 const ManageProduct = () => {
   const [addedItem, setAddedItem] = useState([]);
-const { user } = useContext(AuthContext);
   // console.log(addedItem);
 
   useEffect(() => {
@@ -60,26 +57,25 @@ const { user } = useContext(AuthContext);
       <div>
         <MainDashboard></MainDashboard>
       </div>
-    <div className="container mx-auto my-8">
-      <Helmet>
-        <title>FASHION | Manage Service</title>
-      </Helmet>
-      {addedItem.length === 0 ? (
-        <p>You Have No Service Available</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-2">
-          {addedItem.map((itemDetails, index) => (
-            <ProductCard
-              key={index}
-              itemDetails={itemDetails}
-              handleDelete={handleDelete}
-            ></ProductCard>
-          ))}
-        </div>
-      )}
+      <div className="container mx-auto md:my-8">
+        <Helmet>
+          <title>FASHION | Manage Service</title>
+        </Helmet>
+        {addedItem.length === 0 ? (
+          <p>You Have No Service Available</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-2">
+            {addedItem.map((itemDetails, index) => (
+              <ProductCard
+                key={index}
+                itemDetails={itemDetails}
+                handleDelete={handleDelete}
+              ></ProductCard>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
-    </div>
-    
   );
 };
 

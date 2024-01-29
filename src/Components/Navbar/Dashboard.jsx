@@ -10,11 +10,10 @@ const Dashboard = () => {
       <MainDashboard></MainDashboard>
 
       <div className="ml-3">
-        {/* Your existing drawer content */}
         <Lottie
           animationData={Animation}
           loop={true}
-          className="w-[1300px] h-auto pl-14"
+          className="lg:w-[1300px] h-auto md:pl-14"
         />
       </div>
     </div>

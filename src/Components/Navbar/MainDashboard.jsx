@@ -6,7 +6,7 @@ const MainDashboard = () => {
   const { user } = useContext(AuthContext);
 
   return (
-    <div className="w-80 p-4 min-h-full bg-yellow-400 text-base-content">
+    <div className="md:w-80 pb-80 p-2 md:p-4 min-h-full bg-yellow-400 text-base-content">
       {user.role === "admin" && (
         <ul>
           <li>

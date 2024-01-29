@@ -11,7 +11,7 @@ const ConfirmServices = ({ booking, handleBookingConfirm }) => {
     image,
     status,
     email,
-    customerName
+    customerName,
   } = booking;
 
   function toggleDropdown(dropdownId) {
@@ -28,19 +28,12 @@ const ConfirmServices = ({ booking, handleBookingConfirm }) => {
   return (
     <tr>
       <td></td>
-      {/* <td>
-        <div className="avatar">
-      <div className="rounded w-24 h-24">
-        {image && <img src={image} alt="Avatar Tailwind CSS Component" />}
-      </div>
-    </div>
-      </td> */}
-      {/* <td>{serviceName}</td> */}
+
       <td>{customerName}</td>
       {booking.products.map((product, index) => (
         <td key={index}>{product.productId}</td>
       ))}
-      
+
       <td>{email}</td>
       <td>{phoneNumber}</td>
       <td>{district}</td>
