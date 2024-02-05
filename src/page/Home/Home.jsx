@@ -14,7 +14,7 @@ const Home = () => {
       </Helmet>
       <Category></Category>
       <Banner />
-      <Sponsor></Sponsor>
+      {/* <Sponsor></Sponsor> */}
       <ShowService />
       <MobileApp/>
       <SuggestionSection/>
