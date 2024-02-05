@@ -1,8 +1,8 @@
-# FASHION Website
+# AN NOOR Website
 
-Welcome to the FASHION website! This platform allows users to explore and book various fashion services, manage their listings, and track their bookings.
+Welcome to the AN NOOR website! This platform allows users to explore and book various AN NOOR services, manage their listings, and track their bookings.
 
-**Live Website**: [FASHION Website](https://fashion-ecommerce-team.netlify.app/)
+**Live Website**: [AN NOOR Website](https://AN NOOR-ecommerce-team.netlify.app/)
 
 ## Table of Contents
 
@@ -17,9 +17,9 @@ Welcome to the FASHION website! This platform allows users to explore and book v
 
 1. **User Authentication:** Users can create accounts and log in handled by backend.
 
-2. **Add & Manage product:** Admin can add and manage their fashion services, including editing and deleting listings.
+2. **Add & Manage product:** Admin can add and manage their AN NOOR services, including editing and deleting listings.
 
-3. **Product Booking:** Users can browse and book available fashion services.
+3. **Product Booking:** Users can browse and book available AN NOOR services.
 
 4. **My Schedule:** Registered users can see all their booked Products.
 
@@ -39,7 +39,7 @@ To get started with the project, follow these steps:
 ## Usage
 
 - Register for an account and log in to access all features.
-- Add your fashion services to the platform.
+- Add your AN NOOR services to the platform.
 - Browse and book services from other users.
 - View your scheduled services and bookings.
 

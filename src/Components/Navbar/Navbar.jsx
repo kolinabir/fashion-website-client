@@ -145,7 +145,7 @@ const Navbar = () => {
               }
             >
               <a className="flex items-center" href="#">
-                FASHION
+                AN NOOR
               </a>
             </NavLink>
             <NavLink

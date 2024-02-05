@@ -119,7 +119,7 @@ const ShowCart = () => {
 
         <div className="flex flex-wrap justify-center">
           <Helmet>
-            <title>FASHION | Cart</title>
+            <title>AN NOOR | Cart</title>
           </Helmet>
 
           <div className="overflow-x-auto w-full">

@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <div className="overflow-x-hidden">
       <Helmet>
-        <title>FASHION | Home</title>
+        <title>AN NOOR | Home</title>
       </Helmet>
       <Category></Category>
       <Banner />

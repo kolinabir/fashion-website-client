@@ -88,7 +88,7 @@ const AddProduct = () => {
       </div>
       <div className="flex-grow">
         <Helmet>
-          <title>FASHION | Add Product</title>
+          <title>AN NOOR | Add Product</title>
         </Helmet>
 
         <div className="container mx-auto my-3 md:my-8 p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">

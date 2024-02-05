@@ -6,7 +6,6 @@ import { Helmet } from "react-helmet-async";
 
 const SingleProduct = () => {
   const product = useLoaderData();
-  // console.log(product.data.addedBy.username);
   const { user } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState("description");
 
@@ -75,7 +74,7 @@ const SingleProduct = () => {
     <div className="mx-2 md:mx-0">
       <div className="container mx-auto my-6">
         <Helmet>
-          <title>FASHION | Checkout</title>
+          <title>AN NOOR | Checkout</title>
         </Helmet>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="relative h-[655px] md:h-[655px] md:w-[655px] mb-4 md:mb-0">

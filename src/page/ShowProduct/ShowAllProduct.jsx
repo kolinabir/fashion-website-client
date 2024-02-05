@@ -116,11 +116,11 @@ const ShowAllProduct = () => {
   return (
     <div>
       <Helmet>
-        <title>FASHION | All Products</title>
+        <title>AN NOOR | All Products</title>
       </Helmet>
       <div className="container mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-        <h1 className="text-2xl font-semibold mb-2 md:mb-0">All Products</h1>
+        <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+          <h1 className="text-2xl font-semibold mb-2 md:mb-0">All Products</h1>
           <div className="flex space-x-4 ">
             <div className="flex items-center text-left relative left-[98px]">
               <button
@@ -194,7 +194,7 @@ const ShowAllProduct = () => {
         </div>
 
         <div className="flex flex-col md:flex-row">
-        <div className="md:mr-6 mb-4 md:min-w-[200px]">
+          <div className="md:mr-6 mb-4 md:min-w-[200px]">
             <div className="relative flex ">
               <input
                 name="search"
@@ -220,6 +220,7 @@ const ShowAllProduct = () => {
                     <li key={index} className="flex items-center">
                       <div>
                         <Link
+                          to={`/showProduct/category/${categoryItem._id}`}
                           onClick={() => handleCategoryChange(categoryItem._id)}
                           className={
                             category === categoryItem._id

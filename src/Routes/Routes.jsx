@@ -71,9 +71,12 @@ const Routes = createBrowserRouter([
         // loader: () => fetch("https://mern-ecom-backend-henna.vercel.app/api/product", {credentials: 'include'}),
       },
       {
-        path: "/showProduct?category=:id",
-        element: <ShowProductByCategory></ShowProductByCategory>,
-        // loader: ({params}) => fetch("https://mern-ecom-backend-henna.vercel.app/api/product"),
+        path: "/showProduct/category/:id",
+        element: <ShowProductByCategory />,
+        loader: ({ params }) =>
+          fetch(
+            `https://mern-ecom-backend-henna.vercel.app/api/product/category/${params.id}`
+          ).then((response) => response.json()),
       },
       {
         path: "/showProduct/:id",
@@ -90,7 +93,7 @@ const Routes = createBrowserRouter([
             <ShowCart></ShowCart>
           </PrivetsRoutes>
         ),
-        // loader: () => fetch("https://fashion-server-nine.vercel.app/orders", {credentials: 'include'}),
+        // loader: () => fetch("https://fashion-nine.vercel.app/orders", {credentials: 'include'}),
       },
       {
         path: "/manageProduct",

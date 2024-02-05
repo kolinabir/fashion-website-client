@@ -59,7 +59,7 @@ const ManageProduct = () => {
       </div>
       <div className="container mx-auto md:my-8">
         <Helmet>
-          <title>FASHION | Manage Service</title>
+          <title>AN NOOR | Manage Service</title>
         </Helmet>
         {addedItem.length === 0 ? (
           <p>You Have No Service Available</p>
