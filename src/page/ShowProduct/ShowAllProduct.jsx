@@ -9,15 +9,14 @@ const ShowAllProduct = () => {
   const [sortBy, setSortBy] = useState("latest");
   const [category, setCategory] = useState("all");
   const [singleCategory, setSingleCategory] = useState();
-
+  const [forceRender, setForceRender] = useState(false);
   const handleSearchSubmit = () => {
     const search = document.querySelector("input[name=search]").value;
-    const filteredProduct = product.data.filter((productDetail) => {
+    const filteredProduct = product?.data?.filter((productDetail) => {
       return productDetail.title.toLowerCase().includes(search.toLowerCase());
     });
     setProduct({ data: filteredProduct });
   };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,7 +27,7 @@ const ShowAllProduct = () => {
         }
         // Append sorting parameter to API URL based on sortBy value
         if (sortBy === "latest") {
-          apiUrl += "?sort=-createdAt"; 
+          apiUrl += "?sort=-createdAt";
         } else if (sortBy === "lowToHigh") {
           apiUrl += "?sort=price";
         } else if (sortBy === "highToLow") {
@@ -74,27 +73,33 @@ const ShowAllProduct = () => {
 
   const handleSortChange = (value) => {
     setSortBy(value);
-    // Implement your sorting logic here based on the selected value (latest, lowToHigh, highToLow)
   };
-
   const handleCategoryChange = async (categoryId) => {
-    setCategory(categoryId);
     try {
-      const response = await fetch(
-        `https://mern-ecom-backend-henna.vercel.app/api/categories/${categoryId}`
-      );
+      let apiUrl = "https://mern-ecom-backend-henna.vercel.app/api/product";
+
+      if (categoryId !== "all") {
+        apiUrl += `?category=${categoryId}`;
+      }
+
+      const response = await fetch(apiUrl);
 
       if (response.ok) {
         const data = await response.json();
         setProduct(data.data);
-        console.log(data.data.name);
+        setCategory(categoryId);
+        setForceRender(!forceRender); // Trigger re-render
       } else {
-        console.error("Error fetching product data for the selected category");
+        console.error("Error fetching product data");
       }
     } catch (error) {
       console.error("Error fetching product data", error);
     }
   };
+  useEffect(() => {
+    // Empty dependency array to run only once when component mounts
+    // This ensures that the component is re-rendered when forceRender changes
+  }, [forceRender]);
 
   const toggleSortDropdown = () => {
     const dropdown = document.getElementById("sort-dropdown");
@@ -213,13 +218,16 @@ const ShowAllProduct = () => {
                 <ul className="space-y-2">
                   {singleCategory.map((categoryItem, index) => (
                     <li key={index} className="flex items-center">
-                     
                       <div>
                         <Link
-                          to={`/showProduct?category=${categoryItem._id}`}
                           onClick={() => handleCategoryChange(categoryItem._id)}
+                          className={
+                            category === categoryItem._id
+                              ? "text-indigo-500"
+                              : ""
+                          }
                         >
-                        <span className="mr-2">{categoryItem.name}</span>
+                          <span className="mr-2">{categoryItem.name}</span>
                         </Link>
                         <hr className="w-60  border-gray-300" />
                       </div>
@@ -232,8 +240,8 @@ const ShowAllProduct = () => {
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {product &&
-              product?.data
+            {product?.data ? (
+              product.data
                 .filter((productDetail) => {
                   if (category === "all") return true;
                   return productDetail.category === category;
@@ -254,7 +262,10 @@ const ShowAllProduct = () => {
                       </h3>
                     </div>
                   </Link>
-                ))}
+                ))
+            ) : (
+              <p>Loading products...</p>
+            )}
           </div>
         </div>
       </div>

@@ -13,10 +13,16 @@ const Banner = () => {
         <div className="flex item-center justify-center bg-[#F4F6F5] rounded-2xl md:max-w-[2000px] pt-20">
           <div className="flex items-center justify-center ">
             <div className="md:w-[736px] md:pl-12 space-y-4 mb-5">
-              <h2 className="text-center md:text-left md:text-8xl text-6xl pl-3 font-black text-black ">
-                <span className="p-4 bg-transparent md:bg-white">LET’S</span>{" "}
-                EXPLORE <span className="bg-[#EBD96B] px-2">UNIQUE</span>{" "}
-                CLOTHES
+              <h2 className="text-center md:text-left md:text-5xl text-3xl pl-3 font-black text-black mr-14  flex flex-col">
+                <span className="p-4 bg-transparent md:bg-white">
+                  আমরা বিশ্বাস, যত্ন,বিশুদ্ধতার গুণগত মান,বিষয়ে ন্যায্য
+                </span>{" "}
+                {/* আমরা বিশ্বাস, যত্ন, গুণগত মান, ন্যায্য মূল্য ও বিশুদ্ধতার বিষয়ে সর্বদাই নীতিবান। */}
+                <span> </span>
+                <span className="bg-[#EBD96B] px-2">
+                  মূল্য ও সর্বদাই নীতিবান
+                </span>{" "}
+                <span></span>
               </h2>
               <div className=" text-center md:text-left">
                 <span className="font-normal pl-3 md:text-3xl text-gray-900">
