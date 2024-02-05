@@ -18,8 +18,8 @@ const Navbar = () => {
             className="mr-4 block cursor-pointer py-1.5 font-sans text-base font-medium leading-relaxed text-inherit antialiased"
           >
             <div className="flex items-center gap-2 font-bold text-2xl">
-              <img src="https://i.ibb.co/681pPQV/Vector.png" alt="" />
-              <p>FASHION</p>
+              <img className="w-8 " src="/logo.svg" alt="" />
+              <p className="text-base">AN NOOR</p>
             </div>
           </Link>
 
