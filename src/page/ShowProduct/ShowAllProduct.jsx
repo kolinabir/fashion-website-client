@@ -114,8 +114,8 @@ const ShowAllProduct = () => {
         <title>FASHION | All Products</title>
       </Helmet>
       <div className="container mx-auto">
-        <div className="flex justify-between items-center ">
-          <h1 className="text-2xl font-semibold">All Products</h1>
+      <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+        <h1 className="text-2xl font-semibold mb-2 md:mb-0">All Products</h1>
           <div className="flex space-x-4 ">
             <div className="flex items-center text-left relative left-[98px]">
               <button
@@ -188,8 +188,8 @@ const ShowAllProduct = () => {
           </div>
         </div>
 
-        <div className="flex">
-          <div className="mr-6 min-w-[200px] my-4">
+        <div className="flex flex-col md:flex-row">
+        <div className="md:mr-6 mb-4 md:min-w-[200px]">
             <div className="relative flex ">
               <input
                 name="search"
@@ -231,30 +231,30 @@ const ShowAllProduct = () => {
               )}
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {product &&
-              product?.data
-                .filter((productDetail) => {
-                  if (category === "all") return true;
-                  return productDetail.category === category;
-                })
-                .map((productDetail, index) => (
-                  <Link to={`/showProduct/${productDetail?._id}`} key={index}>
-                    <div className={`bg-white p-4 rounded-lg shadow-md`}>
-                      <img
-                        src={productDetail?.image}
-                        alt={productDetail?.sellerName}
-                        className="w-[335px] h-[335px] object-cover rounded-md"
-                      />
-                      <h3 className="text-base flex justify-center font-normal mt-2 text-gray-600">
-                        {productDetail?.title}
-                      </h3>
-                      <h3 className="text-base flex justify-center font-medium mt-2 text-black">
-                        Price: ${productDetail?.price}
-                      </h3>
-                    </div>
-                  </Link>
-                ))}
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {product &&
+            product?.data
+              .filter((productDetail) => {
+                if (category === "all") return true;
+                return productDetail.category === category;
+              })
+              .map((productDetail, index) => (
+                <Link to={`/showProduct/${productDetail?._id}`} key={index}>
+                  <div className={`bg-white p-4 rounded-lg shadow-md mb-4`}>
+                    <img
+                      src={productDetail?.image}
+                      alt={productDetail?.sellerName}
+                      className="w-full h-[335px] object-cover rounded-md mb-2"
+                    />
+                    <h3 className="text-base text-center font-normal text-gray-600 mb-2">
+                      {productDetail?.title}
+                    </h3>
+                    <h3 className="text-base text-center font-medium text-black">
+                      Price: ${productDetail?.price}
+                    </h3>
+                  </div>
+                </Link>
+              ))}
           </div>
         </div>
       </div>
