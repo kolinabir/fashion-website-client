@@ -107,12 +107,6 @@ const ShowAllProduct = () => {
     dropdown.classList.toggle("opacity-100");
   };
 
-  // const toggleCategoryDropdown = () => {
-  //   const dropdown = document.getElementById("category-dropdown");
-  //   dropdown.classList.toggle("invisible");
-  //   dropdown.classList.toggle("opacity-100");
-  // };
-
   return (
     <div>
       <Helmet>
