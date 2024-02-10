@@ -12,9 +12,9 @@ const ServiceCart = ({ service, handleDelete }) => {
   const totalPrice = subtotal + shippingFee;
 
   return (
-    <div className="grid gap-6 grid-cols-4 md:mx-20">
+    <div className="grid md:gap-6 md:grid-cols-4 md:mx-20">
       {/* Product table */}
-      <div className="overflow-x-auto grid md:col-span-3">
+      <div className="overflow-x-auto md:grid md:col-span-3">
         <table className="min-w-full divide-y divide-gray-200">
           {/* Table header */}
           <thead className="">
@@ -80,7 +80,7 @@ const ServiceCart = ({ service, handleDelete }) => {
         </table>
       </div>
       {/* Cart totals */}
-      <div className="flex  flex-col border-l border-gray-300 ">
+      <div className="flex  flex-col md:border-l border-gray-300 ">
         <div className="md:mx-7">
           <div>
             <h2 className="text-[#3A89B4]  text-lg font-semibold">CART TOTAL</h2>
