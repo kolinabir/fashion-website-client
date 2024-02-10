@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet-async";
 
 const SingleProduct = () => {
   const product = useLoaderData();
+  // console.log(product.data._id);
   const { user } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState("description");
 

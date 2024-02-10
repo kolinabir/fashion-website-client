@@ -12,12 +12,12 @@ const ServiceCart = ({ service, handleDelete }) => {
   const totalPrice = subtotal + shippingFee;
 
   return (
-    <div className="grid gap-6 grid-cols-4">
+    <div className="grid gap-6 grid-cols-4 md:mx-20">
       {/* Product table */}
       <div className="overflow-x-auto grid md:col-span-3">
         <table className="min-w-full divide-y divide-gray-200">
           {/* Table header */}
-          <thead className="bg-gray-50">
+          <thead className="">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Product
@@ -32,7 +32,6 @@ const ServiceCart = ({ service, handleDelete }) => {
                 SubTotal
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
               </th>
             </tr>
           </thead>
@@ -81,13 +80,29 @@ const ServiceCart = ({ service, handleDelete }) => {
         </table>
       </div>
       {/* Cart totals */}
-      <div className="flex flex-col border-l border-gray-300 ">
-
-        <div>
-          <p className="text-lg font-medium">Subtotal: ${subtotal}</p>
-          <p className="text-lg font-medium">Shipping Fee: ${shippingFee}</p>
-          <p className="text-lg font-semibold">Total: ${totalPrice}</p>
+      <div className="flex  flex-col border-l border-gray-300 ">
+        <div className="md:mx-7">
+          <div>
+            <h2 className="text-[#3A89B4]  text-lg font-semibold">CART TOTAL</h2>
+          </div>
+          <div className="flex justify-between ">
+            <p className="text-base font-normal">Subtotal:</p> <p>${subtotal}</p>
+          </div>
+          <hr />
+          <div>
+            <div className="flex justify-between ">
+              <p className="text-base font-normal">Shipping Fee:</p>{" "}
+              <p>${shippingFee}</p>
+            </div>
+          </div>
+          <hr />
+          <div className="flex justify-between ">
+            <p className="text-lg font-semibold">Total: </p> <p>${totalPrice}</p>
+          </div>
         </div>
+        <button className="bg-[#3A89B4] text-white px-4 py-2 mt-4 rounded-md mx-7 hover:bg-[#1F5F78] focus:outline-none">
+          Proceed to Buy
+        </button>
       </div>
     </div>
   );

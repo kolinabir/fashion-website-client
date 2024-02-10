@@ -9,12 +9,12 @@ const ShowCart = () => {
   const [cart, setCart] = useState([]);
   const [allCart, setAllCart] = useState([]);
   const { user } = useContext(AuthContext);
-  console.log(cart);
+  // console.log(cart);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     fetch(
-      `https://mern-ecom-backend-henna.vercel.app/api/order/user/${user._id}`,
+      `https://mern-ecom-backend-henna.vercel.app/api/cart/${user._id}`,
       {
         headers: {
           Authorization: token,
@@ -23,7 +23,7 @@ const ShowCart = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.data);
+        // console.log(data.data);
         setCart(data.data);
       })
       .catch((err) => {
@@ -50,20 +50,35 @@ const ShowCart = () => {
   }, [user]);
 
   const handleDelete = (itemId) => {
-    fetch(`https://mern-ecom-backend-henna.vercel.app/api/order/${itemId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: localStorage.getItem("token"),
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          setCart((prevCartItems) =>
-            prevCartItems.filter((item) => item._id !== itemId)
-          );
-        }
-      });
+    if (user) {
+      fetch(`https://mern-ecom-backend-henna.vercel.app/api/order/${itemId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            setCart((prevCartItems) =>
+              prevCartItems.filter((item) => item._id !== itemId)
+            );
+            removeFromLocalStorage(itemId);
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting item:", error);
+        });
+    } else {
+      removeFromLocalStorage(itemId);
+    }
+  };
+
+  const removeFromLocalStorage = (itemId) => {
+    // Handle delete for local storage
+    const cartInfo = JSON.parse(localStorage.getItem("cart")) || [];
+    const updatedCart = cartInfo.filter((item) => item.productId !== itemId);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
   const handleBookingConfirm = (id, newStatus) => {
