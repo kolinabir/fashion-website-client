@@ -62,6 +62,67 @@ const SingleProduct = () => {
     closeModal();
   };
 
+  const addToCart = () => {
+    // Logic to add product to cart
+    fetch("https://mern-ecom-backend-henna.vercel.app/api/cart/addProductToCart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        products: [
+          {
+            productId: product.data._id,
+            quantity: 1,
+          }
+        ]
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        Swal.fire({
+          title: "Success!",
+          text: "Product added to cart!",
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  
+  const saveToLocalCart = () => {
+    // Logic to save cart info to local storage
+    const cartInfo = JSON.parse(localStorage.getItem("cart")) || [];
+    const newCartItem = {
+      productId: product.data._id,
+      quantity: 1,
+    };
+    cartInfo.push(newCartItem);
+    const dataToSend = { products: cartInfo };
+    localStorage.setItem("cart", JSON.stringify(dataToSend));
+  };
+  
+  
+  const handleAddToCart = () => {
+    if (user) {
+      addToCart();
+    } else {
+      saveToLocalCart();
+      Swal.fire({
+        title: "Error!",
+        text: "Please login to add to cart!",
+        icon: "error",
+        confirmButtonText: "Cool",
+      });
+    }
+  };
+  
+
   const closeModal = () => {
     document.getElementById("my_modal_1").close();
   };
@@ -107,9 +168,7 @@ const SingleProduct = () => {
               <div className="flex md:flex-row gap-3">
                 <button
                   className="btn btn-outline mb-2 md:mb-0"
-                  onClick={() =>
-                    document.getElementById("my_modal_1").showModal()
-                  }
+                  onClick={handleAddToCart}
                 >
                   Add to Cart
                 </button>

@@ -9,7 +9,7 @@ const ShowCart = () => {
   const [cart, setCart] = useState([]);
   const [allCart, setAllCart] = useState([]);
   const { user } = useContext(AuthContext);
-  // console.log(user);
+  console.log(cart);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -23,7 +23,7 @@ const ShowCart = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data.data);
+        console.log(data.data);
         setCart(data.data);
       })
       .catch((err) => {
@@ -99,13 +99,13 @@ const ShowCart = () => {
         {user.role === "user" && (
           <div>
             <h2 className="text-center text-3xl dark:text-white font-normal my-4">
-              MY CART
+              CART
             </h2>
             {cart.length === 0 ? (
               <p className="text-center text-red-700">No Items in your cart</p>
             ) : (
               <div className="grid md:grid-cols-1 gap-2 px-2">
-                {cart.map((service) => (
+                {cart.orders.map((service) => (
                   <ServiceCart
                     key={service._id}
                     service={service}
