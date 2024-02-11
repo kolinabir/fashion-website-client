@@ -29,24 +29,28 @@ const Category = () => {
   }, []);
 
   return (
-    <div className="px-4  py-2 border-b-neutral-300 border">
-      <div className="flex justify-center w-full gap-2">
-        {categories.map((category, index) => (
-          <div key={index} className="py-1 text-center">
-            <div className="category-container">
-              <div className="category-header">
-                <h3
-                  className="category-title text-base font-semibold text-black/70 hover:text-black transition-all duration-300
+    <div className="border-t-0  border-b-neutral-300 border">
+      <div className="lg:mx-36">
+        <div className="px-4 mt-1  py-2 ">
+          <div className="flex justify-center w-full gap-2">
+            {categories.map((category, index) => (
+              <div key={index} className="py-1 text-center">
+                <div className="category-container">
+                  <div className="category-header">
+                    <h3
+                      className="category-title text-base font-semibold text-black/70 hover:text-black transition-all duration-300
                   cursor-pointer 
                 "
-                >
-                  {category.name}
-                </h3>
+                    >
+                      {category.name}
+                    </h3>
+                  </div>
+                  {/* Add more elements related to the category if needed */}
+                </div>
               </div>
-              {/* Add more elements related to the category if needed */}
-            </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );

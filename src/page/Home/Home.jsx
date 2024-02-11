@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import ShowService from "../ShowProduct/ShowProduct";
 import Banner from "./Banner/Banner";
-import Sponsor from "./Sponsor/Sponsor";
 import MobileApp from "../MobileApp/MobileApp";
 import SuggestionSection from "../SuggestionSection/SuggestionSection";
 import Category from "./Category/Category";
@@ -16,8 +15,8 @@ const Home = () => {
       <Banner />
       {/* <Sponsor></Sponsor> */}
       <ShowService />
-      <MobileApp/>
-      <SuggestionSection/>
+      {/* <MobileApp/> */}
+      {/* <SuggestionSection/> */}
     </div>
   );
 };

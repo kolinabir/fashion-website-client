@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { FaSearch } from "react-icons/fa";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, NavLink, useLoaderData } from "react-router-dom";
 
 const ShowProductByCategory = () => {
   const data = useLoaderData();
-//   console.log(data.data.map((item) => item.category.name));
+  //   console.log(data.data.map((item) => item.category.name));
   const [singleCategory, setSingleCategory] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const uniqueCategories = [
@@ -43,15 +43,15 @@ const ShowProductByCategory = () => {
   }, []);
 
   return (
-    <div>
+    <div className="mx-3 md:mx-20 lg:mx-36">
       <Helmet>
-        <title> AN NOOR | {uniqueCategories.join(', ')}  </title>
+        <title> AN NOOR | {uniqueCategories.join(", ")} </title>
       </Helmet>
       <div className="container mx-auto my-20">
         <div className="flex flex-col md:flex-row">
           <div className="md:mr-6 mb-4 md:min-w-[200px]">
             <h2 className="text-lg font-semibold mb-2">
-            Category {uniqueCategories.join(', ')} 
+              Category {uniqueCategories.join(", ")}
             </h2>
 
             <div className="relative flex ">
@@ -78,14 +78,14 @@ const ShowProductByCategory = () => {
                   {singleCategory.map((categoryItem, index) => (
                     <li key={index} className="flex items-center">
                       <div>
-                        <Link
+                        <NavLink
                           to={`/showProduct/category/${categoryItem._id}`}
                           className={
-                            "text-sm font-normal text-gray-600 hover:text-indigo-500 transition duration-300 ease-in-out"
+                            " font-normal hover:text-indigo-500 transition duration-300 ease-in-out"
                           }
                         >
                           <span className="mr-2">{categoryItem.name}</span>
-                        </Link>
+                        </NavLink>
                         <hr className="w-60  border-gray-300" />
                       </div>
                     </li>
@@ -96,10 +96,10 @@ const ShowProductByCategory = () => {
               )}
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {(filteredProducts.length > 0 ? filteredProducts : data.data).map(
               (productDetail, index) => (
-                <Link to={`/showProduct/${productDetail?._id}`} key={index}>
+                <NavLink to={`/showProduct/${productDetail?._id}`} key={index}>
                   <div className={`bg-white p-4 rounded-lg shadow-md`}>
                     <img
                       src={productDetail?.image}
@@ -113,7 +113,7 @@ const ShowProductByCategory = () => {
                       Price: ${productDetail?.price}
                     </h3>
                   </div>
-                </Link>
+                </NavLink>
               )
             )}
           </div>

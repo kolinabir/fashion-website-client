@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
-import { FaChevronDown } from "react-icons/fa6";
+import { Link, NavLink } from "react-router-dom";
+import { FaArrowRightLong, FaChevronDown } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
+import Rating from "react-rating-stars-component";
 
 const ShowAllProduct = () => {
   const [product, setProduct] = useState();
@@ -108,7 +109,7 @@ const ShowAllProduct = () => {
   };
 
   return (
-    <div>
+    <div className="mx-3 md:mx-20 lg:mx-36">
       <Helmet>
         <title>AN NOOR | All Products</title>
       </Helmet>
@@ -213,7 +214,7 @@ const ShowAllProduct = () => {
                   {singleCategory.map((categoryItem, index) => (
                     <li key={index} className="flex items-center">
                       <div>
-                        <Link
+                        <NavLink
                           to={`/showProduct/category/${categoryItem._id}`}
                           onClick={() => handleCategoryChange(categoryItem._id)}
                           className={
@@ -223,7 +224,7 @@ const ShowAllProduct = () => {
                           }
                         >
                           <span className="mr-2">{categoryItem.name}</span>
-                        </Link>
+                        </NavLink>
                         <hr className="w-60  border-gray-300" />
                       </div>
                     </li>
@@ -234,7 +235,7 @@ const ShowAllProduct = () => {
               )}
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {product &&
               product?.data
                 .filter((productDetail) => {
@@ -243,18 +244,76 @@ const ShowAllProduct = () => {
                 })
                 .map((productDetail, index) => (
                   <Link to={`/showProduct/${productDetail?._id}`} key={index}>
-                    <div className={`bg-white p-4 rounded-lg shadow-md`}>
-                      <img
-                        src={productDetail?.image}
-                        alt={productDetail?.sellerName}
-                        className="w-[335px] h-[335px] object-cover rounded-md"
-                      />
-                      <h3 className="text-base flex justify-center font-normal mt-2 text-gray-600">
-                        {productDetail?.title}
-                      </h3>
-                      <h3 className="text-base flex justify-center font-medium mt-2 text-black">
-                        Price: ${productDetail?.price}
-                      </h3>
+                    <div>
+                      <div
+                        key={index}
+                        className={`bg-white p-4 !h-[450px] rounded-lg shadow-md col-span-1 relative overflow-hidden ${
+                          index >= 15 ? "hidden" : ""
+                        }`}
+                        style={{
+                          height: "400px",
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <div className="group flex-grow">
+                          <div className="relative overflow-hidden aspect-w-1 aspect-h-1 group-hover:scale-105 transition-transform">
+                            <Link to={`/showProduct/${productDetail?._id}`}>
+                              <img
+                                src={productDetail?.image}
+                                alt={productDetail?.yourName}
+                                className="w-full h-[200px] sm:h-[250px] object-cover rounded-md"
+                              />
+                            </Link>
+                          </div>
+                          <Link
+                            to={`/showProduct/${productDetail?._id}`}
+                            className="text-base text-deep-orange-900 font-semibold 
+                    hover:text-deep-orange-700 transition duration-300 ease-in-out
+                  mt-2 flex justify-center overflow-hidden"
+                            style={{ height: "50px" }}
+                          >
+                            {productDetail?.title}
+                          </Link>
+
+                          <div className="flex justify-center">
+                            <Rating
+                              value={productDetail?.averageRating}
+                              count={5}
+                              size={24}
+                              activeColor="#ffd700"
+                              edit={false}
+                            />
+                          </div>
+
+                          <div className="flex justify-center mb-2">
+                            <h3 className="text-sm font-medium mx-3 text-green-500">
+                              ৳ {productDetail?.price}
+                            </h3>
+                          </div>
+
+                          <div className="flex justify-center mb-2">
+                            <h2
+                              className="text-xs text-black overflow-hidden"
+                              style={{ height: "20px" }}
+                            >
+                              {productDetail?.companyName}
+                            </h2>
+                          </div>
+                        </div>
+
+                        <div className="absolute bottom-0 left-0 right-0">
+                          <Link
+                            className="text-center py-2 flex justify-center items-center rounded-md bg-blue-400 text-white hover:bg-indigo-700 transition duration-300 ease-in-out"
+                            style={{ marginTop: "auto" }}
+                          >
+                            <h1 className="text-sm md:text-xs md:font-semibold">
+                              Show details
+                            </h1>
+                            <FaArrowRightLong className="ml-1" />
+                          </Link>
+                        </div>
+                      </div>
                     </div>
                   </Link>
                 ))}
