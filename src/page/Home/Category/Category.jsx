@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 
 const Category = () => {
   const [categories, setCategories] = useState([]);
@@ -37,13 +38,19 @@ const Category = () => {
               <div key={index} className="py-1 text-center">
                 <div className="category-container">
                   <div className="category-header">
-                    <h3
-                      className="category-title text-base font-semibold text-black/70 hover:text-black transition-all duration-300
-                  cursor-pointer 
-                "
+                    <NavLink
+                      to={`/showProduct/category/${category._id}`}
+                      className={
+                        " font-normal hover:text-indigo-500 transition duration-300 ease-in-out"
+                      }
                     >
-                      {category.name}
-                    </h3>
+                      <span
+                        className="category-title text-base font-semibold text-black/70 hover:text-black transition-all duration-300
+                  cursor-pointer "
+                      >
+                        {category.name}
+                      </span>
+                    </NavLink>
                   </div>
                   {/* Add more elements related to the category if needed */}
                 </div>
