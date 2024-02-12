@@ -8,7 +8,7 @@ const ShowProduct = () => {
   // console.log(product.data.length);
 
   return (
-    <div className=" mx-3 md:mx-32">
+    <div className="mx-3 md:mx-20 lg:mx-36">
       <Helmet>
         <title>AN NOOR | HOME</title>
       </Helmet>

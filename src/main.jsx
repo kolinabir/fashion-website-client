@@ -16,9 +16,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <userContext>
         <AuthProvider>
           <ThemeProvider>
-            <RouterProvider router={Routes}>
-              <App />
-            </RouterProvider>
+            <div className="">
+              <RouterProvider router={Routes}>
+                <App />
+              </RouterProvider>
+            </div>
           </ThemeProvider>
         </AuthProvider>
       </userContext>
