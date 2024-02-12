@@ -6,7 +6,7 @@ import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 const PrivetsRoutes = ({ children }) => {
     const location = useLocation();
     const { user, loading } = useContext(AuthContext);
-    console.log(user);
+    // console.log(user);
 
     if (loading) {
         return <span className="loading loading-ball loading-lg"></span>;
