@@ -1,14 +1,18 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
 
 const SingleProduct = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const product = useLoaderData();
-  // console.log(product.data._id);
   const { user } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState("description");
+
+  useEffect(() => {
+    setIsLoading(false); // Set isLoading to false once data is loaded
+  }, [product]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -131,6 +135,10 @@ const SingleProduct = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>; 
+  }
 
   return (
     <div className="mx-2 md:mx-0">
