@@ -86,15 +86,16 @@ const Navbar = () => {
             </div>
 
             {/* User authentication and profile dropdown */}
-            <div className="relative hidden md:block group">
+            {user && <div className="relative hidden md:block group">
               <NavLink
                 to="/dashboard"
-                activeClassName="btn btn-primary btn-sm"
-                className="btn btn-sm btn-ghost"
+                className={({ isActive }) =>
+                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
+                }
               >
                 Dashboard
               </NavLink>
-            </div>
+            </div>}
                 
             {user ? (
               <div className="dropdown dropdown-end">
