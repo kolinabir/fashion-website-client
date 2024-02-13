@@ -7,23 +7,7 @@ const MainDashboard = () => {
 
   return (
     <div className="md:w-80 pb-80 p-2 md:p-4 min-h-full bg-yellow-400 text-base-content">
-      {user.role === "admin" && (
-        <ul>
-          <li>
-            <NavLink
-              to="/manageProduct"
-              className={({ isActive }) =>
-                isActive
-                  ? "btn btn-outline btn-sm active-link w-full text-black"
-                  : "btn btn-sm btn-ghost w-full text-black"
-              }
-            >
-              Manage Product
-            </NavLink>
-          </li>
-        </ul>
-      )}
-      {user && (
+      {!user || user.role !== "admin" ? (
         <ul>
           <li>
             <NavLink
@@ -38,9 +22,22 @@ const MainDashboard = () => {
             </NavLink>
           </li>
         </ul>
-      )}
-      {user.role === "admin" && (
+      ) : (
         <>
+          <ul>
+            <li>
+              <NavLink
+                to="/manageProduct"
+                className={({ isActive }) =>
+                  isActive
+                    ? "btn btn-outline btn-sm active-link w-full text-black"
+                    : "btn btn-sm btn-ghost w-full text-black"
+                }
+              >
+                Manage Product
+              </NavLink>
+            </li>
+          </ul>
           <ul>
             <li>
               <NavLink

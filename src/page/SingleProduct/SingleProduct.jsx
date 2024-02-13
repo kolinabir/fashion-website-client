@@ -19,7 +19,6 @@ const SingleProduct = () => {
 
     const form = e.target;
     const customerName = form.customerName.value;
-    // const yourName = user?.displayName;
     const address = form.address.value;
     const additionalInfo = form.additionalInfo.value;
     const email = form.email.value;
@@ -40,7 +39,6 @@ const SingleProduct = () => {
       district,
       thana,
     };
-    // console.log(service);
 
     const token = localStorage.getItem("token");
 
@@ -51,7 +49,6 @@ const SingleProduct = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
       })
       .catch((err) => {
         console.log(err);
@@ -103,15 +100,14 @@ const SingleProduct = () => {
   };
 
   const saveToLocalCart = () => {
-    // Logic to save cart info to local storage
+    // Save cart data to localStorage if user is not logged in
     const cartInfo = JSON.parse(localStorage.getItem("cart")) || [];
     const newCartItem = {
       productId: product.data._id,
       quantity: 1,
     };
     cartInfo.push(newCartItem);
-    const dataToSend = { products: cartInfo };
-    localStorage.setItem("cart", JSON.stringify(dataToSend));
+    localStorage.setItem("cart", JSON.stringify(cartInfo));
   };
 
   const handleAddToCart = () => {

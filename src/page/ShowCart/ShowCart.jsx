@@ -9,26 +9,31 @@ const ShowCart = () => {
   const [cart, setCart] = useState([]);
   const [allCart, setAllCart] = useState([]);
   const { user } = useContext(AuthContext);
-  // console.log(cart);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    fetch(
-      `https://mern-ecom-backend-henna.vercel.app/api/cart/${user._id}`,
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log(data.data);
-        setCart(data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // Check if the user is logged in
+    if (user) {
+      const token = localStorage.getItem("token");
+      fetch(
+        `https://mern-ecom-backend-henna.vercel.app/api/cart/${user._id}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setCart(data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      // User is not logged in, get cart data from localStorage
+      const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+      setCart(cartData);
+    }
   }, [user]);
 
   useEffect(() => {
@@ -44,7 +49,6 @@ const ShowCart = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data.data);
         setAllCart(data.data);
       });
   }, [user]);
@@ -111,7 +115,7 @@ const ShowCart = () => {
         <MainDashboard></MainDashboard>
       </div>
       <div className="flex-grow">
-        {user.role === "user" && (
+        {user?.role === "user" && (
           <div>
             <h2 className="text-center text-3xl dark:text-white font-normal my-4">
               CART
@@ -120,6 +124,7 @@ const ShowCart = () => {
               <p className="text-center text-red-700">No Items in your cart</p>
             ) : (
               <div className="grid md:grid-cols-1 gap-2 px-2">
+                
                 {cart.orders.map((service) => (
                   <ServiceCart
                     key={service._id}
@@ -138,7 +143,7 @@ const ShowCart = () => {
           </Helmet>
 
           <div className="overflow-x-auto w-full">
-            {user.role === "admin" && (
+            {user?.role === "admin" && (
               <div>
                 <h2 className="text-center text-3xl font-normal underline my-4">
                   MY PENDING WORK

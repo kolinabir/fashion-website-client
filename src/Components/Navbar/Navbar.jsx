@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
-import { FaUserCircle } from "react-icons/fa";
+import { FaCartArrowDown, FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, signOut, loading } = useContext(AuthContext);
@@ -82,6 +82,14 @@ const Navbar = () => {
                 }
               >
                 Products
+              </NavLink>
+              <NavLink
+                to="/cart"
+                className={({ isActive }) =>
+                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
+                }
+              >
+                <FaCartArrowDown className="text-xl"/>
               </NavLink>
             </div>
 
@@ -204,8 +212,11 @@ const Navbar = () => {
                 </div>
               </div>
             )}
+            
           </div>
+          
         </nav>
+        
       </div>
     </div>
   );
