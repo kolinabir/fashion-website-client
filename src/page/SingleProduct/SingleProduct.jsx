@@ -69,21 +69,24 @@ const SingleProduct = () => {
 
   const addToCart = () => {
     // Logic to add product to cart
-    fetch("https://mern-ecom-backend-henna.vercel.app/api/cart/addProductToCart", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        products: [
-          {
-            productId: product.data._id,
-            quantity: 1,
-          }
-        ]
-      }),
-    })
+    fetch(
+      "https://mern-ecom-backend-henna.vercel.app/api/cart/addProductToCart",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          products: [
+            {
+              productId: product.data._id,
+              quantity: 1,
+            },
+          ],
+        }),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -98,8 +101,7 @@ const SingleProduct = () => {
         console.log(err);
       });
   };
-  
-  
+
   const saveToLocalCart = () => {
     // Logic to save cart info to local storage
     const cartInfo = JSON.parse(localStorage.getItem("cart")) || [];
@@ -111,8 +113,7 @@ const SingleProduct = () => {
     const dataToSend = { products: cartInfo };
     localStorage.setItem("cart", JSON.stringify(dataToSend));
   };
-  
-  
+
   const handleAddToCart = () => {
     if (user) {
       addToCart();
@@ -126,7 +127,6 @@ const SingleProduct = () => {
       });
     }
   };
-  
 
   const closeModal = () => {
     document.getElementById("my_modal_1").close();
