@@ -8,9 +8,11 @@ import NonUserCart from "./nonUserCart";
 
 const ShowCart = () => {
   const [cart, setCart] = useState([]);
-  console.log(cart.map((item) => item));
+  console.log(cart);
+
   const [allCart, setAllCart] = useState([]);
   const { user } = useContext(AuthContext);
+  const shippingFee = 10; // Sample shipping fee
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -125,6 +127,14 @@ const ShowCart = () => {
         }
       });
   };
+  // Calculate subtotal and total
+  const subtotal = cart.reduce((acc, product) => {
+    return acc + product.price * product.quantity;
+  }, 0);
+  const totalPrice = subtotal + shippingFee;
+  
+
+
 
   return (
     <div className="flex">
@@ -132,40 +142,105 @@ const ShowCart = () => {
         <MainDashboard></MainDashboard>
       </div>
       <div className="flex-grow">
-       
+        {user?.role === "user" ? (
+          <div>
+            <h2 className="text-center text-3xl dark:text-white font-normal my-4">
+              CART
+            </h2>
+            {cart.length === 0 ? (
+              <p className="text-center text-red-700">No Items in your cart</p>
+            ) : (
+              <div className="grid md:grid-cols-1 gap-2 px-2">
+                {cart?.orders?.map((service) => (
+                  <ServiceCart
+                    key={service._id}
+                    service={service}
+                    handleDelete={handleDelete}
+                  ></ServiceCart>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div>
+            <h2 className="text-center text-3xl dark:text-white font-normal my-4">
+              CART
+            </h2>
+            {cart.length === 0 ? (
+              <p className="text-center text-red-700">No Items in your cart</p>
+            ) : (
+              // if user isn't logged in
 
-{user?.role === "user" && (
-  <div>
-  <h2 className="text-center text-3xl dark:text-white font-normal my-4">
-    CART
-  </h2>
-  {cart.length === 0 ? (
-    <p className="text-center text-red-700">No Items in your cart</p>
-  ) : (
-    <div className="grid md:grid-cols-1 gap-2 px-2">
-      {user ? (
-        // User is logged in, render ServiceCart component
-        cart.orders.map((service) => (
-          <ServiceCart
-            key={service._id}
-            service={service}
-            handleDelete={handleDelete}
-          />
-        ))
-      ) : (
-        // User is not logged in, render product details directly
-        cart?.map((product) => (
-          <NonUserCart
-            key={product._id}
-            product={product}
-            handleDelete={handleDelete}
-          />
-        ))
-      )}
-    </div>
-  )}
-</div>
-)}
+            
+              <div className="grid md:grid-cols-1 gap-2 px-2">
+                <div className="grid md:gap-6 md:grid-cols-4 md:mx-20">
+                  {/* Product table */}
+                  <div className="overflow-x-auto md:grid md:col-span-3">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      {/* Table header */}
+                      <thead className="">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Product
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Price
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Quantity
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            SubTotal
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                        </tr>
+                      </thead>
+                      {/* Table body */}
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {cart?.map((product) => (
+                          <NonUserCart
+                            key={product._id}
+                            product={product}
+                            handleDelete={handleDelete}
+                          ></NonUserCart>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  {/* Cart totals */}
+                  <div className="flex  flex-col md:border-l border-gray-300 ">
+                    <div className="md:mx-7">
+                      <div>
+                        <h2 className="text-[#3A89B4]  text-lg font-semibold">
+                          CART TOTAL
+                        </h2>
+                      </div>
+                      <div className="flex justify-between ">
+                        <p className="text-base font-normal">Subtotal:</p>{" "}
+                        <p>${subtotal}</p>
+                      </div>
+                      <hr />
+                      <div>
+                        <div className="flex justify-between ">
+                          <p className="text-base font-normal">Shipping Fee:</p>{" "}
+                          <p>${shippingFee}</p>
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="flex justify-between ">
+                        <p className="text-lg font-semibold">Total: </p>{" "}
+                        <p>${totalPrice}</p>
+                      </div>
+                    </div>
+                    <button className="bg-[#3A89B4] text-white px-4 py-2 mt-4 rounded-md mx-7 hover:bg-[#1F5F78] focus:outline-none">
+                      Proceed to Buy
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="flex flex-wrap justify-center">
           <Helmet>
@@ -176,7 +251,7 @@ const ShowCart = () => {
             {user?.role === "admin" && (
               <div>
                 <h2 className="text-center text-3xl font-normal underline my-4">
-                  MY PENDING WORK
+                  MY PENDING ORDERS
                 </h2>
                 {allCart.length === 0 ? (
                   <p className="text-center text-red-700">No Pending Work</p>
@@ -185,11 +260,7 @@ const ShowCart = () => {
                     <table className="table w-full">
                       <thead>
                         <tr>
-                          <th>
-                            {/* <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label> */}
-                          </th>
+                          <th></th>
                           <th>Customer Name</th>
                           <th>Product ID</th>
                           <th>Customer Email</th>
