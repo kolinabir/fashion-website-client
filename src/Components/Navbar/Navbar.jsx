@@ -83,28 +83,32 @@ const Navbar = () => {
               >
                 Products
               </NavLink>
+              {user && (
+                <div className="relative hidden md:block group">
+                  <NavLink
+                    to="/dashboard"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "btn btn-primary btn-sm"
+                        : "btn btn-sm btn-ghost"
+                    }
+                  >
+                    Dashboard
+                  </NavLink>
+                </div>
+              )}
               <NavLink
                 to="/cart"
                 className={({ isActive }) =>
                   isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
                 }
               >
-                <FaCartArrowDown className="text-xl"/>
+                <FaCartArrowDown className="text-xl" />
               </NavLink>
             </div>
 
             {/* User authentication and profile dropdown */}
-            {user && <div className="relative hidden md:block group">
-              <NavLink
-                to="/dashboard"
-                className={({ isActive }) =>
-                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
-                }
-              >
-                Dashboard
-              </NavLink>
-            </div>}
-                
+
             {user ? (
               <div className="dropdown dropdown-end">
                 <div className="flex gap-3">
@@ -212,11 +216,8 @@ const Navbar = () => {
                 </div>
               </div>
             )}
-            
           </div>
-          
         </nav>
-        
       </div>
     </div>
   );

@@ -4,36 +4,53 @@ import { Helmet } from "react-helmet-async";
 import ConfirmServices from "./ConfirmProduct/ConfirmProduct";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import MainDashboard from "../../Components/Navbar/MainDashboard";
+import NonUserCart from "./nonUserCart";
 
 const ShowCart = () => {
   const [cart, setCart] = useState([]);
+  console.log(cart.map((item) => item));
   const [allCart, setAllCart] = useState([]);
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    // Check if the user is logged in
-    if (user) {
-      const token = localStorage.getItem("token");
-      fetch(
-        `https://mern-ecom-backend-henna.vercel.app/api/cart/${user._id}`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => {
+    const fetchCartData = async () => {
+      if (user) {
+        const token = localStorage.getItem("token");
+        try {
+          const response = await fetch(
+            `https://mern-ecom-backend-henna.vercel.app/api/cart/${user._id}`,
+            {
+              headers: {
+                Authorization: token,
+              },
+            }
+          );
+          const data = await response.json();
           setCart(data.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      // User is not logged in, get cart data from localStorage
-      const cartData = JSON.parse(localStorage.getItem("cart")) || [];
-      setCart(cartData);
-    }
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        // User is not logged in, fetch product details from localStorage
+        const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+        const productDetails = [];
+        for (const item of cartData) {
+          try {
+            const response = await fetch(
+              `https://mern-ecom-backend-henna.vercel.app/api/product/${item.productId}`
+            );
+            const data = await response.json();
+            const mainData = data.data;
+            productDetails.push({ ...mainData, quantity: item.quantity });
+          } catch (error) {
+            console.error("Error fetching product data:", error);
+          }
+        }
+        setCart(productDetails);
+      }
+    };
+
+    fetchCartData();
   }, [user]);
 
   useEffect(() => {
@@ -115,27 +132,40 @@ const ShowCart = () => {
         <MainDashboard></MainDashboard>
       </div>
       <div className="flex-grow">
-        {user?.role === "user" && (
-          <div>
-            <h2 className="text-center text-3xl dark:text-white font-normal my-4">
-              CART
-            </h2>
-            {cart.length === 0 ? (
-              <p className="text-center text-red-700">No Items in your cart</p>
-            ) : (
-              <div className="grid md:grid-cols-1 gap-2 px-2">
-                
-                {cart.orders.map((service) => (
-                  <ServiceCart
-                    key={service._id}
-                    service={service}
-                    handleDelete={handleDelete}
-                  ></ServiceCart>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
+       
+
+{user?.role === "user" && (
+  <div>
+  <h2 className="text-center text-3xl dark:text-white font-normal my-4">
+    CART
+  </h2>
+  {cart.length === 0 ? (
+    <p className="text-center text-red-700">No Items in your cart</p>
+  ) : (
+    <div className="grid md:grid-cols-1 gap-2 px-2">
+      {user ? (
+        // User is logged in, render ServiceCart component
+        cart.orders.map((service) => (
+          <ServiceCart
+            key={service._id}
+            service={service}
+            handleDelete={handleDelete}
+          />
+        ))
+      ) : (
+        // User is not logged in, render product details directly
+        cart?.map((product) => (
+          <NonUserCart
+            key={product._id}
+            product={product}
+            handleDelete={handleDelete}
+          />
+        ))
+      )}
+    </div>
+  )}
+</div>
+)}
 
         <div className="flex flex-wrap justify-center">
           <Helmet>
