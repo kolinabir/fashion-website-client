@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 export const AuthContext = createContext();
@@ -63,15 +64,10 @@ const AuthProvider = ({ children }) => {
         const data = await response.json();
         localStorage.setItem("token", data.data.token);
         setUser(data.data.user);
-        Swal.fire({
-          title: "Success!",
-          text: "Login successfully!",
-          icon: "success",
-          confirmButtonText: "Cool",
-        });
+        return data;
       } else {
         // Handle login failure
-        console.error("Login failed");
+        return Promise.reject("Invalid username or password");
       }
     } catch (error) {
       console.error("Error during login", error);
@@ -94,6 +90,7 @@ const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={{ ...authInfo, signIn, signOut }}>
       {children}
+      <ToastContainer />
     </AuthContext.Provider>
   );
 };

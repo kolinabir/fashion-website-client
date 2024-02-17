@@ -10,9 +10,9 @@ const ShowProduct = () => {
       <Helmet>
         <title>AN NOOR | HOME</title>
       </Helmet>
-      <div className="container mx-auto py-6">
+      <div className=" py-6">
         <h1 className="text-2xl font-semibold mb-4">NEW ARRIVALS</h1>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6   gap-4">
           {product.data.slice(0, 12).map((productDetail, index) => (
             <div
               key={index}

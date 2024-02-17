@@ -97,16 +97,17 @@ const Navbar = () => {
                   </NavLink>
                 </div>
               )}
-              <NavLink
-                to="/cart"
-                className={({ isActive }) =>
-                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
-                }
-              >
-                <FaCartArrowDown className="text-xl" />
-              </NavLink>
             </div>
-
+            <NavLink
+              to="/cart"
+              className={({ isActive }) =>
+                isActive
+                  ? "btn btn-primary btn-sm mr-3"
+                  : "btn btn-sm btn-ghost mr-3"
+              }
+            >
+              <FaCartArrowDown className="text-xl w-6 h-6" />
+            </NavLink>
             {/* User authentication and profile dropdown */}
 
             {user ? (

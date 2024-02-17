@@ -1,14 +1,17 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
 import { FaGoogle } from "react-icons/fa6";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { signIn, googleSignIn } = useContext(AuthContext);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSocialSign = (media) => {
     media()
@@ -27,41 +30,27 @@ const Login = () => {
       });
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     const form = e.target;
-    // const email = form.email.value;
     const username = form.name.value;
     const password = form.password.value;
 
-    signIn(username, password)
-    navigate(location?.state ? location.state : "/");
-
-    // console.log(email,password);
-
-    // signIn(email, password)
-    //     .then(res => {
-    //         console.log(res.user);
-    //         Swal.fire({
-    //             title: 'Success!',
-    //             text: 'You are logged in',
-    //             icon: 'success',
-    //             confirmButtonText: 'Cool'
-    //         })
-    //         navigate(location?.state ? location.state : "/");
-
-    //     })
-    //     .catch(err => {
-    //         console.error(err);
-    //         Swal.fire({
-    //             title: 'Error!',
-    //             text: err.message,
-    //             icon: 'error',
-    //             confirmButtonText: 'Cool'
-    //         })
-
-    //     })
+    try {
+      setLoading(true); // Set loading to true when starting the authentication process
+      const data = await signIn(username, password);
+      console.log(data);
+      toast.success("Login successful");
+      // Use navigate to redirect after successful login
+      navigate(location?.state ? location.state : "/");
+    } catch (error) {
+      setError(true);
+      console.error(error);
+      toast.error("Invalid username or password");
+    } finally {
+      setLoading(false); // Set loading to false when the authentication process is complete
+    }
   };
 
   return (
@@ -107,54 +96,17 @@ const Login = () => {
             </div>
           </div>
           <div className="inline-flex items-center">
-            <label
-              className="relative -ml-2.5 flex cursor-pointer items-center rounded-full p-3"
-              for="checkbox"
-              data-ripple-dark="true"
-            >
-              <input
-                type="checkbox"
-                className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:bg-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
-                id="checkbox"
-              />
-              <span className="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-3.5 w-3.5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  stroke="currentColor"
-                  stroke-width="1"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </span>
-            </label>
-            <label
-              className="mt-px cursor-pointer select-none font-light text-gray-700"
-              for="checkbox"
-            >
-              <p className="flex items-center font-sans text-sm font-normal leading-normal text-gray-700 antialiased">
-                I agree the
-                <a
-                  className="font-medium transition-colors hover:text-pink-500"
-                  href="#"
-                >
-                  &nbsp;Terms and Conditions
-                </a>
-              </p>
-            </label>
+            {error && (
+              <span className="text-red-500">Invalid username or password</span>
+            )}
           </div>
           <button
             className="mt-6 block w-full select-none rounded-lg bg-pink-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
             type="submit"
             data-ripple-light="true"
+            disabled={loading} // Disable the button when loading is true
           >
-            Login
+            {loading ? "Checking..." : "Login"}
           </button>
           <p className="mt-4 block text-center font-sans text-base font-normal leading-relaxed text-gray-700 antialiased">
             Didn't register yet?{" "}
