@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import ShowService from "../ShowProduct/ShowProduct";
 import Category from "./Category/Category";
 import Banner from "./Banner/Banner";
+import BannerWithSwiper from "./Banner/BannerWithSwiper";
 
 const Home = () => {
   return (
@@ -10,6 +11,7 @@ const Home = () => {
         <title>AN NOOR | Home</title>
       </Helmet>
       {/* <Category></Category> */}
+      <BannerWithSwiper />
       <Banner />
       {/* <Sponsor></Sponsor> */}
       <ShowService />

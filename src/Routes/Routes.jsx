@@ -88,9 +88,7 @@ const Routes = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: (
-            <ShowCart></ShowCart>
-        ),
+        element: <ShowCart></ShowCart>,
         // loader: () => fetch("https://fashion-nine.vercel.app/orders", {credentials: 'include'}),
       },
       {
