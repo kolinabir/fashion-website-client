@@ -167,7 +167,7 @@ const Navbar = () => {
                 className="btn btn-primary btn-sm"
                 type="button"
               >
-                <span>Login/Register</span>
+                <span>Login</span>
               </Link>
             )}
 

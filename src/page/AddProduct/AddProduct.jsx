@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import { Helmet } from "react-helmet-async";
 import MainDashboard from "../../Components/Navbar/MainDashboard";
+import { imageUpload } from "../../api/utils";
 
 const AddProduct = () => {
   const { user } = useContext(AuthContext);
@@ -18,7 +19,7 @@ const AddProduct = () => {
       });
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let categoryId = "";
     categories.map((category) => {
@@ -30,7 +31,10 @@ const AddProduct = () => {
     const form = e.target;
     const title = form.title.value;
     const price = Number(form.price.value);
-    const image = form.image.value;
+    const image = form.image.files[0];
+    const imageData = await imageUpload(image);
+    // console.log(imageData.data.display_url);
+    const mainImage = imageData.data.display_url;
     const description = form.description.value;
     const companyName = form.companyName.value;
     const policy = form.policy.value;
@@ -46,7 +50,7 @@ const AddProduct = () => {
       sellerName: user.email,
       price,
       description,
-      image,
+      image: mainImage,
       companyName,
       size: singleSize,
       sizes,
@@ -97,20 +101,19 @@ const AddProduct = () => {
         </div>
         <div className="mx-2 my-4">
           <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-            <div className="grid md:grid-cols-2 md:gap-6">
-              <div className="relative z-0 w-full mb-6 group">
-                <input
-                  type="text"
-                  name="image"
-                  id="image"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
-                  required
-                />
-                <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                  Image
-                </label>
-              </div>
+            <div>
+              <label htmlFor="image" className="block mb-2 text-sm">
+                Select Image:
+              </label>
+              <input
+                required
+                type="file"
+                id="image"
+                name="image"
+                accept="image/*"
+              />
+            </div>
+            <div>
               <div className="relative z-0 w-full mb-6 group">
                 <input
                   type="text"
