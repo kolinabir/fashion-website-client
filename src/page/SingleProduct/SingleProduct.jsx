@@ -131,13 +131,15 @@ const SingleProduct = () => {
         <Helmet>
           <title>AN NOOR | Checkout</title>
         </Helmet>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="relative h-[655px] md:h-[655px] md:w-[655px] mb-4 md:mb-0">
-            <img
-              src={product?.data.image}
-              alt={product?.data.name}
-              className="object-cover w-full h-full rounded-lg"
-            />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
+          <div className="flex justify-center">
+            <div className="relative h-56  md:h-[655px] md:w-[655px] mb-4 md:mb-0">
+              <img
+                src={product?.data.image}
+                alt={product?.data.name}
+                className="object-cover md:w-full h-full rounded-lg"
+              />
+            </div>
           </div>
           <div className="flex flex-col  md:mt-10 md:ml-2">
             <h2 className="text-3xl md:text-2xl font-light mb-4 text-gray-700">
