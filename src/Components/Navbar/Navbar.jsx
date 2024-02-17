@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const { user, signOut, loading } = useContext(AuthContext);
+  const [cartTotal, setCartTotal] = useState(0);
+  console.log(cartTotal);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -30,6 +32,29 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    const fetchCartData = async () => {
+      if (user) {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(`https://mern-ecom-backend-henna.vercel.app/api/cart/${user._id}`, {
+            headers: {
+              Authorization: token,
+            },
+          });
+          const data = await response.json();
+          // Calculate total number of items in the cart
+          const totalItems = data.data.orders[0].products.length || 0;
+          setCartTotal(totalItems);
+        } catch (error) {
+          console.error("Error fetching cart data:", error);
+        }
+      }
+    };
+  
+    fetchCartData();
+  }, [user]);
 
   return (
     <div className="shadow-md">
@@ -111,6 +136,7 @@ const Navbar = () => {
                 }
               >
                 <FaCartArrowDown className="text-xl w-6 h-6" />
+                {cartTotal > 0 && <span className="ml-1">{cartTotal}</span>}
               </NavLink>
             )}
             {/* User authentication and profile dropdown */}
