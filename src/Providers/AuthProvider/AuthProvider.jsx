@@ -1,12 +1,14 @@
 import { createContext, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import Swal from "sweetalert2";
+
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
+
+
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -79,6 +81,7 @@ const AuthProvider = ({ children }) => {
   const signOut = () => {
     localStorage.removeItem("token");
     setUser(null);
+    
   };
 
   const authInfo = {

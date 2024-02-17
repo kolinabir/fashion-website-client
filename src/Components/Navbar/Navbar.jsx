@@ -2,12 +2,15 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import { FaCartArrowDown, FaUserCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const { user, signOut, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     signOut();
+    navigate("/");
   };
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -98,16 +101,18 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-            <NavLink
-              to="/cart"
-              className={({ isActive }) =>
-                isActive
-                  ? "btn btn-primary btn-sm mr-3"
-                  : "btn btn-sm btn-ghost mr-3"
-              }
-            >
-              <FaCartArrowDown className="text-xl w-6 h-6" />
-            </NavLink>
+            {user?.role === "user" && (
+              <NavLink
+                to="/cart"
+                className={({ isActive }) =>
+                  isActive
+                    ? "btn btn-primary btn-sm mr-3"
+                    : "btn btn-sm btn-ghost mr-3"
+                }
+              >
+                <FaCartArrowDown className="text-xl w-6 h-6" />
+              </NavLink>
+            )}
             {/* User authentication and profile dropdown */}
 
             {user ? (
