@@ -2,105 +2,120 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, NavLink } from "react-router-dom";
 import { FaArrowRightLong, FaChevronDown } from "react-icons/fa6";
-import { FaSearch } from "react-icons/fa";
+import { FaArrowCircleDown, FaSearch } from "react-icons/fa";
 import Rating from "react-rating-stars-component";
+import { DotLoader } from "react-spinners";
 
 const ShowAllProduct = () => {
-  const [product, setProduct] = useState();
+  const [product, setProduct] = useState([]);
   const [sortBy, setSortBy] = useState("latest");
   const [category, setCategory] = useState("all");
-  const [singleCategory, setSingleCategory] = useState();
-  const [forceRender, setForceRender] = useState(false);
+  const [singleCategory, setSingleCategory] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const handleSearchSubmit = () => {
     const search = document.querySelector("input[name=search]").value;
     const filteredProduct = product?.data?.filter((productDetail) => {
       return productDetail.title.toLowerCase().includes(search.toLowerCase());
     });
-    setProduct({ data: filteredProduct });
+    setProduct({ data: filteredProduct } || []);
   };
+
   useEffect(() => {
-    const fetchData = async () => {
+    const loadAllProduct = async () => {
       try {
-        let apiUrl = "https://mern-ecom-backend-henna.vercel.app/api/product";
-
-        if (category !== "all") {
-          apiUrl += `?category=${category}`;
-        }
-        // Append sorting parameter to API URL based on sortBy value
-        if (sortBy === "latest") {
-          apiUrl += "?sort=-createdAt";
-        } else if (sortBy === "lowToHigh") {
-          apiUrl += "?sort=price";
-        } else if (sortBy === "highToLow") {
-          apiUrl += "?sort=-price";
-        }
-
-        const response = await fetch(apiUrl);
-
+        const response = await fetch(
+          "https://mern-ecom-backend-henna.vercel.app/api/product"
+        );
         if (response.ok) {
           const data = await response.json();
-          setProduct(data);
+          setProduct(data || []);
         } else {
           console.error("Error fetching product data");
         }
       } catch (error) {
         console.error("Error fetching product data", error);
+      } finally {
+        setLoading(false);
       }
     };
+    loadAllProduct();
 
-    fetchData();
-  }, [sortBy, category]);
-
-  useEffect(() => {
-    const fetchData = async () => {
+    const loadAllCategory = async () => {
       try {
         const response = await fetch(
           "https://mern-ecom-backend-henna.vercel.app/api/categories/"
         );
-
         if (response.ok) {
           const data = await response.json();
-          // console.log(data.data);
-          setSingleCategory(data.data); // Assuming the API response is an array of products
+          setSingleCategory(data.data || []);
+        } else {
+          console.error("Error fetching category data");
+        }
+      } catch (error) {
+        console.error("Error fetching category data", error);
+      }
+    };
+    loadAllCategory();
+  }, []);
+
+  const handleSortChange = (value) => {
+    setLoading(true);
+
+    // Copy the product data to avoid mutating the original state
+    const sortedProducts = [...product.data];
+
+    if (value === "lowToHigh") {
+      sortedProducts.sort((a, b) => a.price - b.price);
+    } else if (value === "highToLow") {
+      sortedProducts.sort((a, b) => b.price - a.price);
+    }
+
+    setProduct({ data: sortedProducts });
+    setSortBy(value);
+    setLoading(false);
+  };
+
+  const handleCategoryChange = async (categoryId) => {
+    setLoading(true);
+    // if category id is same as the previous category id, then load all products
+
+    if (categoryId === category) {
+      try {
+        const response = await fetch(
+          "https://mern-ecom-backend-henna.vercel.app/api/product"
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setProduct(data);
+          setCategory("all");
+          setLoading(false);
         } else {
           console.error("Error fetching product data");
         }
       } catch (error) {
         console.error("Error fetching product data", error);
       }
-    };
-    fetchData();
-  }, []);
+    }
 
-  const handleSortChange = (value) => {
-    setSortBy(value);
-  };
-  const handleCategoryChange = async (categoryId) => {
-    try {
-      let apiUrl = "https://mern-ecom-backend-henna.vercel.app/api/product";
-
-      if (categoryId !== "all") {
-        apiUrl += `?category=${categoryId}`;
+    if (categoryId !== category) {
+      try {
+        const response = await fetch(
+          `https://mern-ecom-backend-henna.vercel.app/api/product/category/${categoryId}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setProduct(data);
+          setCategory(categoryId);
+          setLoading(false);
+        } else {
+          console.error("Error fetching product data");
+        }
+      } catch (error) {
+        console.error("Error fetching product data", error);
       }
-
-      const response = await fetch(apiUrl);
-
-      if (response.ok) {
-        const data = await response.json();
-        setProduct(data.data);
-        setCategory(categoryId);
-        setForceRender(!forceRender); // Trigger re-render
-      } else {
-        console.error("Error fetching product data");
-      }
-    } catch (error) {
-      console.error("Error fetching product data", error);
     }
   };
-  useEffect(() => {
-    // Empty dependency array to run only once when component mounts
-    // This ensures that the component is re-rendered when forceRender changes
-  }, [forceRender]);
 
   const toggleSortDropdown = () => {
     const dropdown = document.getElementById("sort-dropdown");
@@ -139,20 +154,6 @@ const ShowAllProduct = () => {
                     aria-orientation="vertical"
                     aria-labelledby="options-menu"
                   >
-                    <button
-                      onClick={() => {
-                        handleSortChange("latest");
-                        toggleSortDropdown();
-                      }}
-                      className={`${
-                        sortBy === "latest"
-                          ? "text-indigo-500 font-semibold"
-                          : "text-gray-700"
-                      } block px-4 py-2 text-sm leading-5 w-full text-left`}
-                      role="menuitem"
-                    >
-                      Latest
-                    </button>
                     <button
                       onClick={() => {
                         handleSortChange("lowToHigh");
@@ -212,10 +213,9 @@ const ShowAllProduct = () => {
               {singleCategory ? (
                 <ul className="space-y-2">
                   {singleCategory.map((categoryItem, index) => (
-                    <li key={index} className="flex items-center">
-                      <div>
+                    <li key={index} className="flex items-center font-semibold">
+                      <div className="w-full">
                         <NavLink
-                          to={`/showProduct/category/${categoryItem._id}`}
                           onClick={() => handleCategoryChange(categoryItem._id)}
                           className={
                             category === categoryItem._id
@@ -223,9 +223,11 @@ const ShowAllProduct = () => {
                               : ""
                           }
                         >
-                          <span className="mr-2">{categoryItem.name}</span>
+                          <div className="flex items-center justify-between">
+                            <span className="mr-2">{categoryItem.name}</span>
+                          </div>
                         </NavLink>
-                        <hr className="w-60  border-gray-300" />
+                        <hr className="w-full border-gray-300" />
                       </div>
                     </li>
                   ))}
@@ -235,89 +237,101 @@ const ShowAllProduct = () => {
               )}
             </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {product &&
-              product?.data
-                .filter((productDetail) => {
-                  if (category === "all") return true;
-                  return productDetail.category === category;
-                })
-                .map((productDetail, index) => (
-                  <Link to={`/showProduct/${productDetail?._id}`} key={index}>
-                    <div>
-                      <div
-                        key={index}
-                        className={`bg-white p-4 !h-[450px] rounded-lg shadow-md col-span-1 relative overflow-hidden ${
-                          index >= 15 ? "hidden" : ""
-                        }`}
-                        style={{
-                          height: "400px",
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <div className="group flex-grow">
-                          <div className="relative overflow-hidden aspect-w-1 aspect-h-1 group-hover:scale-105 transition-transform">
-                            <Link to={`/showProduct/${productDetail?._id}`}>
-                              <img
-                                src={productDetail?.image}
-                                alt={productDetail?.yourName}
-                                className="w-full h-[200px] sm:h-[250px] object-cover rounded-md"
-                              />
-                            </Link>
-                          </div>
-                          <Link
-                            to={`/showProduct/${productDetail?._id}`}
-                            className="text-base text-deep-orange-900 font-semibold 
+
+          {loading ? (
+            <div className="mx-auto h-[500px]">
+              <div className="flex items-center justify-center ">
+                <div className="flex flex-col items-center">
+                  <div>
+                    <DotLoader color="#36d7b7" />
+                  </div>
+                  <p className="mt-4 text-gray-700">Loading...</p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {product?.data?.map((productDetail, index) => (
+                <Link to={`/showProduct/${productDetail?._id}`} key={index}>
+                  <div>
+                    <div
+                      key={index}
+                      className={`bg-white p-4 !h-[450px] rounded-lg shadow-md col-span-1 relative overflow-hidden ${
+                        index >= 15 ? "hidden" : ""
+                      }`}
+                      style={{
+                        height: "400px",
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <div className="group flex-grow">
+                        <div className="relative overflow-hidden aspect-w-1 aspect-h-1 group-hover:scale-105 transition-transform">
+                          <Link to={`/showProduct/${productDetail?._id}`}>
+                            <img
+                              src={productDetail?.image}
+                              alt={productDetail?.yourName}
+                              className="w-full h-[200px] sm:h-[250px] object-cover rounded-md"
+                            />
+                          </Link>
+                        </div>
+                        <Link
+                          to={`/showProduct/${productDetail?._id}`}
+                          className="text-base text-deep-orange-900 font-semibold 
                     hover:text-deep-orange-700 transition duration-300 ease-in-out
                   mt-2 flex justify-center overflow-hidden"
-                            style={{ height: "50px" }}
-                          >
-                            {productDetail?.title}
-                          </Link>
+                          style={{ height: "50px" }}
+                        >
+                          {productDetail?.title}
+                        </Link>
 
-                          <div className="flex justify-center">
-                            <Rating
-                              value={productDetail?.averageRating}
-                              count={5}
-                              size={24}
-                              activeColor="#ffd700"
-                              edit={false}
-                            />
-                          </div>
-
-                          <div className="flex justify-center mb-2">
-                            <h3 className="text-sm font-medium mx-3 text-green-500">
-                              ৳ {productDetail?.price}
-                            </h3>
-                          </div>
-
-                          <div className="flex justify-center mb-2">
-                            <h2
-                              className="text-xs text-black overflow-hidden"
-                              style={{ height: "20px" }}
-                            >
-                              {productDetail?.companyName}
-                            </h2>
-                          </div>
+                        <div className="flex justify-center">
+                          <Rating
+                            value={
+                              typeof productDetail?.averageRating === "number"
+                                ? productDetail?.averageRating
+                                : 0
+                            }
+                            count={5}
+                            size={24}
+                            activeColor="#ffd700"
+                            edit={false}
+                          />
                         </div>
 
-                        <div className="absolute bottom-0 left-0 right-0">
-                          <Link
-                            className="text-center py-2 flex justify-center items-center rounded-md bg-blue-400 text-white hover:bg-indigo-700 transition duration-300 ease-in-out"
-                            style={{ marginTop: "auto" }}
+                        <div className="flex justify-center mb-2">
+                          <h3 className="text-sm font-medium mx-3 text-green-500">
+                            ৳ {productDetail?.price}
+                          </h3>
+                        </div>
+
+                        <div className="flex justify-center mb-2">
+                          <h2
+                            className="text-xs text-black overflow-hidden"
+                            style={{ height: "20px" }}
                           >
-                            <h1 className="text-sm md:text-xs md:font-semibold">
-                              Show details
-                            </h1>
-                            <FaArrowRightLong className="ml-1" />
-                          </Link>
+                            {productDetail?.companyName}
+                          </h2>
                         </div>
                       </div>
+
+                      <div className="absolute bottom-0 left-0 right-0">
+                        <Link
+                          className="text-center py-2 flex justify-center items-center rounded-md bg-blue-400 text-white hover:bg-indigo-700 transition duration-300 ease-in-out"
+                          style={{ marginTop: "auto" }}
+                        >
+                          <h1 className="text-sm md:text-xs md:font-semibold">
+                            Show details
+                          </h1>
+                          <FaArrowRightLong className="ml-1" />
+                        </Link>
+                      </div>
                     </div>
-                  </Link>
-                ))}
-          </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
