@@ -3,7 +3,8 @@ import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const SingleProduct = () => {
   const [isLoading, setIsLoading] = useState(true);
   const product = useLoaderData();
@@ -16,7 +17,6 @@ const SingleProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const form = e.target;
     const customerName = form.customerName.value;
     const address = form.address.value;
@@ -48,8 +48,7 @@ const SingleProduct = () => {
       body: JSON.stringify(service),
     })
       .then((res) => res.json())
-      .then((data) => {
-      })
+      .then((data) => {})
       .catch((err) => {
         console.log(err);
       });
@@ -87,12 +86,7 @@ const SingleProduct = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        Swal.fire({
-          title: "Success!",
-          text: "Product added to cart!",
-          icon: "success",
-          confirmButtonText: "Cool",
-        });
+        toast.success("Product added to cart!");
       })
       .catch((err) => {
         console.log(err);
@@ -108,6 +102,7 @@ const SingleProduct = () => {
     };
     cartInfo.push(newCartItem);
     localStorage.setItem("cart", JSON.stringify(cartInfo));
+    toast.success("Product added to cart!");
   };
 
   const handleAddToCart = () => {
@@ -115,12 +110,6 @@ const SingleProduct = () => {
       addToCart();
     } else {
       saveToLocalCart();
-      Swal.fire({
-        title: "Error!",
-        text: "Please login to add to cart!",
-        icon: "error",
-        confirmButtonText: "Cool",
-      });
     }
   };
 
@@ -133,7 +122,7 @@ const SingleProduct = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
 
   return (
@@ -401,6 +390,7 @@ const SingleProduct = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
