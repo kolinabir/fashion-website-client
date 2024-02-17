@@ -11,42 +11,44 @@ const Banner = () => {
           <Link className="">
             <img
               className="picture-btn"
-              src="https://d2m144zuam4eta.cloudfront.net/wp-content/uploads/2023/10/Untitled-2.webp"
+              src="https://i.ibb.co/bjtBSmq/photo-2024-02-14-21-01-37.jpg"
               alt=""
             />
           </Link>
           <Link className="">
             <img
               className="picture-btn"
-              src="https://d2m144zuam4eta.cloudfront.net/wp-content/uploads/2023/10/Untitled-2.webp"
+              src="
+              https://i.ibb.co/yXsjpSv/photo-2024-02-14-20-59-37.jpg"
               alt=""
             />
           </Link>
           <Link className="">
             <img
               className="picture-btn"
-              src="https://d2m144zuam4eta.cloudfront.net/wp-content/uploads/2023/10/Untitled-2.webp"
+              src="
+              https://i.ibb.co/BKFNgcT/photo-2024-02-14-20-59-36.jpg"
               alt=""
             />
           </Link>
           <Link className="">
             <img
               className="picture-btn"
-              src="https://d2m144zuam4eta.cloudfront.net/wp-content/uploads/2023/10/Untitled-2.webp"
+              src="https://i.ibb.co/8YKd2kC/photo-2024-02-14-20-59-35.jpg"
               alt=""
             />
           </Link>
           <Link className="">
             <img
               className="picture-btn"
-              src="https://d2m144zuam4eta.cloudfront.net/wp-content/uploads/2023/10/Untitled-2.webp"
+              // src="https://d2m144zuam4eta.cloudfront.net/wp-content/uploads/2023/10/Untitled-2.webp"
               alt=""
             />
           </Link>
           <Link className="">
             <img
               className="picture-btn"
-              src="https://d2m144zuam4eta.cloudfront.net/wp-content/uploads/2023/10/Untitled-2.webp"
+              // src="https://d2m144zuam4eta.cloudfront.net/wp-content/uploads/2023/10/Untitled-2.webp"
               alt=""
             />
           </Link>

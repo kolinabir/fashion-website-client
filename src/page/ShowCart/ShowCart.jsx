@@ -128,12 +128,12 @@ const ShowCart = () => {
       });
   };
   // Calculate subtotal and total
-  const subtotal = cart.reduce((acc, product) => {
+  const subtotal = cart.length > 0 ? cart.reduce((acc, product) => {
     return acc + product.price * product.quantity;
-  }, 0);
-  const totalPrice = subtotal + shippingFee;
+  }, 0) : 0;
   
-
+  // console.log("Cart:", cart);
+  const totalPrice = subtotal + shippingFee;
 
 
   return (

@@ -2,9 +2,10 @@ import React from "react";
 import { FaTimes } from "react-icons/fa";
 
 const ServiceCart = ({ service, handleDelete }) => {
+  // console.log(service);
   // Calculate subtotal
-  const subtotal = service.products.reduce((acc, product) => {
-    return acc + product.productId.price * product.quantity;
+  const subtotal = service?.products?.reduce((acc, product) => {
+    return acc + product?.productId?.price * product?.quantity;
   }, 0);
 
   // Shipping fee and total price (assuming here, adjust as needed)
@@ -37,39 +38,39 @@ const ServiceCart = ({ service, handleDelete }) => {
           </thead>
           {/* Table body */}
           <tbody className="bg-white divide-y divide-gray-200">
-            {service.products &&
-              service.products.length > 0 &&
-              service.products.map((product, index) => (
+            {service?.products &&
+              service?.products?.length > 0 &&
+              service?.products?.map((product, index) => (
                 <tr key={index}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="flex-shrink-0">
                         <img
                           className="h-10 w-10"
-                          src={product.productId.image}
+                          src={product?.productId?.image}
                           alt=""
                         />
                       </div>
                       <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">
-                          {product.productId.title}
+                          {product?.productId?.title}
                         </div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    ${product.productId.price}
+                    ${product?.productId?.price}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {product.quantity}
+                    {product?.quantity}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    ${product.productId.price * product.quantity}
+                    ${product?.productId?.price * product?.quantity}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <button
                       className="text-red-600 hover:text-red-900"
-                      onClick={() => handleDelete(service._id)}
+                      onClick={() => handleDelete(service?._id)}
                     >
                       <FaTimes />
                     </button>
