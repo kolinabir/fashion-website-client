@@ -76,9 +76,10 @@ const ShowCart = () => {
         setAllCart(data.data);
       });
   }, [user]);
+
   const handleDelete = (itemId) => {
     if (user) {
-      fetch(`https://mern-ecom-backend-henna.vercel.app/api/order/${itemId}`, {
+      fetch(`https://mern-ecom-backend-henna.vercel.app/api/cart/delete/${itemId}`, {
         method: "DELETE",
         headers: {
           Authorization: localStorage.getItem("token"),
@@ -87,9 +88,20 @@ const ShowCart = () => {
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
-            setCart((prevCartItems) =>
-              prevCartItems.filter((item) => item._id !== itemId)
-            );
+            console.log("Item deleted successfully");
+            // Fetch the updated cart data again
+            fetch(`https://mern-ecom-backend-henna.vercel.app/api/cart/${user._id}`, {
+              headers: {
+                Authorization: localStorage.getItem("token"),
+              },
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                setCart(data.data);
+              })
+              .catch((error) => {
+                console.error("Error fetching updated cart data:", error);
+              });
             removeFromLocalStorage(itemId);
           }
         })
@@ -101,6 +113,7 @@ const ShowCart = () => {
     }
   };
 
+  
   const removeFromLocalStorage = (itemId) => {
     // Handle delete for local storage
     const cartInfo = JSON.parse(localStorage.getItem("cart")) || [];
@@ -217,7 +230,7 @@ const ShowCart = () => {
                     </table>
                   </div>
                   {/* Cart totals */}
-                  <div className="flex  flex-col md:border-l border-gray-300 ">
+                  <div className="flex flex-col md:border-l border-gray-300 ">
                     <div className="md:mx-7">
                       <div>
                         <h2 className="text-[#3A89B4]  text-lg font-semibold">

@@ -2,7 +2,8 @@ import React from "react";
 import { FaTimes } from "react-icons/fa";
 
 const ServiceCart = ({ service, handleDelete }) => {
-  // console.log(service);
+
+  console.log(service);
   // Calculate subtotal
   const subtotal = service?.products?.reduce((acc, product) => {
     return acc + product?.productId?.price * product?.quantity;
@@ -13,7 +14,7 @@ const ServiceCart = ({ service, handleDelete }) => {
   const totalPrice = subtotal + shippingFee;
 
   return (
-    <div className="grid md:gap-6 md:grid-cols-4 md:mx-20">
+    <div className="grid md:grid-cols-4 md:mr-36">
       {/* Product table */}
       <div className="overflow-x-auto md:grid md:col-span-3">
         <table className="min-w-full divide-y divide-gray-200">
@@ -70,7 +71,7 @@ const ServiceCart = ({ service, handleDelete }) => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <button
                       className="text-red-600 hover:text-red-900"
-                      onClick={() => handleDelete(service?._id)}
+                      onClick={() => handleDelete(product?.productId._id)}
                     >
                       <FaTimes />
                     </button>
