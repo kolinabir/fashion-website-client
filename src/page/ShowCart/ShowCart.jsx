@@ -8,14 +8,15 @@ import NonUserCart from "./nonUserCart";
 
 const ShowCart = () => {
   const [cart, setCart] = useState([]);
-  console.log(cart);
-
   const [allCart, setAllCart] = useState([]);
+  const [loading, setLoading] = useState(true); // Added loading state
   const { user } = useContext(AuthContext);
-  const shippingFee = 10; // Sample shipping fee
+  const shippingFee = 10;
 
   useEffect(() => {
     const fetchCartData = async () => {
+      setLoading(true); // Set loading to true when fetching data
+
       if (user) {
         const token = localStorage.getItem("token");
         try {
@@ -30,12 +31,13 @@ const ShowCart = () => {
           const data = await response.json();
           setCart(data.data);
         } catch (error) {
-          console.log(error);
+          console.error("Error fetching user cart data:", error);
         }
       } else {
-        // User is not logged in, fetch product details from localStorage
+        // Fetch product details from localStorage for non-logged-in users
         const cartData = JSON.parse(localStorage.getItem("cart")) || [];
         const productDetails = [];
+
         for (const item of cartData) {
           try {
             const response = await fetch(
@@ -48,8 +50,11 @@ const ShowCart = () => {
             console.error("Error fetching product data:", error);
           }
         }
+
         setCart(productDetails);
       }
+
+      setLoading(false); // Set loading to false when data fetching is done
     };
 
     fetchCartData();
@@ -71,7 +76,6 @@ const ShowCart = () => {
         setAllCart(data.data);
       });
   }, [user]);
-
   const handleDelete = (itemId) => {
     if (user) {
       fetch(`https://mern-ecom-backend-henna.vercel.app/api/order/${itemId}`, {
@@ -128,21 +132,27 @@ const ShowCart = () => {
       });
   };
   // Calculate subtotal and total
-  const subtotal = cart.length > 0 ? cart.reduce((acc, product) => {
-    return acc + product.price * product.quantity;
-  }, 0) : 0;
-  
+  const subtotal =
+    cart.length > 0
+      ? cart.reduce((acc, product) => {
+          return acc + product.price * product.quantity;
+        }, 0)
+      : 0;
+
   // console.log("Cart:", cart);
   const totalPrice = subtotal + shippingFee;
 
-
   return (
-    <div className="flex">
+    <div className="flex h-[80vh]">
       <div>
         <MainDashboard></MainDashboard>
       </div>
       <div className="flex-grow">
-        {user?.role === "user" ? (
+        {loading ? ( // Display loading state
+          <div className="flex items-center justify-center h-screen">
+            <p className="text-center">Loading...</p>
+          </div>
+        ) : user?.role === "user" ? (
           <div>
             <h2 className="text-center text-3xl dark:text-white font-normal my-4">
               CART
@@ -171,7 +181,6 @@ const ShowCart = () => {
             ) : (
               // if user isn't logged in
 
-            
               <div className="grid md:grid-cols-1 gap-2 px-2">
                 <div className="grid md:gap-6 md:grid-cols-4 md:mx-20">
                   {/* Product table */}
