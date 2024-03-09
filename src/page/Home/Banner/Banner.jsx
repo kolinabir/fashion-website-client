@@ -13,6 +13,7 @@ const Banner = () => {
               className="picture-btn w-full"
               src="https://i.ibb.co/bjtBSmq/photo-2024-02-14-21-01-37.jpg"
               alt=""
+              loading="lazy"
             />
           </Link>
           <Link className="">
@@ -21,6 +22,7 @@ const Banner = () => {
               src="
               https://i.ibb.co/yXsjpSv/photo-2024-02-14-20-59-37.jpg"
               alt=""
+              loading="lazy"
             />
           </Link>
           <Link className="">
@@ -29,6 +31,7 @@ const Banner = () => {
               src="
               https://i.ibb.co/BKFNgcT/photo-2024-02-14-20-59-36.jpg"
               alt=""
+              loading="lazy"
             />
           </Link>
           <Link className="">
@@ -36,6 +39,7 @@ const Banner = () => {
               className="picture-btn w-full  h-full object-cover"
               src="https://i.ibb.co/8YKd2kC/photo-2024-02-14-20-59-35.jpg"
               alt=""
+              loading="lazy"
             />
           </Link>
           <Link className="">

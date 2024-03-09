@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import ShowService from "../ShowProduct/ShowProduct";
 import Banner from "./Banner/Banner";
 import BannerWithSwiper from "./Banner/BannerWithSwiper";
+import React from "react";
 
 const Home = () => {
   return (
@@ -11,7 +12,9 @@ const Home = () => {
       </Helmet>
       <BannerWithSwiper />
       <Banner />
-      <ShowService />
+      <React.Suspense fallback={<div>Loading...</div>}>
+        <ShowService />
+      </React.Suspense>
     </div>
   );
 };

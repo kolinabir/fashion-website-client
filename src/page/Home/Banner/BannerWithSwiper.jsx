@@ -32,22 +32,25 @@ const BannerWithSwiper = () => {
               <SwiperSlide>
                 <img
                   className="w-full rounded-sm md:h-[60vh] object-cover  transition duration-1000 ease-in-out transform hover:scale-105"
-                  src="https://i.ibb.co/WxXCqmJ/image.png"
+                  src="https://i.ibb.co/CMJtLXW/image2.jpg"
                   alt=""
+                  loading="lazy"
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
                   className="w-full rounded-sm md:h-[60vh] object-cover  transition duration-1000 ease-in-out transform hover:scale-105"
-                  src="https://i.ibb.co/WxXCqmJ/image.png"
+                  src="https://i.ibb.co/CMJtLXW/image2.jpg"
                   alt=""
+                  loading="lazy"
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
                   className="w-full rounded-sm md:h-[60vh] object-cover  transition duration-1000 ease-in-out transform hover:scale-105"
-                  src="https://i.ibb.co/WxXCqmJ/image.png"
+                  src="https://i.ibb.co/CMJtLXW/image2.jpg"
                   alt=""
+                  loading="lazy"
                 />
               </SwiperSlide>
             </Swiper>
