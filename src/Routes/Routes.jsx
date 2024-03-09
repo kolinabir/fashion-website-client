@@ -67,7 +67,6 @@ const Routes = createBrowserRouter([
       {
         path: "/Products",
         element: <ShowAllProduct></ShowAllProduct>,
-        // loader: () => fetch("https://mern-ecom-backend-henna.vercel.app/api/product", {credentials: 'include'}),
       },
       {
         path: "/showProduct/:id",

@@ -86,7 +86,7 @@ const ServiceCart = ({ service, handleDelete }) => {
             <h2 className="text-[#3A89B4]  text-lg font-semibold">CART TOTAL</h2>
           </div>
           <div className="flex justify-between ">
-            <p className="text-base font-normal">Subtotal:</p> <p>${subtotal}</p>
+            <p className="text-base font-normal">Subtotal:</p> <p>৳{subtotal}</p>
           </div>
           <hr />
           <div>

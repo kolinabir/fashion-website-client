@@ -15,7 +15,7 @@ const ShowAllProduct = () => {
 
   const handleSearchSubmit = () => {
     const search = document.querySelector("input[name=search]").value;
-    const filteredProduct = product?.data?.filter((productDetail) => {
+    const filteredProduct = product?.data?.products?.filter((productDetail) => {
       return productDetail.title.toLowerCase().includes(search.toLowerCase());
     });
     setProduct({ data: filteredProduct } || []);
@@ -63,7 +63,7 @@ const ShowAllProduct = () => {
     setLoading(true);
 
     // Copy the product data to avoid mutating the original state
-    const sortedProducts = [...product.data];
+    const sortedProducts = [...product.data.products];
 
     if (value === "lowToHigh") {
       sortedProducts.sort((a, b) => a.price - b.price);
@@ -71,49 +71,32 @@ const ShowAllProduct = () => {
       sortedProducts.sort((a, b) => b.price - a.price);
     }
 
-    setProduct({ data: sortedProducts });
+    setProduct({ data: { products: sortedProducts } });
     setSortBy(value);
     setLoading(false);
   };
 
   const handleCategoryChange = async (categoryId) => {
     setLoading(true);
-    // if category id is same as the previous category id, then load all products
 
-    if (categoryId === category) {
-      try {
-        const response = await fetch(
-          "https://mern-ecom-backend-henna.vercel.app/api/product"
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setProduct(data);
-          setCategory("all");
-          setLoading(false);
-        } else {
-          console.error("Error fetching product data");
-        }
-      } catch (error) {
-        console.error("Error fetching product data", error);
-      }
-    }
+    try {
+      const url =
+        categoryId === "all"
+          ? "https://mern-ecom-backend-henna.vercel.app/api/product"
+          : `https://mern-ecom-backend-henna.vercel.app/api/product/category/${categoryId}`;
 
-    if (categoryId !== category) {
-      try {
-        const response = await fetch(
-          `https://mern-ecom-backend-henna.vercel.app/api/product/category/${categoryId}`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setProduct(data);
-          setCategory(categoryId);
-          setLoading(false);
-        } else {
-          console.error("Error fetching product data");
-        }
-      } catch (error) {
-        console.error("Error fetching product data", error);
+      const response = await fetch(url);
+      if (response.ok) {
+        const data = await response.json();
+        setProduct(data);
+        setCategory(categoryId);
+      } else {
+        console.error("Error fetching product data");
       }
+    } catch (error) {
+      console.error("Error fetching product data", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -251,7 +234,7 @@ const ShowAllProduct = () => {
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {product?.data?.map((productDetail, index) => (
+              {product?.data?.products?.map((productDetail, index) => (
                 <Link to={`/showProduct/${productDetail?._id}`} key={index}>
                   <div>
                     <div
