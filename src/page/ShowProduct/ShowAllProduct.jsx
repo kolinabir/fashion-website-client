@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, NavLink } from "react-router-dom";
 import { FaArrowRightLong, FaChevronDown } from "react-icons/fa6";
-import { FaArrowCircleDown, FaSearch } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import Rating from "react-rating-stars-component";
 import { DotLoader } from "react-spinners";
 

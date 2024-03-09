@@ -33,7 +33,6 @@ const AddProduct = () => {
     const price = Number(form.price.value);
     const image = form.image.files[0];
     const imageData = await imageUpload(image);
-    // console.log(imageData.data.display_url);
     const mainImage = imageData.data.display_url;
     const description = form.description.value;
     const companyName = form.companyName.value;
@@ -69,12 +68,10 @@ const AddProduct = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
       })
       .catch((err) => {
         console.log(err);
       });
-    // console.log(service);
     form.reset();
     Swal.fire({
       title: "Success!",
@@ -270,7 +267,7 @@ const AddProduct = () => {
               type="submit"
               className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              ADD HERE
+              ADD Product
             </button>
           </form>
         </div>

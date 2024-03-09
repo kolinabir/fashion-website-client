@@ -2,13 +2,11 @@ const ConfirmServices = ({ booking, handleBookingConfirm }) => {
   console.log(booking);
   const {
     _id,
-    title,
     district,
     thana,
     address,
     phoneNumber,
     price,
-    image,
     status,
     email,
     customerName,
@@ -39,7 +37,7 @@ const ConfirmServices = ({ booking, handleBookingConfirm }) => {
       <td>{district}</td>
       <td>{thana}</td>
       <td>{address}</td>
-      <td>${price}</td>
+      <td>৳{price}</td>
       <td className="relative inline-block text-left">
         <div>
           <button

@@ -2,8 +2,6 @@ import React from "react";
 import { FaTimes } from "react-icons/fa";
 
 const ServiceCart = ({ service, handleDelete }) => {
-
-  console.log(service);
   // Calculate subtotal
   const subtotal = service?.products?.reduce((acc, product) => {
     return acc + product?.productId?.price * product?.quantity;
@@ -60,13 +58,13 @@ const ServiceCart = ({ service, handleDelete }) => {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    ${product?.productId?.price}
+                  ৳{product?.productId?.price}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {product?.quantity}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    ${product?.productId?.price * product?.quantity}
+                  ৳{product?.productId?.price * product?.quantity}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <button
@@ -94,12 +92,12 @@ const ServiceCart = ({ service, handleDelete }) => {
           <div>
             <div className="flex justify-between ">
               <p className="text-base font-normal">Shipping Fee:</p>{" "}
-              <p>${shippingFee}</p>
+              <p>৳{shippingFee}</p>
             </div>
           </div>
           <hr />
           <div className="flex justify-between ">
-            <p className="text-lg font-semibold">Total: </p> <p>${totalPrice}</p>
+            <p className="text-lg font-semibold">Total: </p> <p>৳{totalPrice}</p>
           </div>
         </div>
         <button className="bg-[#3A89B4] text-white px-4 py-2 mt-4 rounded-md mx-7 hover:bg-[#1F5F78] focus:outline-none">

@@ -6,7 +6,6 @@ import MainDashboard from "../../Components/Navbar/MainDashboard";
 
 const ManageProduct = () => {
   const [addedItem, setAddedItem] = useState([]);
-  // console.log(addedItem);
 
   useEffect(() => {
     fetch(`https://mern-ecom-backend-henna.vercel.app/api/product/`)

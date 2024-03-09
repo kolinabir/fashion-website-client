@@ -52,7 +52,6 @@ const Category = () => {
                       </span>
                     </NavLink>
                   </div>
-                  {/* Add more elements related to the category if needed */}
                 </div>
               </div>
             ))}

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const { user, signOut, loading } = useContext(AuthContext);
   const [cartTotal, setCartTotal] = useState(0);
-  console.log(cartTotal);
+  // console.log(cartTotal);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -92,6 +92,7 @@ const Navbar = () => {
                 />
               </svg>
             </button>
+            
 
             {/* Navigation links */}
             <div className="ml-auto mr-2 hidden items-center gap-6 lg:flex">

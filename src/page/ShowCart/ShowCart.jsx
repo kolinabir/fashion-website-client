@@ -239,19 +239,19 @@ const ShowCart = () => {
                       </div>
                       <div className="flex justify-between ">
                         <p className="text-base font-normal">Subtotal:</p>{" "}
-                        <p>${subtotal}</p>
+                        <p>৳{subtotal}</p>
                       </div>
                       <hr />
                       <div>
                         <div className="flex justify-between ">
                           <p className="text-base font-normal">Shipping Fee:</p>{" "}
-                          <p>${shippingFee}</p>
+                          <p>৳{shippingFee}</p>
                         </div>
                       </div>
                       <hr />
                       <div className="flex justify-between ">
                         <p className="text-lg font-semibold">Total: </p>{" "}
-                        <p>${totalPrice}</p>
+                        <p>৳{totalPrice}</p>
                       </div>
                     </div>
                     <button className="bg-[#3A89B4] text-white px-4 py-2 mt-4 rounded-md mx-7 hover:bg-[#1F5F78] focus:outline-none">
