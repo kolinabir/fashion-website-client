@@ -21,46 +21,47 @@ const AddProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    const form = e.target;
+    const title = form.title.value;
+    const price = Number(form.price.value);
+    const images = form.image.files; // Access multiple files
+    const imageData = await Promise.all(Array.from(images).map(async (image) => {
+      const imageData = await imageUpload(image);
+      return imageData.data.display_url;
+    }));
+    const description = form.description.value;
+    const companyName = form.companyName.value;
+    const policy = form.policy.value;
+    const singleSize = form.singleSize.value;
+    const color = form.color.value;
+    const quantity = Number(form.quantity.value);
     let categoryId = "";
-    categories.map((category) => {
+    categories.forEach((category) => {
       if (category.name === selectedCategory) {
         categoryId = category._id;
       }
     });
-
-    const form = e.target;
-    const title = form.title.value;
-    const price = Number(form.price.value);
-    const image = form.image.files[0];
-    const imageData = await imageUpload(image);
-    const mainImage = imageData.data.display_url;
-    const description = form.description.value;
-    const companyName = form.companyName.value;
-    const policy = form.policy.value;
-    const size = form.size.value;
-    const singleSize = form.singleSize.value;
-    const sizes = [];
-    const color = form.color.value;
-    sizes.push(size);
-    const quantity = Number(form.quantity.value);
-
+  
+    // Push singleSize value to the sizes array
+    const sizes = [singleSize];
+  
     const service = {
       title,
       sellerName: user.email,
       price,
       description,
-      image: mainImage,
+      image: imageData, // Update to include multiple images as an array
       companyName,
-      size: singleSize,
-      sizes,
+      sizes, // Pushed singleSize value to the sizes array
       color,
       policy,
       category: categoryId,
       quantity,
     };
-
+  
     const token = localStorage.getItem("token");
-
+  
     fetch("https://mern-ecom-backend-henna.vercel.app/api/product", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: token },
@@ -68,6 +69,7 @@ const AddProduct = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        // Handle success
       })
       .catch((err) => {
         console.log(err);
@@ -108,6 +110,7 @@ const AddProduct = () => {
                 id="image"
                 name="image"
                 accept="image/*"
+                multiple // Add the multiple attribute
               />
             </div>
             <div>
@@ -168,7 +171,7 @@ const AddProduct = () => {
                   Price
                 </label>
               </div>
-              <div className="relative z-0 w-full mb-6 group">
+              {/* <div className="relative z-0 w-full mb-6 group">
                 <input
                   type="text"
                   name="size"
@@ -180,7 +183,7 @@ const AddProduct = () => {
                 <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                   Size
                 </label>
-              </div>
+              </div> */}
               <div className="relative z-0 w-full mb-6 group">
                 <input
                   type="text"
