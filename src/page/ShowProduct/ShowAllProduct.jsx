@@ -61,17 +61,17 @@ const ShowAllProduct = () => {
 
   const handleSortChange = (value) => {
     setLoading(true);
-
+  
     // Copy the product data to avoid mutating the original state
-    const sortedProducts = [...product.data.products];
-
+    const sortedProducts = [...product];
+  
     if (value === "lowToHigh") {
       sortedProducts.sort((a, b) => a.price - b.price);
     } else if (value === "highToLow") {
       sortedProducts.sort((a, b) => b.price - a.price);
     }
-
-    setProduct({ data: { products: sortedProducts } });
+  
+    setProduct(sortedProducts);
     setSortBy(value);
     setLoading(false);
   };
@@ -300,6 +300,7 @@ const ShowAllProduct = () => {
 
                       <div className="absolute bottom-0 left-0 right-0">
                         <Link
+                        to={`/showProduct/${productDetail?._id}`}
                           className="text-center py-2 flex justify-center items-center rounded-md bg-blue-400 text-white hover:bg-indigo-700 transition duration-300 ease-in-out"
                           style={{ marginTop: "auto" }}
                         >

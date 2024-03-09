@@ -64,7 +64,7 @@ const ManageProduct = () => {
           <p>You Have No Service Available</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-2">
-            {addedItem.map((itemDetails, index) => (
+            {addedItem?.products?.map((itemDetails, index) => (
               <ProductCard
                 key={index}
                 itemDetails={itemDetails}
