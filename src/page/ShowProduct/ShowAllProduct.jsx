@@ -29,7 +29,7 @@ const ShowAllProduct = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          setProduct(data || []);
+          setProduct(data.data.products);
         } else {
           console.error("Error fetching product data");
         }
@@ -88,7 +88,7 @@ const ShowAllProduct = () => {
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
-        setProduct(data);
+        setProduct(data.data);
         setCategory(categoryId);
       } else {
         console.error("Error fetching product data");
@@ -234,7 +234,7 @@ const ShowAllProduct = () => {
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {product?.data?.products?.map((productDetail, index) => (
+              {product?.map((productDetail, index) => (
                 <Link to={`/showProduct/${productDetail?._id}`} key={index}>
                   <div>
                     <div
