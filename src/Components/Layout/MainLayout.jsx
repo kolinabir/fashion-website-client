@@ -1,16 +1,22 @@
+import { lazy, Suspense } from "react";
 import { Outlet } from "react-router-dom";
-import Navbar from "../Navbar/Navbar";
-import Footer from "../../page/Footer/Footer";
 
+// Lazy-loaded components
+const LazyNavbar = lazy(() => import("../Navbar/Navbar"));
+const LazyFooter = lazy(() => import("../../page/Footer/Footer"));
 
 const MainLayout = () => {
-    return (
-        <div>
-            <Navbar></Navbar>
-            <Outlet></Outlet>
-            <Footer></Footer>
-        </div>
-    );
+  return (
+    <div>
+      <Suspense fallback={<div>Loading Navbar...</div>}>
+        <LazyNavbar />
+      </Suspense>
+      <Outlet></Outlet>
+      <Suspense fallback={<div>Loading Footer...</div>}>
+        <LazyFooter />
+      </Suspense>
+    </div>
+  );
 };
 
 export default MainLayout;

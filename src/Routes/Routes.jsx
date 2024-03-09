@@ -4,16 +4,25 @@ import Login from "../Components/Login/Login";
 import Register from "../Components/Register/Register";
 import Home from "../page/Home/Home";
 import PrivetsRoutes from "./PrivetRoutes/PrivetsRoutes";
-import ShowCart from "../page/ShowCart/ShowCart";
 import ErrorPage from "../Components/ErrorPage/ErrorPage";
-import Dashboard from "../Components/Navbar/Dashboard";
-import AddCategory from "../page/AddProduct/AddCategory";
-import AddProduct from "../page/AddProduct/AddProduct";
-import ShowProduct from "../page/ShowProduct/ShowProduct";
-import ShowAllProduct from "../page/ShowProduct/ShowAllProduct";
-import SingleProduct from "../page/SingleProduct/SingleProduct";
-import ManageProduct from "../page/ManageProduct/ManageProduct";
-import UpdateProduct from "../page/ManageProduct/UpdateProduct";
+import { Suspense, lazy } from "react";
+
+const LazyAddProduct = lazy(() => import("../page/AddProduct/AddProduct"));
+const LazyDashboard = lazy(() => import("../Components/Navbar/Dashboard"));
+const LazyAddCategory = lazy(() => import("../page/AddProduct/AddCategory"));
+const LazyShowProduct = lazy(() => import("../page/ShowProduct/ShowProduct"));
+const LazyShowAllProduct = lazy(() =>
+  import("../page/ShowProduct/ShowAllProduct")
+);
+const LazySingleProduct = lazy(() =>
+  import("../page/SingleProduct/SingleProduct")
+);
+const LazyManageProduct = lazy(() =>
+  import("../page/ManageProduct/ManageProduct")
+);
+const LazyUpdateProduct = lazy(() =>
+  import("../page/ManageProduct/UpdateProduct")
+);
 
 const Routes = createBrowserRouter([
   {
@@ -32,14 +41,14 @@ const Routes = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () =>
-          fetch("https://mern-ecom-backend-henna.vercel.app/api/product"),
       },
       {
         path: "addProduct",
         element: (
           <PrivetsRoutes>
-            <AddProduct></AddProduct>
+            <Suspense fallback={<div>Loading...</div>}>
+              <LazyAddProduct />
+            </Suspense>
           </PrivetsRoutes>
         ),
       },
@@ -47,7 +56,9 @@ const Routes = createBrowserRouter([
         path: "/dashboard",
         element: (
           <PrivetsRoutes>
-            <Dashboard></Dashboard>
+            <Suspense fallback={<div>Loading...</div>}>
+              <LazyDashboard />
+            </Suspense>
           </PrivetsRoutes>
         ),
       },
@@ -55,37 +66,47 @@ const Routes = createBrowserRouter([
         path: "addCategory",
         element: (
           <PrivetsRoutes>
-            <AddCategory></AddCategory>
+            <Suspense fallback={<div>Loading...</div>}>
+              <LazyAddCategory />
+            </Suspense>
           </PrivetsRoutes>
         ),
       },
       {
         path: "/",
-        element: <ShowProduct></ShowProduct>,
-        // loader: () => fetch("https://mern-ecom-backend-henna.vercel.app/api/product"),
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyShowProduct />
+          </Suspense>
+        ),
       },
       {
         path: "/Products",
-        element: <ShowAllProduct></ShowAllProduct>,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyShowAllProduct />
+          </Suspense>
+        ),
       },
       {
         path: "/showProduct/:id",
-        element: <SingleProduct></SingleProduct>,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazySingleProduct />
+          </Suspense>
+        ),
         loader: ({ params }) =>
           fetch(
             `https://mern-ecom-backend-henna.vercel.app/api/product/${params.id}`
           ),
       },
       {
-        path: "/cart",
-        element: <ShowCart></ShowCart>,
-        // loader: () => fetch("https://fashion-nine.vercel.app/orders", {credentials: 'include'}),
-      },
-      {
         path: "/manageProduct",
         element: (
           <PrivetsRoutes>
-            <ManageProduct />
+            <Suspense fallback={<div>Loading...</div>}>
+              <LazyManageProduct />
+            </Suspense>
           </PrivetsRoutes>
         ),
       },
@@ -93,7 +114,9 @@ const Routes = createBrowserRouter([
         path: "/update/:id",
         element: (
           <PrivetsRoutes>
-            <UpdateProduct></UpdateProduct>
+            <Suspense fallback={<div>Loading...</div>}>
+              <LazyUpdateProduct />
+            </Suspense>
           </PrivetsRoutes>
         ),
         loader: ({ params }) =>
@@ -104,5 +127,4 @@ const Routes = createBrowserRouter([
     ],
   },
 ]);
-
 export default Routes;
