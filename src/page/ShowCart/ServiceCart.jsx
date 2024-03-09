@@ -3,13 +3,19 @@ import { FaTimes } from "react-icons/fa";
 
 const ServiceCart = ({ service, handleDelete }) => {
   // Calculate subtotal
-  const subtotal = service?.products?.reduce((acc, product) => {
-    return acc + product?.productId?.price * product?.quantity;
-  }, 0);
+  const subtotal =
+  service?.products?.reduce((acc, product) => {
+    return acc + (product?.productId?.price * product?.quantity || 0);
+  }, 0) || 0;
 
-  // Shipping fee and total price (assuming here, adjust as needed)
-  const shippingFee = 10; // Sample shipping fee
-  const totalPrice = subtotal + shippingFee;
+// Round the subtotal to two decimal places
+const roundedSubtotal = subtotal.toFixed(2);
+
+// Shipping fee and total price (assuming here, adjust as needed)
+const shippingFee = 10; // Sample shipping fee
+
+// Calculate the total price including shipping fee
+const totalPrice = (subtotal + shippingFee).toFixed(2);
 
   return (
     <div className="grid md:grid-cols-4 md:mr-36">
@@ -86,7 +92,7 @@ const ServiceCart = ({ service, handleDelete }) => {
             <h2 className="text-[#3A89B4]  text-lg font-semibold">CART TOTAL</h2>
           </div>
           <div className="flex justify-between ">
-            <p className="text-base font-normal">Subtotal:</p> <p>৳{subtotal}</p>
+            <p className="text-base font-normal">Subtotal:</p> <p>৳{roundedSubtotal}</p>
           </div>
           <hr />
           <div>
