@@ -6,6 +6,7 @@ import Home from "../page/Home/Home";
 import PrivetsRoutes from "./PrivetRoutes/PrivetsRoutes";
 import ErrorPage from "../Components/ErrorPage/ErrorPage";
 import { Suspense, lazy } from "react";
+import ShowCart from "../page/ShowCart/ShowCart";
 
 const LazyAddProduct = lazy(() => import("../page/AddProduct/AddProduct"));
 const LazyDashboard = lazy(() => import("../Components/Navbar/Dashboard"));
@@ -71,6 +72,11 @@ const Routes = createBrowserRouter([
             </Suspense>
           </PrivetsRoutes>
         ),
+      },
+      {
+        path: "/cart",
+        element: <ShowCart></ShowCart>,
+        // loader: () => fetch("https://fashion-nine.vercel.app/orders", {credentials: 'include'}),
       },
       {
         path: "/",

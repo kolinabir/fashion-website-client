@@ -127,7 +127,7 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-            {user?.role === "user" && (
+            {user?.role !== "admin" && (
               <NavLink
                 to="/cart"
                 className={({ isActive }) =>

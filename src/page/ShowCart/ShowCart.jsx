@@ -5,6 +5,7 @@ import ConfirmServices from "./ConfirmProduct/ConfirmProduct";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import MainDashboard from "../../Components/Navbar/MainDashboard";
 import NonUserCart from "./nonUserCart";
+import { DotLoader } from "react-spinners";
 
 const ShowCart = () => {
   const [cart, setCart] = useState([]);
@@ -163,8 +164,7 @@ const ShowCart = () => {
       <div className="flex-grow">
         {loading ? ( // Display loading state
           <div className="flex items-center justify-center h-screen">
-            <p className="text-center">Loading...</p>
-          </div>
+<DotLoader color="#36d7b7" />          </div>
         ) : user?.role === "user" ? (
           <div>
             <h2 className="text-center text-3xl dark:text-white font-normal my-4">
