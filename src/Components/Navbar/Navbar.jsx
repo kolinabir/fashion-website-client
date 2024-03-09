@@ -5,7 +5,7 @@ import { FaCartArrowDown, FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const { user, signOut, loading } = useContext(AuthContext);
+  const { user, signOut } = useContext(AuthContext);
   const [cartTotal, setCartTotal] = useState(0);
   // console.log(cartTotal);
   const navigate = useNavigate();
