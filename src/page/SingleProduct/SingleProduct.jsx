@@ -5,6 +5,8 @@ import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { DotLoader } from "react-spinners";
+
 const SingleProduct = () => {
   const [isLoading, setIsLoading] = useState(true);
   const product = useLoaderData();
@@ -122,7 +124,9 @@ const SingleProduct = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="flex items-center justify-center h-screen">
+    <DotLoader color="#36d7b7" />{" "}
+  </div>;
   }
 
   return (

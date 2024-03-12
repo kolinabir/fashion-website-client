@@ -80,22 +80,28 @@ const ShowCart = () => {
 
   const handleDelete = (itemId) => {
     if (user) {
-      fetch(`https://mern-ecom-backend-henna.vercel.app/api/cart/delete/${itemId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      })
+      fetch(
+        `https://mern-ecom-backend-henna.vercel.app/api/cart/delete/${itemId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
             console.log("Item deleted successfully");
             // Fetch the updated cart data again
-            fetch(`https://mern-ecom-backend-henna.vercel.app/api/cart/${user._id}`, {
-              headers: {
-                Authorization: localStorage.getItem("token"),
-              },
-            })
+            fetch(
+              `https://mern-ecom-backend-henna.vercel.app/api/cart/${user._id}`,
+              {
+                headers: {
+                  Authorization: localStorage.getItem("token"),
+                },
+              }
+            )
               .then((response) => response.json())
               .then((data) => {
                 setCart(data.data);
@@ -114,7 +120,6 @@ const ShowCart = () => {
     }
   };
 
-  
   const removeFromLocalStorage = (itemId) => {
     // Handle delete for local storage
     const cartInfo = JSON.parse(localStorage.getItem("cart")) || [];
@@ -153,8 +158,11 @@ const ShowCart = () => {
         }, 0)
       : 0;
 
-  // console.log("Cart:", cart);
-  const totalPrice = subtotal + shippingFee;
+  // Round the subtotal to two decimal places
+  const roundedSubtotal = Number(subtotal.toFixed(2));
+
+  // Calculate the total price including shipping fee
+  const totalPrice = roundedSubtotal + shippingFee;
 
   return (
     <div className="flex h-[80vh]">
@@ -164,7 +172,8 @@ const ShowCart = () => {
       <div className="flex-grow">
         {loading ? ( // Display loading state
           <div className="flex items-center justify-center h-screen">
-<DotLoader color="#36d7b7" />          </div>
+            <DotLoader color="#36d7b7" />{" "}
+          </div>
         ) : user?.role === "user" ? (
           <div>
             <h2 className="text-center text-3xl dark:text-white font-normal my-4">
@@ -239,7 +248,7 @@ const ShowCart = () => {
                       </div>
                       <div className="flex justify-between ">
                         <p className="text-base font-normal">Subtotal:</p>{" "}
-                        <p>৳{subtotal}</p>
+                        <p>৳{roundedSubtotal}</p>
                       </div>
                       <hr />
                       <div>

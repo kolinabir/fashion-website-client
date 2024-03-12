@@ -7,6 +7,7 @@ import PrivetsRoutes from "./PrivetRoutes/PrivetsRoutes";
 import ErrorPage from "../Components/ErrorPage/ErrorPage";
 import { Suspense, lazy } from "react";
 import ShowCart from "../page/ShowCart/ShowCart";
+import { DotLoader } from "react-spinners";
 
 const LazyAddProduct = lazy(() => import("../page/AddProduct/AddProduct"));
 const LazyDashboard = lazy(() => import("../Components/Navbar/Dashboard"));
@@ -47,7 +48,9 @@ const Routes = createBrowserRouter([
         path: "addProduct",
         element: (
           <PrivetsRoutes>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div className="flex items-center justify-center h-screen">
+            <DotLoader color="#36d7b7" />{" "}
+          </div>}>
               <LazyAddProduct />
             </Suspense>
           </PrivetsRoutes>
@@ -57,7 +60,9 @@ const Routes = createBrowserRouter([
         path: "/dashboard",
         element: (
           <PrivetsRoutes>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div className="flex items-center justify-center h-screen">
+            <DotLoader color="#36d7b7" />{" "}
+          </div>}>
               <LazyDashboard />
             </Suspense>
           </PrivetsRoutes>
@@ -67,7 +72,9 @@ const Routes = createBrowserRouter([
         path: "addCategory",
         element: (
           <PrivetsRoutes>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div className="flex items-center justify-center h-screen">
+            <DotLoader color="#36d7b7" />{" "}
+          </div>}>
               <LazyAddCategory />
             </Suspense>
           </PrivetsRoutes>
@@ -81,7 +88,9 @@ const Routes = createBrowserRouter([
       {
         path: "/",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div className="flex items-center justify-center h-screen">
+            <DotLoader color="#36d7b7" />{" "}
+          </div>}>
             <LazyShowProduct />
           </Suspense>
         ),
@@ -89,7 +98,9 @@ const Routes = createBrowserRouter([
       {
         path: "/Products",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div className="flex items-center justify-center h-screen">
+            <DotLoader color="#36d7b7" />{" "}
+          </div>}>
             <LazyShowAllProduct />
           </Suspense>
         ),
@@ -97,7 +108,9 @@ const Routes = createBrowserRouter([
       {
         path: "/showProduct/:id",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div className="flex items-center justify-center h-screen">
+            <DotLoader color="#36d7b7" />{" "}
+          </div>}>
             <LazySingleProduct />
           </Suspense>
         ),
@@ -110,7 +123,9 @@ const Routes = createBrowserRouter([
         path: "/manageProduct",
         element: (
           <PrivetsRoutes>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div className="flex items-center justify-center h-screen">
+            <DotLoader color="#36d7b7" />{" "}
+          </div>}>
               <LazyManageProduct />
             </Suspense>
           </PrivetsRoutes>
@@ -120,7 +135,9 @@ const Routes = createBrowserRouter([
         path: "/update/:id",
         element: (
           <PrivetsRoutes>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div className="flex items-center justify-center h-screen">
+            <DotLoader color="#36d7b7" />{" "}
+          </div>}>
               <LazyUpdateProduct />
             </Suspense>
           </PrivetsRoutes>

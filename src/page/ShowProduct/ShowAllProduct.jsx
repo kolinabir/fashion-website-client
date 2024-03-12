@@ -228,7 +228,7 @@ const ShowAllProduct = () => {
                   <div>
                     <DotLoader color="#36d7b7" />
                   </div>
-                  <p className="mt-4 text-gray-700">Loading...</p>
+                  {/* <p className="mt-4 text-gray-700">Loading...</p> */}
                 </div>
               </div>
             </div>
