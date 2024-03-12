@@ -180,7 +180,10 @@ const ShowCart = () => {
               CART
             </h2>
             {cart.length === 0 ? (
-              <p className="text-center text-red-700">No Items in your cart</p>
+               <div className="text-center">
+      <p className="text-red-700 mt-4 text-lg font-semibold">Oops! Your cart is empty.</p>
+      <p className="text-gray-600">Add some items to your cart to get started.</p>
+    </div>
             ) : (
               <div className="grid md:grid-cols-1 gap-2 px-2">
                 {cart?.orders?.map((service) => (
@@ -199,7 +202,10 @@ const ShowCart = () => {
               CART
             </h2>
             {cart.length === 0 ? (
-              <p className="text-center text-red-700">No Items in your cart</p>
+              <div className="text-center">
+              <p className="text-red-700 mt-4 text-lg font-semibold">Oops! Your cart is empty.</p>
+              <p className="text-gray-600">Add some items to your cart to get started.</p>
+            </div>
             ) : (
               // if user isn't logged in
 
