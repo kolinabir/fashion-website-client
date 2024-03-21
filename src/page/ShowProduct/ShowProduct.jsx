@@ -1,30 +1,23 @@
-import { Link, useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Helmet } from "react-helmet-async";
 import Rating from "react-rating-stars-component";
-import { useEffect, useMemo, useState } from "react";
-
-const fetchData = async () => {
-  try {
-    const response = await fetch(
-      "https://mern-ecom-backend-henna.vercel.app/api/product",
-      { priority: "low" }
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    return null;
-  }
-};
+import { useQuery } from "@tanstack/react-query";
+import { getProduct } from "../../api/api";
+import { DotLoader } from "react-spinners";
 
 const ShowProduct = () => {
-  const [product, setProduct] = useState(null);
-
-  useEffect(() => {
-    fetchData().then((data) => setProduct(data));
-  }, []);
-  const memoizedProduct = useMemo(() => product, [product]);
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["products"],
+    queryFn: getProduct,
+    select: (data) => {
+      return data.data;
+    },
+  });
   return (
     <div className="mx-3 md:mx-20 lg:mx-36">
       <Helmet>
@@ -32,9 +25,21 @@ const ShowProduct = () => {
       </Helmet>
       <div className="py-6">
         <h1 className="text-2xl font-semibold mb-4">NEW ARRIVALS</h1>
-        {memoizedProduct && (
+        {isLoading && (
+          <div className="mx-auto h-[500px]">
+            <div className="flex items-center justify-center ">
+              <div className="flex flex-col items-center">
+                <div>
+                  <DotLoader color="#36d7b7" />
+                </div>
+                {/* <p className="mt-4 text-gray-700">Loading...</p> */}
+              </div>
+            </div>
+          </div>
+        )}
+        {products && (
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6   gap-4">
-            {memoizedProduct?.data?.products
+            {products?.data?.products
               ?.slice(0, 12)
               .map((productDetail, index) => (
                 <div
@@ -111,13 +116,13 @@ const ShowProduct = () => {
           </div>
         )}
 
-        {memoizedProduct?.data?.length > 5 && (
-          <div className="flex justify-center mt-10">
-            <Link to="/Products" className="btn">
-              Show All SERVICES
-            </Link>
-          </div>
-        )}
+        {/* {products?.data.length > 0 && ( */}
+        <div className="flex justify-center mt-10">
+          <Link to="/Products" className="btn">
+            Show All Products
+          </Link>
+        </div>
+        {/* )} */}
       </div>
     </div>
   );
