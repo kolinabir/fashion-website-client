@@ -16,7 +16,6 @@ const ShowCart = () => {
   useEffect(() => {
     const fetchCartData = async () => {
       setLoading(true); // Set loading to true when fetching data
-
       if (user) {
         const token = localStorage.getItem("token");
         try {
@@ -118,6 +117,7 @@ const ShowCart = () => {
     } else {
       removeFromLocalStorage(itemId);
       setCartChange(!cartChange);
+      setCart(cart.filter((item) => item._id !== itemId));
     }
   };
 
