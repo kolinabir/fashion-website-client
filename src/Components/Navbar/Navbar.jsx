@@ -3,10 +3,11 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import { FaCartArrowDown, FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { getCartItems } from "../../api/api";
+import { useQuery } from "@tanstack/react-query";
 
 const Navbar = () => {
   const { user, signOut } = useContext(AuthContext);
-  const [cartTotal, setCartTotal] = useState(0);
   // console.log(cartTotal);
   const navigate = useNavigate();
 
@@ -33,28 +34,19 @@ const Navbar = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const fetchCartData = async () => {
-      if (user) {
-        try {
-          const token = localStorage.getItem("token");
-          const response = await fetch(`https://mern-ecom-backend-henna.vercel.app/api/cart/${user._id}`, {
-            headers: {
-              Authorization: token,
-            },
-          });
-          const data = await response.json();
-          // Calculate total number of items in the cart
-          const totalItems = data.data.orders[0].products.length || 0;
-          setCartTotal(totalItems);
-        } catch (error) {
-          console.error("Error fetching cart data:", error);
-        }
-      }
-    };
-  
-    fetchCartData();
-  }, [user]);
+  const {
+    data: cartItems,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["cartItems"],
+    queryFn: () => getCartItems(user?._id, localStorage.getItem("token")),
+    select: (data) => {
+      return data.data.orders[0].products.length;
+    },
+    refetchInterval: 100,
+  });
 
   return (
     <div className="shadow-md">
@@ -92,7 +84,6 @@ const Navbar = () => {
                 />
               </svg>
             </button>
-            
 
             {/* Navigation links */}
             <div className="ml-auto mr-2 hidden items-center gap-6 lg:flex">
@@ -112,7 +103,7 @@ const Navbar = () => {
               >
                 Products
               </NavLink>
-              {user && (
+              {user?.role == "admin" && (
                 <div className="relative hidden md:block group">
                   <NavLink
                     to="/dashboard"
@@ -137,7 +128,7 @@ const Navbar = () => {
                 }
               >
                 <FaCartArrowDown className="text-xl w-6 h-6" />
-                {cartTotal > 0 && <span className="ml-1">{cartTotal}</span>}
+                {cartItems > 0 && <span className="ml-1">{cartItems}</span>}
               </NavLink>
             )}
             {/* User authentication and profile dropdown */}
