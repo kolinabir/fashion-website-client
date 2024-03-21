@@ -12,7 +12,7 @@ import Images from "../SingleProduct/ImageGallery/ImageGallery";
 const SingleProduct = () => {
   const [isLoading, setIsLoading] = useState(true);
   const product = useLoaderData();
-  const { user, cartChange, setCartChange } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState("description");
 
   useEffect(() => {
@@ -89,7 +89,7 @@ const SingleProduct = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
+        console.log(data);
         toast.success("Product added to cart!");
       })
       .catch((err) => {
@@ -105,9 +105,7 @@ const SingleProduct = () => {
       quantity: 1,
     };
     cartInfo.push(newCartItem);
-    setCartChange(!cartChange);
     localStorage.setItem("cart", JSON.stringify(cartInfo));
-
     toast.success("Product added to cart!");
   };
 
