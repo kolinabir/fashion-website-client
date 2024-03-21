@@ -118,7 +118,10 @@ const ShowProduct = () => {
 
         {/* {products?.data.length > 0 && ( */}
         <div className="flex justify-center mt-10">
-          <Link to="/Products" className="btn">
+          <Link
+            to="/Products"
+            className="bg-[#349234] text-white px-3 py-1.5 rounded-md  font-semibold  transition duration-300 ease-in-out"
+          >
             Show All Products
           </Link>
         </div>
