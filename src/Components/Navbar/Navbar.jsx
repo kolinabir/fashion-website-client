@@ -92,7 +92,9 @@ const Navbar = () => {
               <NavLink
                 to="/"
                 className={({ isActive }) =>
-                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
+                  isActive
+                    ? "bg-[#349234] text-white px-3 py-1.5 rounded-md  font-semibold  transition duration-300 ease-in-out"
+                    : "text-gray-900 px-3 py-1.5 rounded-md  font-semibold  transition duration-300 ease-in-out"
                 }
               >
                 HOME
@@ -100,7 +102,9 @@ const Navbar = () => {
               <NavLink
                 to="/products"
                 className={({ isActive }) =>
-                  isActive ? "btn btn-primary btn-sm" : "btn btn-sm btn-ghost"
+                  isActive
+                    ? "bg-[#349234] text-white px-3 py-1.5 rounded-md  font-semibold  transition duration-300 ease-in-out"
+                    : "text-gray-900 px-3 py-1.5 rounded-md  font-semibold  transition duration-300 ease-in-out"
                 }
               >
                 Products
@@ -111,8 +115,8 @@ const Navbar = () => {
                     to="/dashboard"
                     className={({ isActive }) =>
                       isActive
-                        ? "btn btn-primary btn-sm"
-                        : "btn btn-sm btn-ghost"
+                        ? "bg-[#349234] text-white px-3 py-1.5 rounded-md  font-semibold  transition duration-300 ease-in-out"
+                        : "text-gray-900 px-3 py-1.5 rounded-md  font-semibold  transition duration-300 ease-in-out"
                     }
                   >
                     Dashboard
@@ -125,8 +129,8 @@ const Navbar = () => {
                 to="/cart"
                 className={({ isActive }) =>
                   isActive
-                    ? "btn btn-primary btn-sm mr-3"
-                    : "btn btn-sm btn-ghost mr-3"
+                    ? "btn btn-neutral border border-[#349234] !bg-[#349234] btn-sm mr-3 hover:bg-[#349234] hover:text-white hover:border-[#349234]"
+                    : "btn btn-sm btn-ghost mr-3 "
                 }
               >
                 <FaCartArrowDown className="text-xl w-6 h-6" />
@@ -190,7 +194,7 @@ const Navbar = () => {
             ) : (
               <Link
                 to="/login"
-                className="btn btn-primary btn-sm"
+                className=" bg-[#349234] text-white px-3 py-1.5 rounded-md  font-semibold  transition duration-300 ease-in-out"
                 type="button"
               >
                 <span>Login</span>

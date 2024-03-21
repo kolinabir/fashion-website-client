@@ -27,12 +27,12 @@ const BannerWithSwiper = () => {
                 pauseOnMouseEnter: true,
               }}
               modules={[Pagination, Autoplay]}
-              className="mySwiper"
+              className="mySwiper bg-blue-gray-100"
             >
-              <SwiperSlide>
+              <SwiperSlide className="">
                 <img
-                  className="w-full rounded-sm md:h-[60vh] object-cover  transition duration-1000 ease-in-out transform hover:scale-105"
-                  src="https://i.ibb.co/CMJtLXW/image2.jpg"
+                  className="w-full  rounded-sm md:h-[60vh] object-cover  transition duration-1000 ease-in-out transform  hover:scale-105"
+                  src="https://i.ibb.co/VH3jhNC/image.png"
                   alt=""
                   loading="lazy"
                 />
@@ -40,7 +40,7 @@ const BannerWithSwiper = () => {
               <SwiperSlide>
                 <img
                   className="w-full rounded-sm md:h-[60vh] object-cover  transition duration-1000 ease-in-out transform hover:scale-105"
-                  src="https://i.ibb.co/CMJtLXW/image2.jpg"
+                  src="https://i.ibb.co/HTdW4d6/image.png"
                   alt=""
                   loading="lazy"
                 />
@@ -48,7 +48,7 @@ const BannerWithSwiper = () => {
               <SwiperSlide>
                 <img
                   className="w-full rounded-sm md:h-[60vh] object-cover  transition duration-1000 ease-in-out transform hover:scale-105"
-                  src="https://i.ibb.co/CMJtLXW/image2.jpg"
+                  src="https://i.ibb.co/PwxH4BW/image.png"
                   alt=""
                   loading="lazy"
                 />
@@ -57,6 +57,11 @@ const BannerWithSwiper = () => {
           </div>
           <div className="md:col-span-4 bg-red-300 rounded-sm">
             {/* Need to  add */}
+            <img
+              className="h-full w-full rounded-sm object-cover"
+              src="https://i.ibb.co/PhF22y9/photo-2024-03-16-20-46-49.jpg"
+              alt=""
+            />
           </div>
         </div>
       </div>
