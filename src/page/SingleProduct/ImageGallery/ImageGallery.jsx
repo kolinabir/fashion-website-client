@@ -1,81 +1,55 @@
-import {useRef, useState, useEffect} from "react";
+import { useRef, useState, useEffect } from "react";
 import "./ImageGallery.scss";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/scss/image-gallery.scss";
 
-const Images = ({product}) => {
-    // const toggleFullScreen = () => {
-    //     if (!fullscreen) {
-    //         // Enter fullscreen mode
-    //         if (imageGalleryRef.current) {
-    //             imageGalleryRef.current.requestFullscreen();
-    //             setFullscreen(true);
-    //         }
-    //     } else {
-    //         if (document.exitFullscreen) {
-    //             document.exitFullscreen();
-    //             setFullscreen(false);
-    //         }
-    //     }
-    // };
-    console.log(product);
-    
-    const images = [
-        {
-            original: `${product?.data?.image[0]}`,
-            originalHeight: 1000,
-            thumbnail: `${product?.data?.image[0]}`,
-        },
-        {
-            original: `${product?.data?.image[1]}`,
-            originalHeight: 600,
-            
-            thumbnail: `${product?.data?.image[1]}`,
-        },
-        {
-            original: `${product?.data?.image[2]}`,
-            originalHeight: 1000,
-            thumbnail: `${product?.data?.image[2]}`,
-        },
-        {
-            original: `${product?.data?.image[3]}`,
-            originalHeight: 600,
-            thumbnail: `${product?.data?.image[3]}`,
-        },
-    ];
-    const imageGalleryRef = useRef(null);
-    const [showNav, setShowNav] = useState(window.innerWidth < 1000);
+const Images = ({ product }) => {
+  console.log(product);
 
-    useEffect(() => {
-        // Add an event listener for window resize
-        const handleResize = () => {
-            setShowNav(window.innerWidth < 1000);
-        };
+  const images = product?.data?.image.map((image) => ({
+    original: image,
+    thumbnail: image,
+  }));
 
-        window.addEventListener("resize", handleResize);
+  const imageGalleryRef = useRef(null);
+  const [showNav, setShowNav] = useState(window.innerWidth < 1000);
 
-        // Clean up the event listener when the component unmounts
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
+  useEffect(() => {
+    const handleResize = () => {
+      setShowNav(window.innerWidth < 1000);
+    };
 
-    return (
-        <div className="image-gallery-container">
-            <div ref={imageGalleryRef}>
-                <ImageGallery
-                    items={images}
-                    
-                    infinite={true}
-                    showPlayButton={false}
-                    showFullscreenButton={false}
-                    lazyLoad={true}
-                    showNav={showNav}
-                    slideDuration={300}
-                />
-            </div>
-        </div>
-    );
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const customStyles = `
+    .custom-image-gallery img {
+      object-fit: contain;
+      max-height: 600px; // or whatever height you desire
+    }
+  `;
+
+  return (
+    <div className="image-gallery-container">
+      <style>{customStyles}</style>
+      <div ref={imageGalleryRef} className="custom-image-gallery">
+        <ImageGallery
+          items={images}
+          infinite={true}
+          showPlayButton={false}
+          showFullscreenButton={false}
+          lazyLoad={true}
+          showNav={showNav}
+          slideDuration={300}
+          onErrorImageURL="https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg"
+        />
+      </div>
+    </div>
+  );
 };
 
 export default Images;
