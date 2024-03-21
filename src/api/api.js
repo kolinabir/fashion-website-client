@@ -15,6 +15,5 @@ export const getCartItems = async (id, token) => {
       },
     }
   );
-  console.log(data.data);
   return data.data;
 };

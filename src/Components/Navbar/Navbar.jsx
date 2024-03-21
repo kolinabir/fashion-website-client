@@ -43,10 +43,10 @@ const Navbar = () => {
     queryKey: ["cartItems"],
     queryFn: () => getCartItems(user?._id, localStorage.getItem("token")),
     select: (data) => {
-      return data.data.orders.length;
+      return data.data.orders[0].products.length;
     },
+    refetchInterval: 100,
   });
-  console.log(cartItems);
 
   return (
     <div className="shadow-md">
@@ -103,7 +103,7 @@ const Navbar = () => {
               >
                 Products
               </NavLink>
-              {user && (
+              {user?.role == "admin" && (
                 <div className="relative hidden md:block group">
                   <NavLink
                     to="/dashboard"
