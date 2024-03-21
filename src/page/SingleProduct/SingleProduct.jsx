@@ -12,7 +12,7 @@ import Images from "../SingleProduct/ImageGallery/ImageGallery";
 const SingleProduct = () => {
   const [isLoading, setIsLoading] = useState(true);
   const product = useLoaderData();
-  const { user } = useContext(AuthContext);
+  const { user, cartChange, setCartChange } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState("description");
 
   useEffect(() => {
@@ -89,7 +89,7 @@ const SingleProduct = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         toast.success("Product added to cart!");
       })
       .catch((err) => {
@@ -105,7 +105,9 @@ const SingleProduct = () => {
       quantity: 1,
     };
     cartInfo.push(newCartItem);
+    setCartChange(!cartChange);
     localStorage.setItem("cart", JSON.stringify(cartInfo));
+
     toast.success("Product added to cart!");
   };
 
@@ -166,10 +168,7 @@ const SingleProduct = () => {
                 </p>
               </div>
               <div className="flex md:flex-row gap-3">
-                <button
-                  className="btn btn-outline"
-                  onClick={handleAddToCart}
-                >
+                <button className="btn btn-outline" onClick={handleAddToCart}>
                   Add to Cart
                 </button>
                 <button
@@ -203,9 +202,6 @@ const SingleProduct = () => {
               </div>
             </div>
             <div className="mt-4">
-              
-
-              
               <dialog id="my_modal_1" className="modal">
                 <div className="modal-box">
                   <div className="flex justify-end">

@@ -10,7 +10,7 @@ const ShowCart = () => {
   const [cart, setCart] = useState([]);
   const [allCart, setAllCart] = useState([]);
   const [loading, setLoading] = useState(true); // Added loading state
-  const { user } = useContext(AuthContext);
+  const { user, setCartChange, cartChange } = useContext(AuthContext);
   const shippingFee = 10;
 
   useEffect(() => {
@@ -46,6 +46,7 @@ const ShowCart = () => {
             const data = await response.json();
             const mainData = data.data;
             productDetails.push({ ...mainData, quantity: item.quantity });
+            setCartChange(!cartChange);
           } catch (error) {
             console.error("Error fetching product data:", error);
           }
@@ -116,6 +117,7 @@ const ShowCart = () => {
         });
     } else {
       removeFromLocalStorage(itemId);
+      setCartChange(!cartChange);
     }
   };
 
