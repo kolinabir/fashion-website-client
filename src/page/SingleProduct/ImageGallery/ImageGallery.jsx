@@ -4,7 +4,7 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/scss/image-gallery.scss";
 
 const Images = ({ product }) => {
-  console.log(product);
+//   console.log(product);
 
   const images = product?.data?.image.map((image) => ({
     original: image,

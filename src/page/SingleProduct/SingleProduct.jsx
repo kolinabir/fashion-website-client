@@ -11,8 +11,12 @@ import Images from "../SingleProduct/ImageGallery/ImageGallery";
 
 const SingleProduct = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [cartAmount, setcartAmount] = useState(0);
+  console.log(cartAmount);
+  // const [sneakerAmountFinal, setSneakerAmountFinal] = useState(0);
+
+  const { user, cartChange, setCartChange } = useContext(AuthContext);
   const product = useLoaderData();
-  const { user } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState("description");
 
   useEffect(() => {
@@ -81,7 +85,7 @@ const SingleProduct = () => {
           products: [
             {
               productId: product.data._id,
-              quantity: 1,
+              quantity: Number(cartAmount),
             },
           ],
         }),
@@ -105,7 +109,9 @@ const SingleProduct = () => {
       quantity: 1,
     };
     cartInfo.push(newCartItem);
+    setCartChange(!cartChange);
     localStorage.setItem("cart", JSON.stringify(cartInfo));
+
     toast.success("Product added to cart!");
   };
 
@@ -132,6 +138,16 @@ const SingleProduct = () => {
       </div>
     );
   }
+
+  const increase = () => {
+    setcartAmount(cartAmount + 1);
+  };
+
+  const decrease = () => {
+    if (cartAmount > 0) {
+      setcartAmount(cartAmount - 1);
+    }
+  };
 
   return (
     <div className="mx-2 md:mx-0">
@@ -165,11 +181,17 @@ const SingleProduct = () => {
                   Color: {product?.data.color}
                 </p>
               </div>
+              <div className="amount">
+                <button id="decrease" onClick={decrease}>
+                  -
+                </button>
+                <button id="amount-in-cart">{cartAmount}</button>
+                <button id="increase" onClick={increase}>
+                  +
+                </button>
+              </div>
               <div className="flex md:flex-row gap-3">
-                <button
-                  className="btn btn-outline"
-                  onClick={handleAddToCart}
-                >
+                <button className="btn btn-outline" onClick={handleAddToCart}>
                   Add to Cart
                 </button>
                 <button
@@ -203,9 +225,6 @@ const SingleProduct = () => {
               </div>
             </div>
             <div className="mt-4">
-              
-
-              
               <dialog id="my_modal_1" className="modal">
                 <div className="modal-box">
                   <div className="flex justify-end">
