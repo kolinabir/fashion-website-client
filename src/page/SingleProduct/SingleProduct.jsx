@@ -12,12 +12,27 @@ import Images from "../SingleProduct/ImageGallery/ImageGallery";
 const SingleProduct = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [cartAmount, setcartAmount] = useState(0);
-  console.log(cartAmount);
+  // console.log(cartAmount);
   // const [sneakerAmountFinal, setSneakerAmountFinal] = useState(0);
 
   const { user, cartChange, setCartChange } = useContext(AuthContext);
   const product = useLoaderData();
+  console.log(product);
   const [activeTab, setActiveTab] = useState("description");
+
+  const [selectedSize, setSelectedSize] = useState('');
+  const [selectedColor, setSelectedColor] = useState('');
+
+  const handleSizeChange = (size) => {
+    setSelectedSize(size);
+    // You can add further logic here if needed
+  };
+
+  const handleColorChange = (color) => {
+    setSelectedColor(color);
+    // You can add further logic here if needed
+  };
+
 
   useEffect(() => {
     setIsLoading(false); // Set isLoading to false once data is loaded
@@ -106,7 +121,7 @@ const SingleProduct = () => {
     const cartInfo = JSON.parse(localStorage.getItem("cart")) || [];
     const newCartItem = {
       productId: product.data._id,
-      quantity: 1,
+      quantity: cartAmount,
     };
     cartInfo.push(newCartItem);
     setCartChange(!cartChange);
@@ -148,6 +163,7 @@ const SingleProduct = () => {
       setcartAmount(cartAmount - 1);
     }
   };
+  
 
   return (
     <div className="mx-2 md:mx-0">
@@ -173,20 +189,52 @@ const SingleProduct = () => {
               <p className="text-base md:text-lg text-blue-gray-900  mb-2">
                 {product?.data.policy}
               </p>
-              <div className="">
-                <p className="text-base md:text-lg text-blue-gray-700 mb-2">
-                  Sizes: {product?.data.sizes.join(", ")}
-                </p>
-                <p className="text-base md:text-lg text-blue-gray-700 mb-2">
-                  Color: {product?.data.color}
-                </p>
-              </div>
-              <div className="amount">
-                <button id="decrease" onClick={decrease}>
+              <div className="relative">
+  <label htmlFor="sizes" className="text-base md:text-lg text-blue-gray-700 mb-2 block">Sizes:</label>
+  <select
+    id="sizes"
+    onChange={(e) => handleSizeChange(e.target.value)}
+    className="text-base md:text-lg text-blue-gray-700 mb-2 appearance-none bg-white border border-blue-gray-200 rounded px-3 py-2 pr-8 leading-tight focus:outline-none focus:border-blue-500"
+  >
+    {product?.data?.sizes?.map((size, index) => (
+      <option key={index} value={size}>{size}</option>
+    ))}
+  </select>
+</div>
+
+<div className="relative mt-4">
+  <label htmlFor="color" className="text-base md:text-lg text-blue-gray-700 mb-2 block">Color:</label>
+  <select
+    id="color"
+    onChange={(e) => handleColorChange(e.target.value)}
+    className="text-base md:text-lg text-blue-gray-700 mb-2 appearance-none bg-white border border-blue-gray-200 rounded px-3 py-2 pr-8 leading-tight focus:outline-none focus:border-blue-500"
+  >
+    <option disabled selected>Select Color</option>
+    <option>{product?.data?.color}</option>
+    {/* {product?.data?.colors?.map((color, index) => (
+      <option key={index} value={color}>{color}</option>
+    ))} */}
+  </select>
+</div>
+              <div className="flex gap-1 my-3">
+                <button
+                  id="decrease"
+                  onClick={decrease}
+                  className="w-1/3 md:w-12 rounded-xl bg-blue-gray-100 md:h-12"
+                >
                   -
                 </button>
-                <button id="amount-in-cart">{cartAmount}</button>
-                <button id="increase" onClick={increase}>
+                <button
+                  id="amount-in-cart"
+                  className="w-1/3 md:w-12 rounded-xl bg-blue-gray-100 md:h-12"
+                >
+                  {cartAmount}
+                </button>
+                <button
+                  id="increase"
+                  onClick={increase}
+                  className="w-1/3 md:w-12 rounded-xl bg-blue-gray-100 md:h-12"
+                >
                   +
                 </button>
               </div>
