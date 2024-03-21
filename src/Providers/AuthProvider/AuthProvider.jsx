@@ -1,14 +1,11 @@
 import { createContext, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
-
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
-
-
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -81,13 +78,15 @@ const AuthProvider = ({ children }) => {
   const signOut = () => {
     localStorage.removeItem("token");
     setUser(null);
-    
   };
 
+  const [cartChange, setCartChange] = useState(false);
   const authInfo = {
     user,
     loading,
     signOut,
+    cartChange,
+    setCartChange,
   };
 
   return (

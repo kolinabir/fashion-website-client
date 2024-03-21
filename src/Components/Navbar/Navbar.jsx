@@ -7,7 +7,7 @@ import { getCartItems } from "../../api/api";
 import { useQuery } from "@tanstack/react-query";
 
 const Navbar = () => {
-  const { user, signOut } = useContext(AuthContext);
+  const { user, signOut, cartChange } = useContext(AuthContext);
   // console.log(cartTotal);
   const navigate = useNavigate();
 
@@ -15,8 +15,10 @@ const Navbar = () => {
     signOut();
     navigate("/");
   };
+  // console.log(productDetails);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [cartTotal, setCartTotal] = useState(0);
 
   const menuRef = useRef(null);
 
@@ -26,13 +28,13 @@ const Navbar = () => {
         setIsMenuOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+    setCartTotal(cartData.length);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [cartChange]);
 
   const {
     data: cartItems,
@@ -129,6 +131,7 @@ const Navbar = () => {
               >
                 <FaCartArrowDown className="text-xl w-6 h-6" />
                 {cartItems > 0 && <span className="ml-1">{cartItems}</span>}
+                {!cartItems && <span className="ml-1">{cartTotal}</span>}
               </NavLink>
             )}
             {/* User authentication and profile dropdown */}

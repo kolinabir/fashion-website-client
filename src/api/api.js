@@ -17,3 +17,9 @@ export const getCartItems = async (id, token) => {
   );
   return data.data;
 };
+
+export const fetchProduct = async (id) => {
+  return await axios.get(
+    `https://mern-ecom-backend-henna.vercel.app/api/product/${id}`
+  );
+};

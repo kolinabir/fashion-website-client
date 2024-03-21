@@ -166,10 +166,7 @@ const SingleProduct = () => {
                 </p>
               </div>
               <div className="flex md:flex-row gap-3">
-                <button
-                  className="btn btn-outline"
-                  onClick={handleAddToCart}
-                >
+                <button className="btn btn-outline" onClick={handleAddToCart}>
                   Add to Cart
                 </button>
                 <button
@@ -203,9 +200,6 @@ const SingleProduct = () => {
               </div>
             </div>
             <div className="mt-4">
-              
-
-              
               <dialog id="my_modal_1" className="modal">
                 <div className="modal-box">
                   <div className="flex justify-end">
