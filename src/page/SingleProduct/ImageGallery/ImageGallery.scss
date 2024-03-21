@@ -1,0 +1,106 @@
+.image-gallery-content {
+    width: 400px;
+    max-width: 400px;
+    margin: 0 auto;
+
+    img {
+        border-radius: 10px;
+    }
+}
+
+.image-gallery-thumbnails {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    margin: 30px 0 0 0;
+
+    .image-gallery-thumbnails-container {
+        display: flex;
+        justify-content: space-between; /* Change to space-around */
+        align-items: center;
+        width: 95%; /* Ensure the container takes up the full width */
+    }
+
+    .image-gallery-thumbnail {
+        border: none;
+        width: fit-content;
+        height: auto;
+
+        .image-gallery-thumbnail-image {
+            border: 3px solid transparent;
+
+            &:hover {
+                border: 3px solid #ff5722;
+            }
+
+            &:focus {
+                border: 3px solid #ff5722;
+                outline: none;
+            }
+
+            &:active {
+                border: 3px solid #ff5722;
+            }
+
+            &.active {
+                border: 3px solid #ff5722;
+                img {
+                    opacity: 0.3;
+                }
+            }
+        }
+        &:hover {
+            border: none;
+        }
+
+        &:focus {
+            border: none;
+        }
+
+        &:active {
+            border: none;
+        }
+
+        &.active {
+            border: none;
+        }
+
+        .image-gallery-thumbnail-inner {
+            width: 80px;
+            height: auto;
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+}
+
+.fullscreen-gallery {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Adjust z-index as needed to ensure it's above other elements */
+    backdrop-filter: blur(10px); /* Apply blur to the background */
+}
+
+.fullscreen-gallery .image-gallery-content {
+    max-width: 80%; /* Adjust the width as needed */
+}
+
+// .image-gallery-left-nav,
+// .image-gallery-right-nav {
+// }
+
+// .image-gallery-left-nav polyline,
+// .image-gallery-right-nav polyline {
+//     stroke-width: 0.5;
+//     stroke: white;
+// }

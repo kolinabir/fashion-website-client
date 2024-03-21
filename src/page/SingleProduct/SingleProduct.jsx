@@ -6,6 +6,8 @@ import { Helmet } from "react-helmet-async";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DotLoader } from "react-spinners";
+import "../SingleProduct/Main.style.scss";
+import Images from "../SingleProduct/ImageGallery/ImageGallery";
 
 const SingleProduct = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -124,9 +126,11 @@ const SingleProduct = () => {
   };
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-screen">
-    <DotLoader color="#36d7b7" />{" "}
-  </div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <DotLoader color="#36d7b7" />{" "}
+      </div>
+    );
   }
 
   return (
@@ -136,38 +140,34 @@ const SingleProduct = () => {
           <title>AN NOOR | Checkout</title>
         </Helmet>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
-          <div className="flex justify-center">
-            <div className="relative h-56  md:h-[655px] md:w-[655px] mb-4 md:mb-0">
-              <img
-                src={product?.data.image}
-                alt={product?.data.name}
-                className="object-cover md:w-full h-full rounded-lg"
-              />
+          <div>
+            <div className="images">
+              <Images product={product} />
             </div>
           </div>
-          <div className="flex flex-col  md:mt-10 md:ml-2">
-            <h2 className="text-3xl md:text-2xl font-light mb-4 text-gray-700">
-              {product?.data.title}
-            </h2>
-            <hr className="w-10 border-2 mt-5" />
-            <p className="text-lg md:text-xl mt-2 text-black font-semibold mb-2">
-              ৳ {product.data?.price}
-            </p>
-            <p className="text-base md:text-lg text-blue-gray-900  mb-2">
-              {product?.data.policy}
-            </p>
-            <div className="">
-              <p className="text-base md:text-lg text-blue-gray-700 mb-2">
-                Sizes: {product?.data.sizes.join(", ")}
+          <div className="right-side">
+            <div className="wrapper">
+              <h2 className="text-3xl md:text-2xl font-light mb-4 text-gray-700">
+                {product?.data.title}
+              </h2>
+              <hr className="w-10 border-2 mt-5" />
+              <p className="text-lg md:text-xl mt-2 text-black font-semibold mb-2">
+                ৳ {product.data?.price}
               </p>
-              <p className="text-base md:text-lg text-blue-gray-700 mb-2">
-                Color: {product?.data.color}
+              <p className="text-base md:text-lg text-blue-gray-900  mb-2">
+                {product?.data.policy}
               </p>
-            </div>
-            <div className="mt-4">
+              <div className="">
+                <p className="text-base md:text-lg text-blue-gray-700 mb-2">
+                  Sizes: {product?.data.sizes.join(", ")}
+                </p>
+                <p className="text-base md:text-lg text-blue-gray-700 mb-2">
+                  Color: {product?.data.color}
+                </p>
+              </div>
               <div className="flex md:flex-row gap-3">
                 <button
-                  className="btn btn-outline mb-2 md:mb-0"
+                  className="btn btn-outline"
                   onClick={handleAddToCart}
                 >
                   Add to Cart
@@ -181,7 +181,6 @@ const SingleProduct = () => {
                   Buy Now
                 </button>
               </div>
-
               <div className="mt-5">
                 <div>
                   <p>
@@ -202,6 +201,11 @@ const SingleProduct = () => {
                   </div>
                 </p>
               </div>
+            </div>
+            <div className="mt-4">
+              
+
+              
               <dialog id="my_modal_1" className="modal">
                 <div className="modal-box">
                   <div className="flex justify-end">
