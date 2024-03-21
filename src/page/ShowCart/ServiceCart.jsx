@@ -4,21 +4,21 @@ import { FaTimes } from "react-icons/fa";
 const ServiceCart = ({ service, handleDelete }) => {
   // Calculate subtotal
   const subtotal =
-  service?.products?.reduce((acc, product) => {
-    return acc + (product?.productId?.price * product?.quantity || 0);
-  }, 0) || 0;
+    service?.products?.reduce((acc, product) => {
+      return acc + (product?.productId?.price * product?.quantity || 0);
+    }, 0) || 0;
 
-// Round the subtotal to two decimal places
-const roundedSubtotal = subtotal.toFixed(2);
+  // Round the subtotal to two decimal places
+  const roundedSubtotal = subtotal.toFixed(2);
 
-// Shipping fee and total price (assuming here, adjust as needed)
-const shippingFee = 10; // Sample shipping fee
+  // Shipping fee and total price (assuming here, adjust as needed)
+  const shippingFee = 10; // Sample shipping fee
 
-// Calculate the total price including shipping fee
-const totalPrice = (subtotal + shippingFee).toFixed(2);
+  // Calculate the total price including shipping fee
+  const totalPrice = (subtotal + shippingFee).toFixed(2);
 
   return (
-    <div className="grid md:grid-cols-4 md:mr-36">
+    <div className="grid md:grid-cols-4 ">
       {/* Product table */}
       <div className="overflow-x-auto md:grid md:col-span-3">
         <table className="min-w-full divide-y divide-gray-200">
@@ -37,8 +37,7 @@ const totalPrice = (subtotal + shippingFee).toFixed(2);
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 SubTotal
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
             </tr>
           </thead>
           {/* Table body */}
@@ -64,13 +63,13 @@ const totalPrice = (subtotal + shippingFee).toFixed(2);
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  ৳{product?.productId?.price}
+                    ৳{product?.productId?.price}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {product?.quantity}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  ৳{product?.productId?.price * product?.quantity}
+                    ৳{product?.productId?.price * product?.quantity}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <button
@@ -89,10 +88,13 @@ const totalPrice = (subtotal + shippingFee).toFixed(2);
       <div className="flex  flex-col md:border-l border-gray-300 ">
         <div className="md:mx-7">
           <div>
-            <h2 className="text-[#3A89B4]  text-lg font-semibold">CART TOTAL</h2>
+            <h2 className="text-[#3A89B4]  text-lg font-semibold">
+              CART TOTAL
+            </h2>
           </div>
           <div className="flex justify-between ">
-            <p className="text-base font-normal">Subtotal:</p> <p>৳{roundedSubtotal}</p>
+            <p className="text-base font-normal">Subtotal:</p>{" "}
+            <p>৳{roundedSubtotal}</p>
           </div>
           <hr />
           <div>
@@ -103,7 +105,8 @@ const totalPrice = (subtotal + shippingFee).toFixed(2);
           </div>
           <hr />
           <div className="flex justify-between ">
-            <p className="text-lg font-semibold">Total: </p> <p>৳{totalPrice}</p>
+            <p className="text-lg font-semibold">Total: </p>{" "}
+            <p>৳{totalPrice}</p>
           </div>
         </div>
         <button className="bg-[#3A89B4] text-white px-4 py-2 mt-4 rounded-md mx-7 hover:bg-[#1F5F78] focus:outline-none">

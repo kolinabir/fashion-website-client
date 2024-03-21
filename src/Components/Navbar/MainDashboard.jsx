@@ -7,22 +7,7 @@ const MainDashboard = () => {
 
   return (
     <div className="md:w-80 pb-80 md:ml-36 p-2 md:p-4 min-h-full bg-blue-700 text-base-content">
-      {!user || user.role !== "admin" ? (
-        <ul>
-          <li>
-            <NavLink
-              to="/cart"
-              className={({ isActive }) =>
-                isActive
-                  ? "btn btn-outline btn-sm active-link w-full text-black"
-                  : "btn btn-sm btn-ghost w-full text-black"
-              }
-            >
-              My Schedules
-            </NavLink>
-          </li>
-        </ul>
-      ) : (
+      {user.role == "admin" && (
         <>
           <ul>
             <li>

@@ -165,10 +165,7 @@ const ShowCart = () => {
   const totalPrice = roundedSubtotal + shippingFee;
 
   return (
-    <div className="flex h-[80vh]">
-      <div>
-        <MainDashboard></MainDashboard>
-      </div>
+    <div className="flex h-[80vh] md:mx-20 lg:mx-36">
       <div className="flex-grow">
         {loading ? ( // Display loading state
           <div className="flex items-center justify-center h-screen">
@@ -180,10 +177,14 @@ const ShowCart = () => {
               CART
             </h2>
             {cart.length === 0 ? (
-               <div className="text-center">
-      <p className="text-red-700 mt-4 text-lg font-semibold">Oops! Your cart is empty.</p>
-      <p className="text-gray-600">Add some items to your cart to get started.</p>
-    </div>
+              <div className="text-center">
+                <p className="text-red-700 mt-4 text-lg font-semibold">
+                  Oops! Your cart is empty.
+                </p>
+                <p className="text-gray-600">
+                  Add some items to your cart to get started.
+                </p>
+              </div>
             ) : (
               <div className="grid md:grid-cols-1 gap-2 px-2">
                 {cart?.orders?.map((service) => (
@@ -203,9 +204,13 @@ const ShowCart = () => {
             </h2>
             {cart.length === 0 ? (
               <div className="text-center">
-              <p className="text-red-700 mt-4 text-lg font-semibold">Oops! Your cart is empty.</p>
-              <p className="text-gray-600">Add some items to your cart to get started.</p>
-            </div>
+                <p className="text-red-700 mt-4 text-lg font-semibold">
+                  Oops! Your cart is empty.
+                </p>
+                <p className="text-gray-600">
+                  Add some items to your cart to get started.
+                </p>
+              </div>
             ) : (
               // if user isn't logged in
 
