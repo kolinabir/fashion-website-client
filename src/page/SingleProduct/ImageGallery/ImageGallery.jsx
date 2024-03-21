@@ -3,26 +3,6 @@ import "./ImageGallery.scss";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/scss/image-gallery.scss";
 
-const images = [
-    {
-        original: "/public/logo.svg",
-        thumbnail: "/public/vite.svg",
-    },
-    {
-        original: "./images/image-product-2.jpg",
-        thumbnail: "./images/image-product-2-thumbnail.jpg",
-    },
-    {
-        original: "./images/image-product-3.jpg",
-        thumbnail: "./images/image-product-3-thumbnail.jpg",
-    },
-    {
-        original: "./images/image-product-4.jpg",
-        thumbnail: "./images/image-product-4-thumbnail.jpg",
-    },
-];
-
-
 const Images = ({product}) => {
     // const toggleFullScreen = () => {
     //     if (!fullscreen) {
@@ -39,7 +19,30 @@ const Images = ({product}) => {
     //     }
     // };
     console.log(product);
-
+    
+    const images = [
+        {
+            original: `${product?.data?.image[0]}`,
+            originalHeight: 1000,
+            thumbnail: `${product?.data?.image[0]}`,
+        },
+        {
+            original: `${product?.data?.image[1]}`,
+            originalHeight: 600,
+            
+            thumbnail: `${product?.data?.image[1]}`,
+        },
+        {
+            original: `${product?.data?.image[2]}`,
+            originalHeight: 1000,
+            thumbnail: `${product?.data?.image[2]}`,
+        },
+        {
+            original: `${product?.data?.image[3]}`,
+            originalHeight: 600,
+            thumbnail: `${product?.data?.image[3]}`,
+        },
+    ];
     const imageGalleryRef = useRef(null);
     const [showNav, setShowNav] = useState(window.innerWidth < 1000);
 
@@ -62,6 +65,7 @@ const Images = ({product}) => {
             <div ref={imageGalleryRef}>
                 <ImageGallery
                     items={images}
+                    
                     infinite={true}
                     showPlayButton={false}
                     showFullscreenButton={false}
