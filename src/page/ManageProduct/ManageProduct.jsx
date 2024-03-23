@@ -56,7 +56,7 @@ const ManageProduct = () => {
       <div>
         <MainDashboard></MainDashboard>
       </div>
-      <div className="container mx-auto md:my-8">
+      <div className="md:w-[1290px] ml-4 md:mx-4 md:my-6">
         <Helmet>
           <title>AN NOOR | Manage Service</title>
         </Helmet>

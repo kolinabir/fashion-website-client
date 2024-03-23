@@ -84,24 +84,24 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex ">
       <div>
         <MainDashboard></MainDashboard>
       </div>
-      <div className="flex-grow">
+      <div className="flex-grow ">
         <Helmet>
           <title>AN NOOR | Add Product</title>
         </Helmet>
 
-        <div className="container mx-auto my-3 md:my-8 p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
+        <div className="md:w-[1285px] w-[300px] md:mx-4 md:my-6 my-3 p-6 ml-1 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-3xl  font-medium md:font-extrabold text-center text-gray-800 dark:text-white md:mb-8">
             ADD A <span className="text-red-600">PRODUCT</span> HERE...
           </h2>
         </div>
-        <div className="mx-2 my-4">
+        <div className="ml-1 md:w-[1285px] w-[300px] my-4">
           <form onSubmit={handleSubmit} className="max-w-md mx-auto">
             <div>
-              <label htmlFor="image" className="block mb-2 text-sm">
+              <label htmlFor="image" className="block  mb-2 text-sm">
                 Select Image:
               </label>
               <input
@@ -110,6 +110,7 @@ const AddProduct = () => {
                 id="image"
                 name="image"
                 accept="image/*"
+                className="w-full py-2.5 px-4 text-sm text-gray-800 dark:text-white bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 multiple // Add the multiple attribute
               />
             </div>
