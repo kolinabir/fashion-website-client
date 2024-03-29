@@ -100,12 +100,11 @@ const ShowProduct = () => {
 
                     <div className="absolute bottom-0 left-0 right-0">
                       <Link
-                        to={`/showProduct/${productDetail?._id}`}
                         className="text-center py-2 flex justify-center items-center rounded-md bg-blue-400 text-white hover:bg-indigo-700 transition duration-300 ease-in-out"
                         style={{ marginTop: "auto" }}
                       >
                         <h1 className="text-sm md:text-xs md:font-semibold">
-                          Show details
+                          Add to Cart
                         </h1>
                         <FaArrowRightLong className="ml-1" />
                       </Link>

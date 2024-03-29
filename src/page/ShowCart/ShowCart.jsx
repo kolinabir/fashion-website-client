@@ -17,18 +17,16 @@ const ShowCart = () => {
     const customerName = document.getElementById("name").value;
     const phoneNumber = document.getElementById("phoneNo").value;
     const address = document.getElementById("address").value;
-    let products = [];
-    console.log(cart?.orders[0]?.products);
+    let productsAll = [];
     if (user) {
-      products = cart?.orders[0]?.products?.map((order) => {
+      productsAll = cart?.orders[0]?.products?.map((order) => {
         return {
           productId: order._id,
-          quantity: order.quantity,
+          quantity: Number(order.quantity),
         };
       });
-      console.log(products, "products");
     } else {
-      products = cart.map((product) => {
+      productsAll = cart.map((product) => {
         return {
           productId: product._id,
           quantity: product.quantity,
@@ -36,8 +34,8 @@ const ShowCart = () => {
       });
     }
     const order = {
+      products: productsAll,
       customerName,
-      products: products,
       address,
       phoneNumber: Number(phoneNumber),
     };
