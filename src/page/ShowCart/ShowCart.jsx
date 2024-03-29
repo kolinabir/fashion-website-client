@@ -1,34 +1,38 @@
 import { useContext, useEffect, useState } from "react";
 import ServiceCart from "./ServiceCart";
 import { Helmet } from "react-helmet-async";
-import ConfirmServices from "./ConfirmProduct/ConfirmProduct";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import NonUserCart from "./nonUserCart";
 import { DotLoader } from "react-spinners";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const ShowCart = () => {
   const [cart, setCart] = useState([]);
   const [allCart, setAllCart] = useState([]);
   const [loading, setLoading] = useState(true); // Added loading state
   const { user, setCartChange, cartChange } = useContext(AuthContext);
-  const shippingFee = 10;
+  const navigate = useNavigate();
+  const shippingFee = 120;
   const handleOrder = () => {
+    setLoading(true);
     const customerName = document.getElementById("name").value;
     const phoneNumber = document.getElementById("phoneNo").value;
     const address = document.getElementById("address").value;
     let productsAll = [];
     if (user) {
       productsAll = cart?.orders[0]?.products?.map((order) => {
+        console.log(order);
+
         return {
-          productId: order._id,
+          productId: order.productId._id,
           quantity: Number(order.quantity),
         };
       });
     } else {
       productsAll = cart.map((product) => {
         return {
-          productId: product._id,
+          productId: product.productId._id,
           quantity: product.quantity,
         };
       });
@@ -39,9 +43,9 @@ const ShowCart = () => {
       address,
       phoneNumber: Number(phoneNumber),
     };
-
+    console.log(cart);
     const token = localStorage.getItem("token");
-
+    // https://mern-ecom-backend-henna.vercel.app/api/order
     fetch("https://mern-ecom-backend-henna.vercel.app/api/order", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: token },
@@ -56,6 +60,7 @@ const ShowCart = () => {
             icon: "success",
             confirmButtonText: "Cool",
           });
+          navigate("/products");
         } else {
           Swal.fire({
             title: "Error!",
@@ -115,24 +120,14 @@ const ShowCart = () => {
     };
 
     fetchCartData();
-  }, [user]);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    fetch(
-      `https://mern-ecom-backend-henna.vercel.app/api/order?status=pending`,
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setAllCart(data.data);
-      });
-  }, [user]);
+  }, [cartChange, setCartChange, user]);
+  let totalPriceForNu = 0;
+  if (!user && loading) {
+    totalPriceForNu = cart.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
+  }
 
   const handleDelete = (itemId) => {
     if (user) {
@@ -161,6 +156,7 @@ const ShowCart = () => {
               .then((response) => response.json())
               .then((data) => {
                 setCart(data.data);
+                setCartChange(!cartChange);
               })
               .catch((error) => {
                 console.error("Error fetching updated cart data:", error);
@@ -185,204 +181,9 @@ const ShowCart = () => {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  const handleBookingConfirm = (id, newStatus) => {
-    fetch(`https://mern-ecom-backend-henna.vercel.app/api/order/${id}`, {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
-        Authorization: localStorage.getItem("token"),
-      },
-      body: JSON.stringify({ status: newStatus }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          // Update state with the new status
-          const updatedOrder = allCart.map((booking) => {
-            if (booking._id === id) {
-              booking.status = newStatus;
-            }
-            return booking;
-          });
-          setAllCart(updatedOrder);
-        }
-      });
-  };
-  // Calculate subtotal and total
-
   return (
-    // <div className="flex h-[80vh] md:mx-20 lg:mx-36">
-    //   <div className="flex-grow">
-    //     {loading ? ( // Display loading state
-    //       <div className="flex items-center justify-center h-screen">
-    //         <DotLoader color="#36d7b7" />{" "}
-    //       </div>
-    //     ) : user?.role === "user" ? (
-    //       <div>
-    //         <h2 className="text-center text-3xl dark:text-white font-normal my-4">
-    //           CART
-    //         </h2>
-    //         {cart.length === 0 ? (
-    //           <div className="text-center">
-    //             <p className="text-red-700 mt-4 text-lg font-semibold">
-    //               Oops! Your cart is empty.
-    //             </p>
-    //             <p className="text-gray-600">
-    //               Add some items to your cart to get started.
-    //             </p>
-    //           </div>
-    //         ) : (
-    //           <div className="grid md:grid-cols-1 gap-2 px-2">
-    //             {cart?.orders?.map((service) => (
-    //               <ServiceCart
-    //                 key={service._id}
-    //                 service={service}
-    //                 handleDelete={handleDelete}
-    //               ></ServiceCart>
-    //             ))}
-    //           </div>
-    //         )}
-    //       </div>
-    //     ) : (
-    //       <div>
-    //         <h2 className="text-center text-3xl dark:text-white font-normal my-4">
-    //           CART
-    //         </h2>
-    //         {cart.length === 0 ? (
-    //           <div className="text-center">
-    //             <p className="text-red-700 mt-4 text-lg font-semibold">
-    //               Oops! Your cart is empty.
-    //             </p>
-    //             <p className="text-gray-600">
-    //               Add some items to your cart to get started.
-    //             </p>
-    //           </div>
-    //         ) : (
-    //           // if user isn't logged in
-
-    //           <div className="grid md:grid-cols-1 gap-2 px-2">
-    //             <div className="grid md:gap-6 md:grid-cols-4 md:mx-20">
-    //               {/* Product table */}
-    //               <div className="overflow-x-auto md:grid md:col-span-3">
-    //                 <table className="min-w-full divide-y divide-gray-200">
-    //                   {/* Table header */}
-    //                   <thead className="">
-    //                     <tr>
-    //                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //                         Product
-    //                       </th>
-    //                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //                         Price
-    //                       </th>
-    //                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //                         Quantity
-    //                       </th>
-    //                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //                         SubTotal
-    //                       </th>
-    //                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
-    //                     </tr>
-    //                   </thead>
-    //                   {/* Table body */}
-    //                   <tbody className="bg-white divide-y divide-gray-200">
-    //                     {cart?.map((product) => (
-    //                       <NonUserCart
-    //                         key={product._id}
-    //                         product={product}
-    //                         handleDelete={handleDelete}
-    //                       ></NonUserCart>
-    //                     ))}
-    //                   </tbody>
-    //                 </table>
-    //               </div>
-    //               {/* Cart totals */}
-    //               <div className="flex flex-col md:border-l border-gray-300 ">
-    //                 <div className="md:mx-7">
-    //                   <div>
-    //                     <h2 className="text-[#3A89B4]  text-lg font-semibold">
-    //                       CART TOTAL
-    //                     </h2>
-    //                   </div>
-    //                   <div className="flex justify-between ">
-    //                     <p className="text-base font-normal">Subtotal:</p>{" "}
-    //                     <p>৳{roundedSubtotal}</p>
-    //                   </div>
-    //                   <hr />
-    //                   <div>
-    //                     <div className="flex justify-between ">
-    //                       <p className="text-base font-normal">Shipping Fee:</p>{" "}
-    //                       <p>৳{shippingFee}</p>
-    //                     </div>
-    //                   </div>
-    //                   <hr />
-    //                   <div className="flex justify-between ">
-    //                     <p className="text-lg font-semibold">Total: </p>{" "}
-    //                     <p>৳{totalPrice}</p>
-    //                   </div>
-    //                 </div>
-    //                 <button className="bg-[#3A89B4] text-white px-4 py-2 mt-4 rounded-md mx-7 hover:bg-[#1F5F78] focus:outline-none">
-    //                   Proceed to Buy
-    //                 </button>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         )}
-    //       </div>
-    //     )}
-
-    //     <div className="flex flex-wrap justify-center">
-    //       <Helmet>
-    //         <title>AN NOOR | Cart</title>
-    //       </Helmet>
-
-    //       <div className="overflow-x-auto w-full">
-    //         {user?.role === "admin" && (
-    //           <div>
-    //             <h2 className="text-center text-3xl font-normal underline my-4">
-    //               MY PENDING ORDERS
-    //             </h2>
-    //             {allCart.length === 0 ? (
-    //               <p className="text-center text-red-700">No Pending Work</p>
-    //             ) : (
-    //               <div className="table-responsive overflow-x-auto">
-    //                 <table className="table w-full">
-    //                   <thead>
-    //                     <tr>
-    //                       <th></th>
-    //                       <th>Customer Name</th>
-    //                       <th>Product ID</th>
-    //                       <th>Customer Email</th>
-    //                       <th>Customer Phone Number</th>
-    //                       <th>district</th>
-    //                       <th>Thana</th>
-    //                       <th>Full Address</th>
-    //                       <th>Price</th>
-    //                       <th>Status</th>
-    //                     </tr>
-    //                   </thead>
-    //                   <tbody>
-    //                     {allCart.map((booking) => (
-    //                       <ConfirmServices
-    //                         key={booking._id}
-    //                         booking={booking}
-    //                         handleBookingConfirm={handleBookingConfirm}
-    //                       ></ConfirmServices>
-    //                     ))}
-    //                   </tbody>
-    //                 </table>
-    //               </div>
-    //             )}
-    //           </div>
-    //         )}
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
     <div>
       <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
-        <a href="#" className="text-2xl font-bold text-gray-800">
-          sneekpeeks
-        </a>
         <div className="mt-4 py-2 text-xs sm:mt-0 sm:ml-auto sm:text-base">
           <div className="relative">
             <ul className="relative flex w-full items-center justify-between space-x-2 sm:space-x-4">
@@ -464,21 +265,7 @@ const ShowCart = () => {
           <p className="text-gray-400">
             Check your items. And select a suitable shipping method.
           </p>
-          <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-            {/* <div className="flex flex-col rounded-lg bg-white sm:flex-row">
-              <img
-                className="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                src="https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                alt=""
-              />
-              <div className="flex w-full flex-col px-4 py-4">
-                <span className="font-semibold">
-                  Nike Air Max Pro 8888 - Super Light
-                </span>
-                <span className="float-right text-gray-400">42EU - 8.5US</span>
-                <p className="text-lg font-bold">$138.99</p>
-              </div>
-            </div> */}
+          <div className="mt-2 space-y-3">
             {cart?.orders?.map((service) => (
               <ServiceCart
                 key={service._id}
@@ -500,62 +287,6 @@ const ShowCart = () => {
               <div></div>
             )}
           </div>
-          {/* Select Shipping Method */}
-          {/* <p className="mt-8 text-lg font-medium">Shipping Methods</p>
-          <form className="mt-5 grid gap-6">
-            <div className="relative">
-              <input
-                className="peer hidden"
-                id="radio_1"
-                type="radio"
-                name="radio"
-                checked
-              />
-              <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-              <label
-                className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
-                htmlFor="radio_1"
-              >
-                <img
-                  className="w-14 object-contain"
-                  src="/images/naorrAeygcJzX0SyNI4Y0.png"
-                  alt=""
-                />
-                <div className="ml-5">
-                  <span className="mt-2 font-semibold">Fedex Delivery</span>
-                  <p className="text-slate-500 text-sm leading-6">
-                    Delivery: 2-4 Days
-                  </p>
-                </div>
-              </label>
-            </div>
-            <div className="relative">
-              <input
-                className="peer hidden"
-                id="radio_2"
-                type="radio"
-                name="radio"
-                checked
-              />
-              <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-              <label
-                className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
-                htmlFor="radio_2"
-              >
-                <img
-                  className="w-14 object-contain"
-                  src="/images/oG8xsl3xsOkwkMsrLGKM4.png"
-                  alt=""
-                />
-                <div className="ml-5">
-                  <span className="mt-2 font-semibold">Fedex Delivery</span>
-                  <p className="text-slate-500 text-sm leading-6">
-                    Delivery: 2-4 Days
-                  </p>
-                </div>
-              </label>
-            </div>
-          </form> */}
         </div>
         <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
           <p className="text-xl font-medium">Payment Details</p>
@@ -654,18 +385,20 @@ const ShowCart = () => {
               <div className="flex items-center justify-between">
                 <p className="text-sm font-medium text-gray-900">Subtotal</p>
                 <p className="font-semibold text-gray-900">
-                  {cart?.totalPrice} TK
+                  {cart?.totalPrice}
+                  {!user && totalPriceForNu} TK
                 </p>
               </div>
               <div className="flex items-center justify-between">
                 <p className="text-sm font-medium text-gray-900">Shipping</p>
-                <p className="font-semibold text-gray-900">{""}</p>
+                <p className="font-semibold text-gray-900">{shippingFee}</p>
               </div>
             </div>
             <div className="mt-6 flex items-center justify-between">
               <p className="text-sm font-medium text-gray-900">Total</p>
               <p className="text-2xl font-semibold text-gray-900">
-                {cart?.totalPrice}
+                {Number(cart?.totalPrice) + shippingFee}
+                {!user && totalPriceForNu + shippingFee} TK
               </p>
             </div>
           </div>

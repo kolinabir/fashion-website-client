@@ -3,7 +3,6 @@ import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
-import "react-toastify/dist/ReactToastify.css";
 import { DotLoader } from "react-spinners";
 import "../SingleProduct/Main.style.scss";
 import Images from "../SingleProduct/ImageGallery/ImageGallery";
