@@ -20,8 +20,10 @@ const SingleProduct = () => {
   console.log(product);
   const [activeTab, setActiveTab] = useState("description");
 
-  const [selectedSize, setSelectedSize] = useState('');
-  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+
+  // console.log(selectedColor, selectedSize);
 
   const handleSizeChange = (size) => {
     setSelectedSize(size);
@@ -32,7 +34,6 @@ const SingleProduct = () => {
     setSelectedColor(color);
     // You can add further logic here if needed
   };
-
 
   useEffect(() => {
     setIsLoading(false); // Set isLoading to false once data is loaded
@@ -163,7 +164,6 @@ const SingleProduct = () => {
       setcartAmount(cartAmount - 1);
     }
   };
-  
 
   return (
     <div className="mx-2 md:mx-0">
@@ -190,32 +190,52 @@ const SingleProduct = () => {
                 {product?.data.policy}
               </p>
               <div className="relative">
-  <label htmlFor="sizes" className="text-base md:text-lg text-blue-gray-700 mb-2 block">Sizes:</label>
-  <select
-    id="sizes"
-    onChange={(e) => handleSizeChange(e.target.value)}
-    className="text-base md:text-lg text-blue-gray-700 mb-2 appearance-none bg-white border border-blue-gray-200 rounded px-3 py-2 pr-8 leading-tight focus:outline-none focus:border-blue-500"
-  >
-    {product?.data?.sizes?.map((size, index) => (
-      <option key={index} value={size}>{size}</option>
-    ))}
-  </select>
-</div>
+                <label
+                  htmlFor="sizes"
+                  className="text-base md:text-lg text-blue-gray-700 mb-2 block"
+                >
+                  Sizes:
+                </label>
+                <select
+                  id="sizes"
+                  onChange={(e) => handleSizeChange(e.target.value)}
+                  className="text-base md:text-lg text-blue-gray-700 mb-2 appearance-none bg-white border border-blue-gray-200 rounded px-3 py-2 pr-8 leading-tight focus:outline-none focus:border-blue-500"
+                >
+                  <option disabled selected>
+                    Select Size
+                  </option>
+                  {product?.data?.sizes?.map((sizes, index) =>
+                    sizes.split(",").map((size, subIndex) => (
+                      <option key={`${index}-${subIndex}`} value={size}>
+                        {size}
+                      </option>
+                    ))
+                  )}
+                </select>
+              </div>
 
-<div className="relative mt-4">
-  <label htmlFor="color" className="text-base md:text-lg text-blue-gray-700 mb-2 block">Color:</label>
-  <select
-    id="color"
-    onChange={(e) => handleColorChange(e.target.value)}
-    className="text-base md:text-lg text-blue-gray-700 mb-2 appearance-none bg-white border border-blue-gray-200 rounded px-3 py-2 pr-8 leading-tight focus:outline-none focus:border-blue-500"
-  >
-    <option disabled selected>Select Color</option>
-    <option>{product?.data?.color}</option>
-    {/* {product?.data?.colors?.map((color, index) => (
-      <option key={index} value={color}>{color}</option>
-    ))} */}
-  </select>
-</div>
+              <div className="relative mt-4">
+                <label
+                  htmlFor="color"
+                  className="text-base md:text-lg text-blue-gray-700 mb-2 block"
+                >
+                  Color:
+                </label>
+                <select
+                  id="color"
+                  onChange={(e) => handleColorChange(e.target.value)}
+                  className="text-base md:text-lg text-blue-gray-700 mb-2 appearance-none bg-white border border-blue-gray-200 rounded px-3 py-2 pr-8 leading-tight focus:outline-none focus:border-blue-500"
+                >
+                  <option disabled selected>
+                    Select Color
+                  </option>
+                  {product?.data?.color?.map((color, index) => (
+                    <option key={index} value={color}>
+                      {color}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="flex gap-1 my-3">
                 <button
                   id="decrease"
