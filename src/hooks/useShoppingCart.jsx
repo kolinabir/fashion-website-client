@@ -42,10 +42,20 @@ const useShoppingCart = () => {
       productId: product,
       quantity: cartAmount,
     };
+    // Check if the product is already in the cart
+    const existingProductIndex = cartInfo.findIndex(
+      (item) => item.productId === product
+    );
+    if (existingProductIndex !== -1) {
+      cartInfo[existingProductIndex].quantity += cartAmount;
+      setCartChange(!cartChange);
+      localStorage.setItem("cart", JSON.stringify(cartInfo));
+      toast.success("Product added to cart!");
+      return;
+    }
     cartInfo.push(newCartItem);
     setCartChange(!cartChange);
     localStorage.setItem("cart", JSON.stringify(cartInfo));
-
     toast.success("Product added to cart!");
   };
 
