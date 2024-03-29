@@ -135,7 +135,11 @@ const Navbar = () => {
               >
                 <FaCartArrowDown className="text-xl w-6 h-6" />
                 {cartItems > 0 && <span className="ml-1">{cartItems}</span>}
-                {!cartItems && <span className="ml-1">{cartTotal}</span>}
+                {!user && (
+                  <div>
+                    {!cartItems && <span className="ml-1">{cartTotal}</span>}
+                  </div>
+                )}
               </NavLink>
             )}
             {/* User authentication and profile dropdown */}

@@ -2,7 +2,6 @@
 import { Link } from "react-router-dom"; // Assuming you're using React Router
 import { FaArrowRightLong } from "react-icons/fa6";
 import useShoppingCart from "../../hooks/useShoppingCart";
-import { ToastContainer } from "react-toastify";
 // Assuming you're using react-icons
 // import Rating from "react-rating-stars-component";
 
@@ -62,7 +61,7 @@ const SingleProductCard = ({ productDetail }) => {
         <div className="absolute bottom-0 left-0 right-0">
           <Link
             onClick={() => handleAddToCart(productDetail._id, 1)}
-            className="text-center py-2 flex justify-center items-center rounded-md bg-blue-400 text-white hover:bg-indigo-700 transition duration-300 ease-in-out"
+            className="text-center py-2 flex justify-center items-center rounded-md bg-[#349234] text-white hover:bg-indigo-700 transition duration-300 ease-in-out"
             style={{ marginTop: "auto" }}
           >
             <h1 className="text-sm md:text-xs md:font-semibold">Add to Cart</h1>

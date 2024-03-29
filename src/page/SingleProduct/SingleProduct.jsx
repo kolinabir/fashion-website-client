@@ -3,8 +3,6 @@ import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { DotLoader } from "react-spinners";
 import "../SingleProduct/Main.style.scss";
 import Images from "../SingleProduct/ImageGallery/ImageGallery";
@@ -24,7 +22,6 @@ const SingleProduct = () => {
 
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
-
 
   const handleSizeChange = (size) => {
     setSelectedSize(size);
@@ -153,7 +150,6 @@ const SingleProduct = () => {
                   onChange={(e) => handleSizeChange(e.target.value)}
                   className="text-base md:text-lg text-blue-gray-700 mb-2 appearance-none bg-white border border-blue-gray-200 rounded px-3 py-2 pr-8 leading-tight focus:outline-none focus:border-blue-500"
                 >
-
                   <option disabled selected>
                     Select Size
                   </option>
@@ -164,7 +160,6 @@ const SingleProduct = () => {
                       </option>
                     ))
                   )}
-
                 </select>
               </div>
 
@@ -430,7 +425,6 @@ const SingleProduct = () => {
           </div>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

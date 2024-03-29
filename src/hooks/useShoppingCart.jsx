@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { toast } from "react-toastify";
 import { AuthContext } from "../Providers/AuthProvider/AuthProvider";
+import toast from "react-hot-toast";
 
 const useShoppingCart = () => {
   const { user, cartChange, setCartChange } = useContext(AuthContext);
