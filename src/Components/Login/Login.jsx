@@ -40,8 +40,6 @@ const Login = () => {
     try {
       setLoading(true); // Set loading to true when starting the authentication process
       const data = await signIn(username, password);
-      console.log(data);
-      toast.success("Login successful");
       // Use navigate to redirect after successful login
       navigate(location?.state ? location.state : "/");
     } catch (error) {
