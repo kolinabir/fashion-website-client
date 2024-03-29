@@ -34,7 +34,7 @@ const AddProduct = () => {
     const companyName = form.companyName.value;
     const policy = form.policy.value;
     const singleSize = form.singleSize.value;
-    const color = form.color.value;
+    const color = form.color.value.split(',');
     const quantity = Number(form.quantity.value);
     let categoryId = "";
     categories.forEach((category) => {
@@ -59,6 +59,8 @@ const AddProduct = () => {
       category: categoryId,
       quantity,
     };
+
+    console.log(service);
   
     const token = localStorage.getItem("token");
   
