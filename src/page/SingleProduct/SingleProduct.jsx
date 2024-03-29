@@ -25,6 +25,7 @@ const SingleProduct = () => {
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
 
+
   const handleSizeChange = (size) => {
     setSelectedSize(size);
     // You can add further logic here if needed
@@ -152,11 +153,18 @@ const SingleProduct = () => {
                   onChange={(e) => handleSizeChange(e.target.value)}
                   className="text-base md:text-lg text-blue-gray-700 mb-2 appearance-none bg-white border border-blue-gray-200 rounded px-3 py-2 pr-8 leading-tight focus:outline-none focus:border-blue-500"
                 >
-                  {product?.data?.sizes?.map((size, index) => (
-                    <option key={index} value={size}>
-                      {size}
-                    </option>
-                  ))}
+
+                  <option disabled selected>
+                    Select Size
+                  </option>
+                  {product?.data?.sizes?.map((sizes, index) =>
+                    sizes.split(",").map((size, subIndex) => (
+                      <option key={`${index}-${subIndex}`} value={size}>
+                        {size}
+                      </option>
+                    ))
+                  )}
+
                 </select>
               </div>
 
@@ -175,10 +183,12 @@ const SingleProduct = () => {
                   <option disabled selected>
                     Select Color
                   </option>
-                  <option>{product?.data?.color}</option>
-                  {/* {product?.data?.colors?.map((color, index) => (
-      <option key={index} value={color}>{color}</option>
-    ))} */}
+
+                  {product?.data?.color?.map((color, index) => (
+                    <option key={index} value={color}>
+                      {color}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="flex gap-1 my-3">
