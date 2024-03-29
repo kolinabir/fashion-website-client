@@ -1,11 +1,15 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom"; // Assuming you're using React Router
 import { FaArrowRightLong } from "react-icons/fa6";
+import useShoppingCart from "../../hooks/useShoppingCart";
+import { ToastContainer } from "react-toastify";
 // Assuming you're using react-icons
 // import Rating from "react-rating-stars-component";
 
 // eslint-disable-next-line react/prop-types
 const SingleProductCard = ({ productDetail }) => {
+  const { handleAddToCart } = useShoppingCart();
+
   return (
     <div
       className="bg-white p-4 !h-[450px] rounded-lg shadow-md col-span-1 relative overflow-hidden"
@@ -57,6 +61,7 @@ const SingleProductCard = ({ productDetail }) => {
 
         <div className="absolute bottom-0 left-0 right-0">
           <Link
+            onClick={() => handleAddToCart(productDetail._id, 1)}
             className="text-center py-2 flex justify-center items-center rounded-md bg-blue-400 text-white hover:bg-indigo-700 transition duration-300 ease-in-out"
             style={{ marginTop: "auto" }}
           >
