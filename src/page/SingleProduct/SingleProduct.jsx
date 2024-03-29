@@ -3,19 +3,21 @@ import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DotLoader } from "react-spinners";
 import "../SingleProduct/Main.style.scss";
 import Images from "../SingleProduct/ImageGallery/ImageGallery";
+import useShoppingCart from "../../hooks/useShoppingCart";
 
 const SingleProduct = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [cartAmount, setcartAmount] = useState(1);
+  const { handleAddToCart } = useShoppingCart();
   // console.log(cartAmount);
   // const [sneakerAmountFinal, setSneakerAmountFinal] = useState(0);
 
-  const { user, cartChange, setCartChange } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const product = useLoaderData();
   console.log(product);
   const [activeTab, setActiveTab] = useState("description");
@@ -86,58 +88,6 @@ const SingleProduct = () => {
       });
     form.reset();
     closeModal();
-  };
-
-  const addToCart = () => {
-    // Logic to add product to cart
-    fetch(
-      "https://mern-ecom-backend-henna.vercel.app/api/cart/addProductToCart",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          products: [
-            {
-              productId: product.data._id,
-              quantity: Number(cartAmount),
-            },
-          ],
-        }),
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        toast.success("Product added to cart!");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const saveToLocalCart = () => {
-    // Save cart data to localStorage if user is not logged in
-    const cartInfo = JSON.parse(localStorage.getItem("cart")) || [];
-    const newCartItem = {
-      productId: product.data._id,
-      quantity: cartAmount,
-    };
-    cartInfo.push(newCartItem);
-    setCartChange(!cartChange);
-    localStorage.setItem("cart", JSON.stringify(cartInfo));
-
-    toast.success("Product added to cart!");
-  };
-
-  const handleAddToCart = () => {
-    if (user) {
-      addToCart();
-    } else {
-      saveToLocalCart();
-    }
   };
 
   const closeModal = () => {
@@ -254,7 +204,12 @@ const SingleProduct = () => {
                 </button>
               </div>
               <div className="flex md:flex-row gap-3">
-                <button className="btn btn-outline" onClick={handleAddToCart}>
+                <button
+                  className="btn btn-outline"
+                  onClick={() =>
+                    handleAddToCart(product.data._id, Number(cartAmount))
+                  }
+                >
                   Add to Cart
                 </button>
                 <button
