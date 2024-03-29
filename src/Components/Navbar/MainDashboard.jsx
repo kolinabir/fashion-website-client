@@ -1,10 +1,18 @@
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import { NavLink } from "react-router-dom";
+import { AiOutlineMenu } from "react-icons/ai";
+import { TbDeviceIpadSearch } from "react-icons/tb";
+import { MdOutlineCancel } from "react-icons/md";
+import { CiSettings } from "react-icons/ci";
+import { FaAngleDown } from "react-icons/fa";
+import { BiCategory } from "react-icons/bi";
+import { IoBagAddOutline } from "react-icons/io5";
+import { MdOutlineManageAccounts } from "react-icons/md";
 
 const MainDashboard = () => {
   const { user } = useContext(AuthContext);
-  
+
   return (
     <div className="h-screen md:w-80 pb-80 md:ml-36 p-2 md:p-4 min-h-full bg-blue-700 text-base-content">
       {user.role === "admin" && (
@@ -19,6 +27,7 @@ const MainDashboard = () => {
                     : "btn btn-sm btn-ghost w-full text-black"
                 }
               >
+                <MdOutlineManageAccounts />
                 Manage Product
               </NavLink>
             </li>
@@ -33,6 +42,7 @@ const MainDashboard = () => {
                     : "btn btn-sm btn-ghost w-full text-black"
                 }
               >
+                <IoBagAddOutline />
                 Add Product
               </NavLink>
             </li>
@@ -45,12 +55,13 @@ const MainDashboard = () => {
                     : "btn btn-sm btn-ghost w-full text-black"
                 }
               >
+                <BiCategory />
                 Add Category
               </NavLink>
             </li>
 
             <div>
-              <div className="rounded-tr-2xl rounded-br-2xl ">
+              <div className="font-medium text-lg">
                 <ul className="flex flex-col">
                   <li className="relative transition">
                     <input
@@ -58,100 +69,43 @@ const MainDashboard = () => {
                       type="checkbox"
                       id="menu-2"
                     />
-                    <div className="relative m-2 flex items-center rounded-xl border-b-4 text-black  py-3 pl-5 text-sm">
-                      <span className="mr-5 flex w-5">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-6 w-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                          />
-                        </svg>
+                    <div className="relative md:ml-16 flex items-center rounded-xl text-black md:pt-2 text-sm">
+                      <span className="md:mr-2 flex w-5">
+                        <AiOutlineMenu /> {/* Example icon */}
                       </span>
                       Manage Orders
+                      <FaAngleDown className="ml-5" />
                       <label
                         for="menu-2"
                         className="absolute inset-0 h-full w-full cursor-pointer"
                       ></label>
                     </div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="peer-checked:rotate-180 absolute right-0 top-6 mr-5 ml-auto h-4 text-gray-500 transition"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
                     <ul className="duration-400 peer-checked:max-h-96 m-2 flex max-h-0 flex-col overflow-hidden rounded-2xl  transition-all duration-300">
-                      <li className="m-2 flex cursor-pointer rounded-xl py-3 pl-5 text-sm text-black hover:bg-white">
+                      <li className="m-2 flex cursor-pointer rounded-xl py-1 pl-14 text-sm text-black hover:bg-white">
                         <span className="mr-5">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                            />
-                          </svg>
+                          {/* Example icon */}
+                          <CiSettings />
                         </span>
-                        Pending Order
+                        <NavLink to="/addCategory">
+                        Pending Order</NavLink>
+                       
                       </li>
-                      <li className="m-2 flex cursor-pointer rounded-xl py-3 pl-5 text-sm text-black hover:bg-white">
+                      <li className="m-2 flex cursor-pointer rounded-xl py-1 pl-14 text-sm text-black hover:bg-white">
                         <span className="mr-5">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                            />
-                          </svg>
+                          {/* Example icon */}
+                          <MdOutlineCancel />
                         </span>
-                        Cancelled Order
+                        <NavLink to="/addCategory">
+                        Cancelled Order</NavLink>
+                        
                       </li>
-                      <li className="m-2 flex cursor-pointer rounded-xl py-3 pl-5 text-sm text-black hover:bg-white">
+                      <li className="m-2 flex cursor-pointer rounded-xl py-1 pl-14 text-sm text-black hover:bg-white">
                         <span className="mr-5">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                            />
-                          </svg>
+                          {/* Example icon */}
+                          <TbDeviceIpadSearch />
                         </span>
-                        Processing Order
+                        <NavLink to="/addCategory">
+                          Processing Order</NavLink>
                       </li>
                     </ul>
                   </li>
