@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router-dom";
 
 // Lazy-loaded components
@@ -15,6 +16,7 @@ const MainLayout = () => {
       <Suspense fallback={<div>Loading Footer...</div>}>
         <LazyFooter />
       </Suspense>
+      <Toaster position="bottom-right" reverseOrder={false} />
     </div>
   );
 };

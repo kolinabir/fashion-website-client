@@ -2,7 +2,6 @@
 import { Link } from "react-router-dom"; // Assuming you're using React Router
 import { FaArrowRightLong } from "react-icons/fa6";
 import useShoppingCart from "../../hooks/useShoppingCart";
-import { ToastContainer } from "react-toastify";
 // Assuming you're using react-icons
 // import Rating from "react-rating-stars-component";
 

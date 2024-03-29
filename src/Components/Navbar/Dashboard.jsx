@@ -1,10 +1,8 @@
-
 import Lottie from "lottie-react";
 import Animation from "../../../public/Animation - 1704964655302.json";
 import MainDashboard from "./MainDashboard";
 
 const Dashboard = () => {
-
   return (
     <div className="flex">
       <MainDashboard></MainDashboard>

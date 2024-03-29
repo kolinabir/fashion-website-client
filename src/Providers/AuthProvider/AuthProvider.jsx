@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
 
 export const AuthContext = createContext();
 
@@ -62,6 +62,8 @@ const AuthProvider = ({ children }) => {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("token", data.data.token);
+        toast.success("Login successful!");
+
         setUser(data.data.user);
         return data;
       } else {
@@ -92,7 +94,7 @@ const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={{ ...authInfo, signIn, signOut }}>
       {children}
-      <ToastContainer />
+      <Toaster position="bottom-right" reverseOrder={false} />
     </AuthContext.Provider>
   );
 };

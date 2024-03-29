@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
 import { FaGoogle } from "react-icons/fa6";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const location = useLocation();
@@ -40,12 +40,13 @@ const Login = () => {
     try {
       setLoading(true); // Set loading to true when starting the authentication process
       const data = await signIn(username, password);
+      
       // Use navigate to redirect after successful login
       navigate(location?.state ? location.state : "/");
     } catch (error) {
       setError(true);
       console.error(error);
-      toast.error("Invalid username or password");
+      toast.error("Invalid username or password!");
     } finally {
       setLoading(false); // Set loading to false when the authentication process is complete
     }
