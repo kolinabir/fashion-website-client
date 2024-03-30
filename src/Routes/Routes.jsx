@@ -8,6 +8,7 @@ import ErrorPage from "../Components/ErrorPage/ErrorPage";
 import { Suspense, lazy } from "react";
 import ShowCart from "../page/ShowCart/ShowCart";
 import { DotLoader } from "react-spinners";
+import PendingOrder from "../page/ManageOrders/PendingOrder";
 
 const LazyAddProduct = lazy(() => import("../page/AddProduct/AddProduct"));
 const LazyDashboard = lazy(() => import("../Components/Navbar/Dashboard"));
@@ -155,6 +156,22 @@ const Routes = createBrowserRouter([
               }
             >
               <LazyManageProduct />
+            </Suspense>
+          </PrivetsRoutes>
+        ),
+      },
+      {
+        path: "/pendingOrders",
+        element: (
+          <PrivetsRoutes>
+            <Suspense
+              fallback={
+                <div className="flex items-center justify-center h-screen">
+                  <DotLoader color="#36d7b7" />{" "}
+                </div>
+              }
+            >
+              <PendingOrder />
             </Suspense>
           </PrivetsRoutes>
         ),

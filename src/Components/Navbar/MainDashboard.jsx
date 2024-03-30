@@ -86,7 +86,7 @@ const MainDashboard = () => {
                           {/* Example icon */}
                           <CiSettings />
                         </span>
-                        <NavLink to="/addCategory">
+                        <NavLink to="/pendingOrders">
                         Pending Order</NavLink>
                        
                       </li>
