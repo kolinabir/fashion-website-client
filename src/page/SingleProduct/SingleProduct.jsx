@@ -115,7 +115,7 @@ const SingleProduct = () => {
   };
 
   return (
-    <div className="mx-2 md:mx-0">
+    <div className="mx-2 md:mx-0 overflow-hidden">
       <div className="container mx-auto my-6">
         <Helmet>
           <title>AN NOOR | Checkout</title>
@@ -186,7 +186,7 @@ const SingleProduct = () => {
                   ))}
                 </select>
               </div>
-              <div className="flex gap-1 my-3">
+              <div className="flex gap-1 my-3 w-1/2 md:w-full">
                 <button
                   id="decrease"
                   onClick={decrease}
@@ -196,7 +196,7 @@ const SingleProduct = () => {
                 </button>
                 <button
                   id="amount-in-cart"
-                  className="w-1/3 md:w-12 rounded-xl bg-blue-gray-100 md:h-12"
+                  className="w-1/3 h-12 md:w-12 rounded-xl bg-blue-gray-100 md:h-12"
                 >
                   {cartAmount}
                 </button>
