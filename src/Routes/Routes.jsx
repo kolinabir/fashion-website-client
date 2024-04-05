@@ -8,7 +8,6 @@ import ErrorPage from "../Components/ErrorPage/ErrorPage";
 import { Suspense, lazy } from "react";
 import ShowCart from "../page/ShowCart/ShowCart";
 import { DotLoader } from "react-spinners";
-import PendingOrder from "../page/ManageOrders/PendingOrder";
 
 const LazyAddProduct = lazy(() => import("../page/AddProduct/AddProduct"));
 const LazyDashboard = lazy(() => import("../Components/Navbar/Dashboard"));
@@ -26,6 +25,16 @@ const LazyManageProduct = lazy(() =>
 const LazyUpdateProduct = lazy(() =>
   import("../page/ManageProduct/UpdateProduct")
 );
+const LazyProcessingOrder = lazy(() =>
+  import("../page/ManageOrders/ProcessingOrders")
+);
+const LazyCancelledOrder = lazy(() =>
+  import("../page/ManageOrders/CancelledOrders")
+);
+const LazyPendingOrder = lazy(() =>
+  import("../page/ManageOrders/PendingOrder")
+);
+
 
 const Routes = createBrowserRouter([
   {
@@ -161,6 +170,22 @@ const Routes = createBrowserRouter([
         ),
       },
       {
+        path: "/processingOrder",
+        element: (
+          <PrivetsRoutes>
+            <Suspense
+              fallback={
+                <div className="flex items-center justify-center h-screen">
+                  <DotLoader color="#36d7b7" />{" "}
+                </div>
+              }
+            >
+              <LazyProcessingOrder />
+            </Suspense>
+          </PrivetsRoutes>
+        ),
+      },
+      {
         path: "/pendingOrders",
         element: (
           <PrivetsRoutes>
@@ -171,7 +196,23 @@ const Routes = createBrowserRouter([
                 </div>
               }
             >
-              <PendingOrder />
+              <LazyPendingOrder />
+            </Suspense>
+          </PrivetsRoutes>
+        ),
+      },
+      {
+        path: "/cancelledOrder",
+        element: (
+          <PrivetsRoutes>
+            <Suspense
+              fallback={
+                <div className="flex items-center justify-center h-screen">
+                  <DotLoader color="#36d7b7" />{" "}
+                </div>
+              }
+            >
+              <LazyCancelledOrder />
             </Suspense>
           </PrivetsRoutes>
         ),

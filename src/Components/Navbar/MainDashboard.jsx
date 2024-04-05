@@ -95,7 +95,7 @@ const MainDashboard = () => {
                           {/* Example icon */}
                           <MdOutlineCancel />
                         </span>
-                        <NavLink to="/addCategory">
+                        <NavLink to="/cancelledOrder">
                         Cancelled Order</NavLink>
                         
                       </li>
@@ -104,7 +104,7 @@ const MainDashboard = () => {
                           {/* Example icon */}
                           <TbDeviceIpadSearch />
                         </span>
-                        <NavLink to="/addCategory">
+                        <NavLink to="/processingOrder">
                           Processing Order</NavLink>
                       </li>
                     </ul>
