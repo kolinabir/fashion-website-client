@@ -113,10 +113,10 @@ const ShowAllProduct = () => {
         <title>AN NOOR | All Products</title>
       </Helmet>
       <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-          <h1 className="text-2xl font-semibold mb-2 md:mb-0">All Products</h1>
-          <div className="flex space-x-4 ">
-            <div className="flex items-center text-left relative left-[98px]">
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <h1 className="text-2xl font-semibold md:mb-0 mt-10">All Products</h1>
+          <div className="flex   justify-center">
+            <div className="flex items-center  relative ">
               <button
                 onClick={toggleSortDropdown}
                 type="button"
