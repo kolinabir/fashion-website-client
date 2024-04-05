@@ -63,14 +63,6 @@ const CancelledOrders = () => {
 
   return (
     <div className="overflow-x-auto">
-      <div>
-        <label htmlFor="status">Select Status:</label>
-        <select id="status" value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
-          <option value="pending">Pending</option>
-          <option value="canceled">Canceled</option>
-          <option value="delivered">Delivered</option>
-        </select>
-      </div>
       <table className="table">
         <thead>
           <tr>
