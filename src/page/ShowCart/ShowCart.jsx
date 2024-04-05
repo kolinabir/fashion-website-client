@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useState } from "react";
 import ServiceCart from "./ServiceCart";
 import { Helmet } from "react-helmet-async";
@@ -78,9 +79,12 @@ const ShowCart = () => {
   useEffect(() => {
     const fetchCartData = async () => {
       setLoading(true); // Set loading to true when fetching data
-      if (user) {
-        const token = localStorage.getItem("token");
-        try {
+
+      try {
+        let fetchedCart = [];
+
+        if (user != null) {
+          const token = localStorage.getItem("token");
           const response = await fetch(
             `https://mern-ecom-backend-henna.vercel.app/api/cart/${user._id}`,
             {
@@ -90,39 +94,33 @@ const ShowCart = () => {
             }
           );
           const data = await response.json();
-          setCart(data.data);
-        } catch (error) {
-          console.error("Error fetching user cart data:", error);
-        }
-      } else {
-        // Fetch product details from localStorage for non-logged-in users
-        const cartData = JSON.parse(localStorage.getItem("cart")) || [];
-        const productDetails = [];
-
-        for (const item of cartData) {
-          try {
+          fetchedCart = data.data;
+        } else {
+          // Fetch product details from localStorage for non-logged-in users
+          const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+          for (const item of cartData) {
             const response = await fetch(
               `https://mern-ecom-backend-henna.vercel.app/api/product/${item.productId}`
             );
             const data = await response.json();
             const mainData = data.data;
-            productDetails.push({ ...mainData, quantity: item.quantity });
-            setCartChange(!cartChange);
-          } catch (error) {
-            console.error("Error fetching product data:", error);
+            fetchedCart.push({ ...mainData, quantity: item.quantity });
           }
         }
 
-        setCart(productDetails);
+        setCart(fetchedCart);
+        setLoading(false); // Set loading to false after data fetching is done
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
+        setLoading(false); // Set loading to false if an error occurs during fetching
       }
-
-      setLoading(false); // Set loading to false when data fetching is done
     };
 
     fetchCartData();
   }, [cartChange, setCartChange, user]);
+
   let totalPriceForNu = 0;
-  if (!user && loading) {
+  if (!user && cart.length > 0) {
     totalPriceForNu = cart.reduce(
       (acc, item) => acc + item.price * item.quantity,
       0
@@ -265,23 +263,28 @@ const ShowCart = () => {
           <p className="text-gray-400">
             Check your items. And select a suitable shipping method.
           </p>
+
           <div className="mt-2 space-y-3">
-            {cart?.orders?.map((service) => (
-              <ServiceCart
-                key={service._id}
-                service={service}
-                handleDelete={handleDelete}
-              ></ServiceCart>
-            ))}
+            <div className="">
+              {cart?.orders?.map((service) => (
+                <ServiceCart
+                  key={service._id}
+                  service={service}
+                  handleDelete={handleDelete}
+                ></ServiceCart>
+              ))}
+            </div>
             {!user ? (
-              <div>
-                {cart?.map((product) => (
-                  <NonUserCart
-                    key={product._id}
-                    product={product}
-                    handleDelete={handleDelete}
-                  ></NonUserCart>
-                ))}
+              <div className="">
+                <div className="grid grid-cols-2 gap-5 md:grid-cols-1">
+                  {cart?.map((product) => (
+                    <NonUserCart
+                      key={product._id}
+                      product={product}
+                      handleDelete={handleDelete}
+                    ></NonUserCart>
+                  ))}
+                </div>
               </div>
             ) : (
               <div></div>
@@ -397,8 +400,15 @@ const ShowCart = () => {
             <div className="mt-6 flex items-center justify-between">
               <p className="text-sm font-medium text-gray-900">Total</p>
               <p className="text-2xl font-semibold text-gray-900">
-                {Number(cart?.totalPrice) + shippingFee}
-                {!user && totalPriceForNu + shippingFee} TK
+                {user ? (
+                  <p className="text-2xl font-semibold text-gray-900">
+                    {cart?.totalPrice + shippingFee} TK
+                  </p>
+                ) : (
+                  <p className="text-2xl font-semibold text-gray-900">
+                    {totalPriceForNu + shippingFee} TK
+                  </p>
+                )}
               </p>
             </div>
           </div>

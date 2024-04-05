@@ -8,37 +8,41 @@ const NonUserCart = ({ product, handleDelete }) => {
 
   // Shipping fee and total price (assuming here, adjust as needed)
   return (
-    <div className="w-full flex  justify-around items-center text-center">
-      <div className="px-6 py-4 whitespace-nowrap">
-        <div className="flex items-center">
-          <div className="flex-shrink-0 ">
-            <img className="h-10 w-10" src={product.image} alt="" />
+    <tbody className="bg-white divide-y divide-gray-200">
+      <div
+        key={product._id}
+        className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6"
+      >
+        <div className="flex flex-col rounded-lg bg-white sm:flex-row">
+          <img
+            className="m-2 h-24 w-28 rounded-md border object-cover object-center"
+            src={product?.image}
+            alt=""
+          />
+          <div className="flex w-full flex-col px-4 py-4">
+            <span className="font-semibold">{product?.title}</span>
+            <span className="float-right text-gray-400">
+              {product?.quantity} x ${product?.price}
+            </span>
+            <p className="text-sm md:text-lg font-bold">
+              Total: {product?.quantity * product?.price} tk
+            </p>
           </div>
-          <div className="ml-4">
-            <div className="text-sm font-medium text-gray-900">
-              {product.title}
-            </div>
-          </div>
+          <button
+            className="text-red-600 hover:text-red-900 hidden md:block"
+            onClick={() => handleDelete(product?._id)}
+          >
+            <FaTimes />
+          </button>
+          <button
+            className="text-white bg-red-500 rounded-lg px-2 py-1 md:hidden"
+            onClick={() => handleDelete(product?._id)}
+          >
+            Delete
+          </button>
         </div>
       </div>
-      <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        ৳{product.price}
-      </div>
-      <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {product.quantity}
-      </div>
-      <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        ৳{subtotal}
-      </div>
-      <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        <button
-          className="text-red-600 hover:text-red-900"
-          onClick={() => handleDelete(product._id)}
-        >
-          <FaTimes />
-        </button>
-      </div>
-    </div>
+    </tbody>
   );
 };
 
