@@ -70,7 +70,7 @@ const CancelledOrders = () => {
 
   return (
     <div className="flex ">
-      <div className="">
+      <div>
         <MainDashboard />
       </div>
       <div className="w-[1500px] overflow-x-auto">
