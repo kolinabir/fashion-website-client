@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MainDashboard from "../../Components/Navbar/MainDashboard";
 import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const OrderStatus = () => {
   //get the status from state state={{ status: "pending" }}
@@ -43,34 +44,45 @@ const OrderStatus = () => {
   }, [status]); // Fetch orders whenever the selected status changes
 
   const handleChangeStatus = async (orderId, newStatus) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(
-        `https://mern-ecom-backend-henna.vercel.app/api/order/change-status/${orderId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token,
-          },
-          body: JSON.stringify({ status: newStatus }),
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to update the status to " + newStatus + "?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          `https://mern-ecom-backend-henna.vercel.app/api/order/change-status/${orderId}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+            body: JSON.stringify({ status: newStatus }),
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Failed to update status");
         }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to update status");
+        // Update the status in the UI
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order._id === orderId ? { ...order, status: newStatus } : order
+          )
+        );
+        toast.success(`Status updated to ${newStatus} successfully!`);
+        Swal.fire({
+          title: "Status Updated!",
+          text: `Status updated to ${newStatus} successfully!`,
+          icon: "success",
+        });
       }
-      // Update the status in the UI
-      setOrders((prevOrders) =>
-        prevOrders.map((order) =>
-          order._id === orderId ? { ...order, status: newStatus } : order
-        )
-      );
-      toast.success(
-        "Status updated successfully! Check Pending Orders for updated status."
-      );
-    } catch (error) {
-      console.error("Error updating status:", error.message);
-    }
+    });
   };
 
   return (
@@ -118,8 +130,9 @@ const OrderStatus = () => {
                     <td colSpan="5">
                       <strong>{order.customerName}</strong>
                     </td>
-                    <td>
+                    <td className="">
                       <select
+                        className="btn-sm rounded-lg text-white btn btn-accent"
                         value={order.status}
                         onChange={(e) =>
                           handleChangeStatus(order._id, e.target.value)
