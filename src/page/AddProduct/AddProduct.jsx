@@ -21,20 +21,22 @@ const AddProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const form = e.target;
     const title = form.title.value;
     const price = Number(form.price.value);
     const images = form.image.files; // Access multiple files
-    const imageData = await Promise.all(Array.from(images).map(async (image) => {
-      const imageData = await imageUpload(image);
-      return imageData.data.display_url;
-    }));
+    const imageData = await Promise.all(
+      Array.from(images).map(async (image) => {
+        const imageData = await imageUpload(image);
+        return imageData.data.display_url;
+      })
+    );
     const description = form.description.value;
     const companyName = form.companyName.value;
     const policy = form.policy.value;
     const singleSize = form.singleSize.value;
-    const color = form.color.value.split(',');
+    const color = form.color.value.split(",");
     const quantity = Number(form.quantity.value);
     let categoryId = "";
     categories.forEach((category) => {
@@ -42,10 +44,10 @@ const AddProduct = () => {
         categoryId = category._id;
       }
     });
-  
+
     // Push singleSize value to the sizes array
     const sizes = [singleSize];
-  
+
     const service = {
       title,
       sellerName: user.email,
@@ -61,9 +63,9 @@ const AddProduct = () => {
     };
 
     console.log(service);
-  
+
     const token = localStorage.getItem("token");
-  
+
     fetch("https://mern-ecom-backend-henna.vercel.app/api/product", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: token },
@@ -95,12 +97,14 @@ const AddProduct = () => {
           <title>AN NOOR | Add Product</title>
         </Helmet>
 
-        <div className="md:w-[1285px] w-[300px] md:mx-4 md:my-6 my-3 p-6 ml-1 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
-          <h2 className="text-3xl  font-medium md:font-extrabold text-center text-gray-800 dark:text-white md:mb-8">
-            ADD A <span className="text-red-600">PRODUCT</span> HERE...
-          </h2>
+        <div className="flex justify-center">
+          <div className=" md:mx-4 md:my-6 my-3 p-6 ml-1 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
+            <h2 className="text-3xl  font-medium md:font-extrabold text-center text-gray-800 dark:text-white md:mb-8">
+              ADD A <span className="text-red-600">PRODUCT</span> HERE...
+            </h2>
+          </div>
         </div>
-        <div className="ml-1 md:w-[1285px] w-[300px] my-4">
+        <div className="ml-1 my-4">
           <form onSubmit={handleSubmit} className="max-w-md mx-auto">
             <div>
               <label htmlFor="image" className="block  mb-2 text-sm">
@@ -174,7 +178,7 @@ const AddProduct = () => {
                   Price
                 </label>
               </div>
-             
+
               <div className="relative z-0 w-full mb-6 group">
                 <input
                   type="text"
@@ -215,9 +219,8 @@ const AddProduct = () => {
                 </label>
               </div>
             </div>
-            
+
             <div className="grid md:grid-cols-2 md:gap-6">
-             
               <div className="relative z-0 w-full mb-6 group">
                 <input
                   type="text"
