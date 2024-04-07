@@ -269,7 +269,7 @@ const UpdateProduct = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2.5 px-4 rounded focus:outline-none focus:shadow-outline-blue"
+            className="w-full bg-[#349234] hover:bg-blue-800 text-white font-bold py-2.5 px-4 rounded focus:outline-none focus:shadow-outline-blue"
           >
             Update Product Here
           </button>

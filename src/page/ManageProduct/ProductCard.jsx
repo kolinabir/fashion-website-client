@@ -21,7 +21,7 @@ const ProductCard = ({ itemDetails, handleDelete }) => {
 
       <div className="flex items-end justify-end p-3">
         <Link to={`/update/${_id}`}>
-          <button className="flex items-center font bg-black text-white text-base md:px-2 md:py-2 rounded hover:bg-blue-700">
+          <button className="flex items-center font bg-black text-white text-base md:px-2 md:py-2 rounded hover:bg-[#349234]">
             <AiFillEdit />
           </button>
         </Link>

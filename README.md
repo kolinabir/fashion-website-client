@@ -2,7 +2,7 @@
 
 Welcome to the AN NOOR website! This platform allows users to explore and book various AN NOOR services, manage their listings, and track their bookings.
 
-**Live Website**: [AN NOOR Website](https://AN NOOR-ecommerce-team.netlify.app/)
+**Live Website**: [AN NOOR Website](https://an-noor-ecommerce.netlify.app/)
 
 ## Table of Contents
 
