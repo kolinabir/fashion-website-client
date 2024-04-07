@@ -32,7 +32,7 @@ const BannerWithSwiper = () => {
               <SwiperSlide className="">
                 <img
                   className="w-full  rounded-sm md:h-[60vh] object-cover  transition duration-1000 ease-in-out transform  hover:scale-105"
-                  src="https://i.ibb.co/VH3jhNC/image.png"
+                  src="https://i.ibb.co/LRTrsRr/photo-2024-03-21-12-50-24-min.jpg"
                   alt=""
                   loading="lazy"
                 />

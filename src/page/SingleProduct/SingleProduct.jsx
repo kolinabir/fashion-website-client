@@ -105,7 +105,9 @@ const SingleProduct = () => {
   }
 
   const increase = () => {
-    setcartAmount(cartAmount + 1);
+    if (cartAmount < product.data.quantity) {
+      setcartAmount(cartAmount + 1);
+    }
   };
 
   const decrease = () => {
@@ -118,7 +120,15 @@ const SingleProduct = () => {
     <div className="mx-2 md:mx-0 overflow-hidden">
       <div className="container mx-auto my-6">
         <Helmet>
-          <title>AN NOOR | Checkout</title>
+          <title>AN NOOR | {product?.data?.title}</title>
+          <meta
+            name="description"
+            content={`Buy ${product?.data?.title} at the best price from AN NOOR. ${product?.data?.description}`}
+          />
+          <link
+            rel="canonical"
+            href={`https://mern-ecom-backend-henna.vercel.app/api/product/${product?.data?._id}`}
+          />
         </Helmet>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
           <div>
@@ -150,9 +160,9 @@ const SingleProduct = () => {
                   onChange={(e) => handleSizeChange(e.target.value)}
                   className="text-base md:text-lg text-blue-gray-700 mb-2 appearance-none bg-white border border-blue-gray-200 rounded px-3 py-2 pr-8 leading-tight focus:outline-none focus:border-blue-500"
                 >
-                  <option disabled selected>
+                  {/* <option disabled selected>
                     Select Size
-                  </option>
+                  </option> */}
                   {product?.data?.sizes?.map((sizes, index) =>
                     sizes.split(",").map((size, subIndex) => (
                       <option key={`${index}-${subIndex}`} value={size}>
@@ -175,9 +185,9 @@ const SingleProduct = () => {
                   onChange={(e) => handleColorChange(e.target.value)}
                   className="text-base md:text-lg text-blue-gray-700 mb-2 appearance-none bg-white border border-blue-gray-200 rounded px-3 py-2 pr-8 leading-tight focus:outline-none focus:border-blue-500"
                 >
-                  <option disabled selected>
+                  {/* <option disabled selected>
                     Select Color
-                  </option>
+                  </option> */}
 
                   {product?.data?.color?.map((color, index) => (
                     <option key={index} value={color}>

@@ -22,7 +22,15 @@ const ShowProduct = () => {
   return (
     <div className="mx-3 md:mx-20 lg:mx-36">
       <Helmet>
-        <title>AN NOOR | HOME</title>
+        <title>AN NOOR | All Products</title>
+        <meta
+          name="description"
+          content="Latest products from AN NOOR. Buy the best quality products at the best price."
+        />
+        <link
+          rel="canonical"
+          href="https://mern-ecom-backend-henna.vercel.app/api/product/"
+        />
       </Helmet>
       <div className="py-6">
         <h1 className="text-2xl font-semibold mb-4">NEW ARRIVALS</h1>

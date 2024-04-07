@@ -111,6 +111,14 @@ const ShowAllProduct = () => {
     <div className="mx-3 md:mx-20 lg:mx-36">
       <Helmet>
         <title>AN NOOR | All Products</title>
+        <meta
+          name="description"
+          content="All products available on AN NOOR online store. Shop for the latest products at the best prices."
+        />
+        <link
+          rel="canonical"
+          href="https://mern-ecom-backend-henna.vercel.app/api/product/"
+        />
       </Helmet>
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center">
