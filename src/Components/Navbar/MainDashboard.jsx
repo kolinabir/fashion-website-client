@@ -117,6 +117,18 @@ const MainDashboard = () => {
                           Processing Order
                         </NavLink>
                       </li>
+                      <li className="m-2 flex cursor-pointer rounded-xl py-1 pl-14 text-sm text-black hover:bg-white">
+                        <span className="mr-5">
+                          {/* Example icon */}
+                          <TbDeviceIpadSearch />
+                        </span>
+                        <NavLink
+                          state={{ status: "delivered" }}
+                          to="/orderStatus"
+                        >
+                          Delivered Order
+                        </NavLink>
+                      </li>
                     </ul>
                   </li>
                 </ul>

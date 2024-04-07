@@ -11,8 +11,8 @@ const SingleProductCard = ({ productDetail }) => {
 
   return (
     <div
-      className="bg-white p-4 !h-[450px] rounded-lg shadow-md col-span-1 relative overflow-hidden"
-      style={{ height: "400px", display: "flex", flexDirection: "column" }}
+      className="bg-white p-4 !h-[350px] md:!h-[400px] rounded-lg shadow-md col-span-1 relative overflow-hidden"
+      style={{ height: "43300px", display: "flex", flexDirection: "column" }}
     >
       <div className="group flex-grow">
         <div className="relative overflow-hidden aspect-w-1 aspect-h-1 group-hover:scale-105 transition-transform">
@@ -28,7 +28,7 @@ const SingleProductCard = ({ productDetail }) => {
         <Link
           to={`/showProduct/${productDetail?._id}`}
           className="text-base text-deep-orange-900 font-semibold hover:text-deep-orange-700 transition duration-300 ease-in-out mt-2 flex justify-center overflow-hidden"
-          style={{ height: "50px" }}
+          style={{ height: "35px" }}
         >
           {productDetail?.title}
         </Link>
@@ -49,7 +49,7 @@ const SingleProductCard = ({ productDetail }) => {
           </h3>
         </div>
 
-        <div className="flex justify-center mb-2">
+        <div className="flex justify-center ">
           <h2
             className="text-xs text-black overflow-hidden"
             style={{ height: "20px" }}
