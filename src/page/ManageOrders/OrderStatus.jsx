@@ -3,7 +3,7 @@ import MainDashboard from "../../Components/Navbar/MainDashboard";
 import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
 
-const CancelledOrders = () => {
+const OrderStatus = () => {
   //get the status from state state={{ status: "pending" }}
   const location = useLocation();
   const status = location.state?.status;
@@ -150,4 +150,4 @@ const CancelledOrders = () => {
   );
 };
 
-export default CancelledOrders;
+export default OrderStatus;
