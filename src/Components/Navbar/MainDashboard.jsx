@@ -14,7 +14,7 @@ const MainDashboard = () => {
   const { user } = useContext(AuthContext);
 
   return (
-    <div className="h-screen md:w-80 pb-80 md:ml-36 p-2 md:p-4 min-h-full bg-blue-700 text-base-content">
+    <div className="h-screen md:w-80 pb-80  p-2 md:p-4 min-h-full bg-blue-700 text-base-content">
       {user.role === "admin" && (
         <>
           <ul>
@@ -76,7 +76,7 @@ const MainDashboard = () => {
                       Manage Orders
                       <FaAngleDown className="ml-5" />
                       <label
-                        for="menu-2"
+                        htmlFor="menu-2"
                         className="absolute inset-0 h-full w-full cursor-pointer"
                       ></label>
                     </div>
@@ -86,26 +86,36 @@ const MainDashboard = () => {
                           {/* Example icon */}
                           <CiSettings />
                         </span>
-                        <NavLink to="/pendingOrders">
-                        Pending Order</NavLink>
-                       
+                        <NavLink
+                          state={{ status: "pending" }}
+                          to="/orderStatus"
+                        >
+                          Pending Order
+                        </NavLink>
                       </li>
                       <li className="m-2 flex cursor-pointer rounded-xl py-1 pl-14 text-sm text-black hover:bg-white">
                         <span className="mr-5">
                           {/* Example icon */}
                           <MdOutlineCancel />
                         </span>
-                        <NavLink to="/cancelledOrder">
-                        Cancelled Order</NavLink>
-                        
+                        <NavLink
+                          state={{ status: "cancelled" }}
+                          to="/orderStatus"
+                        >
+                          Cancelled Order
+                        </NavLink>
                       </li>
                       <li className="m-2 flex cursor-pointer rounded-xl py-1 pl-14 text-sm text-black hover:bg-white">
                         <span className="mr-5">
                           {/* Example icon */}
                           <TbDeviceIpadSearch />
                         </span>
-                        <NavLink to="/processingOrder">
-                          Processing Order</NavLink>
+                        <NavLink
+                          state={{ status: "processing" }}
+                          to="/orderStatus"
+                        >
+                          Processing Order
+                        </NavLink>
                       </li>
                     </ul>
                   </li>

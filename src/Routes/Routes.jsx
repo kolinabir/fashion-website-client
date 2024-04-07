@@ -25,16 +25,7 @@ const LazyManageProduct = lazy(() =>
 const LazyUpdateProduct = lazy(() =>
   import("../page/ManageProduct/UpdateProduct")
 );
-const LazyProcessingOrder = lazy(() =>
-  import("../page/ManageOrders/ProcessingOrders")
-);
-const LazyCancelledOrder = lazy(() =>
-  import("../page/ManageOrders/CancelledOrders")
-);
-const LazyPendingOrder = lazy(() =>
-  import("../page/ManageOrders/PendingOrder")
-);
-
+const LazyOrderStatus = lazy(() => import("../page/ManageOrders/OrderStatus"));
 
 const Routes = createBrowserRouter([
   {
@@ -170,7 +161,7 @@ const Routes = createBrowserRouter([
         ),
       },
       {
-        path: "/processingOrder",
+        path: "/orderStatus",
         element: (
           <PrivetsRoutes>
             <Suspense
@@ -180,39 +171,7 @@ const Routes = createBrowserRouter([
                 </div>
               }
             >
-              <LazyProcessingOrder />
-            </Suspense>
-          </PrivetsRoutes>
-        ),
-      },
-      {
-        path: "/pendingOrders",
-        element: (
-          <PrivetsRoutes>
-            <Suspense
-              fallback={
-                <div className="flex items-center justify-center h-screen">
-                  <DotLoader color="#36d7b7" />{" "}
-                </div>
-              }
-            >
-              <LazyPendingOrder />
-            </Suspense>
-          </PrivetsRoutes>
-        ),
-      },
-      {
-        path: "/cancelledOrder",
-        element: (
-          <PrivetsRoutes>
-            <Suspense
-              fallback={
-                <div className="flex items-center justify-center h-screen">
-                  <DotLoader color="#36d7b7" />{" "}
-                </div>
-              }
-            >
-              <LazyCancelledOrder />
+              <LazyOrderStatus />
             </Suspense>
           </PrivetsRoutes>
         ),
