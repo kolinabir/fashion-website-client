@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
+import { imageUpload } from "../../api/utils";
 
 const UpdateProduct = () => {
   const product = useLoaderData();
@@ -16,7 +17,7 @@ const UpdateProduct = () => {
       });
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let categoryId = "";
     categories.map((category) => {
@@ -29,7 +30,13 @@ const UpdateProduct = () => {
     const title = form.title.value;
     const price = form.price.value;
     const description = form.description.value;
-    const image = form.image.value;
+    const images = form.image.files; // Access multiple files
+    const imageData = await Promise.all(
+      Array.from(images).map(async (image) => {
+        const imageData = await imageUpload(image);
+        return imageData.data.display_url;
+      })
+    );
     const companyName = form.companyName.value;
     const size = form.size.value;
     const sizes = [];
@@ -43,7 +50,7 @@ const UpdateProduct = () => {
       title,
       price,
       description,
-      image,
+      image: imageData, // Pass the array of image URLs
       companyName,
       size,
       sizes,
@@ -94,19 +101,19 @@ const UpdateProduct = () => {
       <div className="container my-5 mx-auto">
         <form onSubmit={handleSubmit}>
           <div className="grid md:grid-cols-2 md:gap-6">
-            <div className="relative z-0 w-full mb-6 group">
-              <input
-                type="text"
-                name="image"
-                id="image"
-                defaultValue={product.data.image}
-                className="block py-2.5 px-0 w-full text-sm text-gray-800 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
-              />
-              <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Image
+            <div>
+              <label htmlFor="image" className="block  mb-2 text-sm">
+                Select Image:
               </label>
+              <input
+                required
+                type="file"
+                id="image"
+                name="image"
+                accept="image/*"
+                className="w-full py-2.5 px-4 text-sm text-gray-800 dark:text-white bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                multiple // Add the multiple attribute
+              />
             </div>
             <div className="relative z-0 w-full mb-6 group">
               <input
