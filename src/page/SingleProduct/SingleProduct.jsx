@@ -430,9 +430,31 @@ const SingleProduct = () => {
           <div className="tab-content">
             {activeTab === "description" && (
               <div className="mt-8">
-                <p className="text-base md:text-lg text-blue-gray-900 mb-4">
-                  {productDetail?.description}
+                <p className="text-base md:text-lg text-blue-gray-900 mb-5">
+                  Title: {productDetail?.description?.title}
                 </p>
+                {/* whyShouldBuy is array */}
+                <h1 className="text-base md:text-xl font-semibold mb-2">
+                  Why Should You Buy This Product?{" "}
+                </h1>
+                {productDetail?.description?.whyShouldBuy?.map(
+                  (item, index) => (
+                    <p
+                      key={index}
+                      className="text-base md:text-lg text-blue-gray-900 mb-2"
+                    >
+                      {index + 1}: {item}
+                    </p>
+                  )
+                )}
+                <div className=" text-base md:text-lg mt-3">
+                  Extra Description:{" "}
+                  <h1 className=" text-base md:text-lg text-blue-gray-900 mb-2">
+                    <h1 className="">
+                      {productDetail?.description?.extraInfo}
+                    </h1>
+                  </h1>
+                </div>
                 {/* Display other description data here */}
               </div>
             )}

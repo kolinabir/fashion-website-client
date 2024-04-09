@@ -188,7 +188,7 @@ const Routes = createBrowserRouter([
           </PrivetsRoutes>
         ),
         loader: ({ params }) =>
-          fetch(`https://ecomannoor.vercel.app/api/product/${params.id}`),
+          fetch(`https://mernecomnoor.vercel.app/api/product/${params.id}`),
       },
     ],
   },

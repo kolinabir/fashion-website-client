@@ -6,12 +6,18 @@ import MainDashboard from "../../Components/Navbar/MainDashboard";
 
 const ManageProduct = () => {
   const [addedItem, setAddedItem] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetch(`https://mernecomnoor.vercel.app/api/product/`)
+    setLoading(true);
+    fetch(`https://mernecomnoor.vercel.app/api/product/all`, {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setAddedItem(data.data);
+        setLoading(false);
       });
   }, []);
 
@@ -27,7 +33,6 @@ const ManageProduct = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         const token = localStorage.getItem("token");
-
         fetch(`https://mernecomnoor.vercel.app/api/product/${itemId}`, {
           method: "DELETE",
           headers: {
@@ -37,11 +42,18 @@ const ManageProduct = () => {
         })
           .then((response) => response.json())
           .then((data) => {
-            if (data.deletedCount === 1) {
-              setAddedItem((prevCartItems) =>
-                prevCartItems.filter((item) => item._id !== itemId)
+            if (data.success) {
+              Swal.fire({
+                icon: "success",
+                title: "Your Product has been deleted!",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+
+              const newAddedItem = addedItem.products.filter(
+                (item) => item._id !== itemId
               );
-              Swal.fire("Deleted!", "Your file has been deleted.", "success");
+              setAddedItem({ ...addedItem, products: newAddedItem });
             }
           });
       }
@@ -57,17 +69,26 @@ const ManageProduct = () => {
         <Helmet>
           <title>AN NOOR | Manage Service</title>
         </Helmet>
-        {addedItem.length === 0 ? (
+        {loading && (
+          <div className="flex items-center justify-center h-screen">
+            <div className="w-20 h-20 border-t-4 border-b-4 border-gray-900 rounded-full animate-spin"></div>
+          </div>
+        )}
+        {!loading && addedItem.length === 0 ? (
           <p>You Have No Service Available</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-2">
-            {addedItem?.products?.map((itemDetails, index) => (
-              <ProductCard
-                key={index}
-                itemDetails={itemDetails}
-                handleDelete={handleDelete}
-              ></ProductCard>
-            ))}
+          <div>
+            {!loading && (
+              <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-2">
+                {addedItem?.products?.map((itemDetails, index) => (
+                  <ProductCard
+                    key={index}
+                    itemDetails={itemDetails}
+                    handleDelete={handleDelete}
+                  ></ProductCard>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>

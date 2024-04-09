@@ -9,6 +9,8 @@ const AddProduct = () => {
   const { user } = useContext(AuthContext);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [whyShouldBuyCount, setWhyShouldBuyCount] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // Fetch categories from the API
@@ -20,6 +22,7 @@ const AddProduct = () => {
   }, []);
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
 
     const form = e.target;
@@ -32,7 +35,15 @@ const AddProduct = () => {
         return imageData.data.display_url;
       })
     );
-    const description = form.description.value;
+    const description = {
+      title: form.descriptionTitle.value,
+      whyShouldBuy: Array.from({ length: whyShouldBuyCount }).map(
+        (_, index) => {
+          return form[`whyShouldBuy${index}`].value;
+        }
+      ),
+      extraInfo: form.extraInfo.value || "",
+    };
     const companyName = form.companyName.value;
     const policy = form.policy.value;
     const singleSize = form.singleSize.value;
@@ -47,7 +58,6 @@ const AddProduct = () => {
 
     // Push singleSize value to the sizes array
     const sizes = [singleSize];
-
     const service = {
       title,
       sellerName: user.email,
@@ -62,8 +72,6 @@ const AddProduct = () => {
       quantity,
     };
 
-    // console.log(service);
-
     const token = localStorage.getItem("token");
 
     fetch("https://mernecomnoor.vercel.app/api/product", {
@@ -73,18 +81,35 @@ const AddProduct = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // Handle success
+        if (data?.success) {
+          setLoading(false);
+          form.reset();
+          setWhyShouldBuyCount(1);
+          Swal.fire({
+            title: "Success!",
+            text: "Product added successfully!",
+            icon: "success",
+            confirmButtonText: "Cool",
+          });
+        } else {
+          Swal.fire({
+            title: "Failed!",
+            text: "Failed to add product!",
+            icon: "error",
+            confirmButtonText: "Try Again",
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
+        Swal.fire({
+          title: "Failed!",
+          text: "Failed to add service!",
+          icon: "error",
+          confirmButtonText: "Try Again",
+        });
       });
-    form.reset();
-    Swal.fire({
-      title: "Success!",
-      text: "Service added successfully!",
-      icon: "success",
-      confirmButtonText: "Cool",
-    });
   };
 
   return (
@@ -205,19 +230,6 @@ const AddProduct = () => {
                   Quantity
                 </label>
               </div>
-              <div className="relative z-0 w-full mb-6 group">
-                <input
-                  type="text"
-                  name="description"
-                  id="description"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
-                  required
-                />
-                <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                  Description
-                </label>
-              </div>
             </div>
 
             <div className="grid md:grid-cols-2 md:gap-6">
@@ -234,7 +246,6 @@ const AddProduct = () => {
                   Product Size
                 </label>
               </div>
-
               <div className="relative z-0 w-full mb-6 group">
                 <label
                   htmlFor="category"
@@ -261,12 +272,67 @@ const AddProduct = () => {
                 </select>
               </div>
             </div>
+            <h1 className="my-3 text-2xl text-center">Description</h1>
+            <br />
+            <div>
+              <div className="relative z-0 w-full mb-6 group">
+                <input
+                  type="text"
+                  name="descriptionTitle"
+                  id="descriptionTitle"
+                  className="block py-2.5 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  required
+                />
+                <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                  Title of Description
+                </label>
+              </div>
+              {
+                // Add multiple input fields for the description
+                Array.from({ length: whyShouldBuyCount }).map((_, index) => (
+                  <div key={index} className="relative z-0 w-full mb-6 group">
+                    <input
+                      type="text"
+                      name={`whyShouldBuy${index}`}
+                      id={`whyShouldBuy${index}`}
+                      className="block py-2.5 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                      required
+                    />
+                    <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                      whyShouldBuy {index + 1}
+                    </label>
+                  </div>
+                ))
+              }
+              {/* button to add more description fields */}
+              <button
+                type="button"
+                onClick={() => setWhyShouldBuyCount((prev) => prev + 1)}
+                className="w-full mb-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                Add More whyShouldBuy Points
+              </button>
+              <div className="relative z-0 w-full mb-6 group">
+                <textarea
+                  type="text"
+                  name="extraInfo"
+                  id="extraInfo"
+                  className="block py-2.5 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                />
+                <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                  extraInfo (optional)
+                </label>
+              </div>
+            </div>
 
             <button
               type="submit"
               className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              ADD Product
+              {loading ? "Adding Product..." : "Add Product"}
             </button>
           </form>
         </div>
