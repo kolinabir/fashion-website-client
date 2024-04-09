@@ -16,7 +16,10 @@ const SingleProductCard = ({ productDetail }) => {
     >
       <div className="group flex-grow">
         <div className="relative overflow-hidden aspect-w-1 aspect-h-1 group-hover:scale-105 transition-transform">
-          <Link to={`/showProduct/${productDetail?._id}`}>
+          <Link
+            // state={{ id: productDetail?._id }}
+            to={`/showProduct/${productDetail?._id}`}
+          >
             <img
               // eslint-disable-next-line react/prop-types
               src={productDetail?.image}

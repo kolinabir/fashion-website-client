@@ -10,17 +10,36 @@ import { Link, useNavigate } from "react-router-dom";
 
 const ShowCart = () => {
   const [cart, setCart] = useState([]);
-  const [allCart, setAllCart] = useState([]);
   const [loading, setLoading] = useState(true); // Added loading state
+  const [orderLoading, setOrderLoading] = useState(false); // Added order loading state
   const { user, setCartChange, cartChange } = useContext(AuthContext);
   const navigate = useNavigate();
-  const shippingFee = 120;
+  const shippingFee = 100;
   const handleOrder = () => {
-    setLoading(true);
     const customerName = document.getElementById("name").value;
     const phoneNumber = document.getElementById("phoneNo").value;
     const address = document.getElementById("address").value;
+    if (phoneNumber.length !== 11 || isNaN(phoneNumber)) {
+      Swal.fire({
+        title: "Error!",
+        text: ` Please provide a valid phone number!`,
+        icon: "error",
+        confirmButtonText: "Okay",
+      });
+      return;
+    }
+    if (!customerName || !phoneNumber || !address) {
+      Swal.fire({
+        title: "Error!",
+        text: ` Please fill all the fields!`,
+        icon: "error",
+        confirmButtonText: "Okay",
+      });
+      return;
+    }
+
     let productsAll = [];
+    // console.log(cart);
     if (user) {
       productsAll = cart?.orders[0]?.products?.map((order) => {
         return {
@@ -31,7 +50,7 @@ const ShowCart = () => {
     } else {
       productsAll = cart.map((product) => {
         return {
-          productId: product.productId._id,
+          productId: product._id,
           quantity: product.quantity,
         };
       });
@@ -42,10 +61,11 @@ const ShowCart = () => {
       address,
       phoneNumber: Number(phoneNumber),
     };
-    console.log(cart);
+    setOrderLoading(true);
     const token = localStorage.getItem("token");
-    // https://mern-ecom-backend-henna.vercel.app/api/order
-    fetch("https://mern-ecom-backend-henna.vercel.app/api/order", {
+    // https://mernecomnoor.vercel.app/api/order
+    //https://mernecomnoor.vercel.app/api/order
+    fetch("https://mernecomnoor.vercel.app/api/order", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: token },
       body: JSON.stringify(order),
@@ -60,6 +80,10 @@ const ShowCart = () => {
             confirmButtonText: "Cool",
           });
           navigate("/products");
+          // Clear the cart after successful order
+          localStorage.removeItem("cart");
+          setCart([]);
+          setCartChange(!cartChange);
         } else {
           Swal.fire({
             title: "Error!",
@@ -68,9 +92,11 @@ const ShowCart = () => {
             confirmButtonText: "Okay",
           });
         }
+        // setOrderLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setOrderLoading(false);
       });
   };
 
@@ -84,7 +110,7 @@ const ShowCart = () => {
         if (user != null) {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            `https://mern-ecom-backend-henna.vercel.app/api/cart/${user._id}`,
+            `https://mernecomnoor.vercel.app/api/cart/${user._id}`,
             {
               headers: {
                 Authorization: token,
@@ -98,7 +124,7 @@ const ShowCart = () => {
           const cartData = JSON.parse(localStorage.getItem("cart")) || [];
           for (const item of cartData) {
             const response = await fetch(
-              `https://mern-ecom-backend-henna.vercel.app/api/product/${item.productId}`
+              `https://mernecomnoor.vercel.app/api/product/${item.productId}`
             );
             const data = await response.json();
             const mainData = data.data;
@@ -127,28 +153,22 @@ const ShowCart = () => {
 
   const handleDelete = (itemId) => {
     if (user) {
-      fetch(
-        `https://mern-ecom-backend-henna.vercel.app/api/cart/delete/${itemId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      )
+      fetch(`https://mernecomnoor.vercel.app/api/cart/delete/${itemId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
-            console.log("Item deleted successfully");
+            // console.log("Item deleted successfully");
             // Fetch the updated cart data again
-            fetch(
-              `https://mern-ecom-backend-henna.vercel.app/api/cart/${user._id}`,
-              {
-                headers: {
-                  Authorization: localStorage.getItem("token"),
-                },
-              }
-            )
+            fetch(`https://mernecomnoor.vercel.app/api/cart/${user._id}`, {
+              headers: {
+                Authorization: localStorage.getItem("token"),
+              },
+            })
               .then((response) => response.json())
               .then((data) => {
                 setCart(data.data);
@@ -295,8 +315,8 @@ const ShowCart = () => {
               )}
             </div>
             <div>
-              {cart?.orders?.length > 0 &&
-                console.log(cart.orders[0].products.length)}
+              {/* {cart?.orders?.length > 0 &&
+                console.log(cart.orders[0].products.length)} */}
               {(!loading &&
                 cart?.orders?.length > 0 &&
                 cart.orders[0].products.length > 0) ||
@@ -318,6 +338,7 @@ const ShowCart = () => {
                         type="text"
                         id="name"
                         name="name"
+                        required
                         className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                         placeholder="Your full name here"
                       />
@@ -346,7 +367,8 @@ const ShowCart = () => {
                     </label>
                     <div className="relative">
                       <input
-                        type="tel"
+                        required
+                        type="number"
                         id="phoneNo"
                         name="phoneNo"
                         className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
@@ -378,6 +400,7 @@ const ShowCart = () => {
                     <div className="flex flex-col sm:flex-row">
                       <div className="relative !w-full flex-shrink-0 sm:w-7/12">
                         <input
+                          required
                           type="text"
                           id="address"
                           name="address"
@@ -428,12 +451,22 @@ const ShowCart = () => {
                       </p>
                     </div>
                   </div>
-                  <button
-                    onClick={handleOrder}
-                    className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
-                  >
-                    Place Order
-                  </button>
+                  {
+                    <button
+                      onClick={handleOrder}
+                      className="mt-6 w-full py-3 bg-[#349234] text-white rounded-md font-semibold hover:bg-indigo-700 transition duration-300 ease-in-out"
+                    >
+                      {orderLoading ? (
+                        <DotLoader
+                          size={20}
+                          color="#10B981"
+                          loading={orderLoading}
+                        />
+                      ) : (
+                        "Place Order"
+                      )}
+                    </button>
+                  }
                 </div>
               ) : (
                 <div className="text-center my-32 ">

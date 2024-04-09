@@ -8,7 +8,7 @@ const ManageProduct = () => {
   const [addedItem, setAddedItem] = useState([]);
 
   useEffect(() => {
-    fetch(`https://mern-ecom-backend-henna.vercel.app/api/product/`)
+    fetch(`https://mernecomnoor.vercel.app/api/product/`)
       .then((res) => res.json())
       .then((data) => {
         setAddedItem(data.data);
@@ -28,16 +28,13 @@ const ManageProduct = () => {
       if (result.isConfirmed) {
         const token = localStorage.getItem("token");
 
-        fetch(
-          `https://mern-ecom-backend-henna.vercel.app/api/product/${itemId}`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: token,
-            },
-          }
-        )
+        fetch(`https://mernecomnoor.vercel.app/api/product/${itemId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        })
           .then((response) => response.json())
           .then((data) => {
             if (data.deletedCount === 1) {

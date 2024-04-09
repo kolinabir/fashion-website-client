@@ -10,7 +10,7 @@ const UpdateProduct = () => {
 
   useEffect(() => {
     // Fetch categories from the API
-    fetch("https://mern-ecom-backend-henna.vercel.app/api/categories")
+    fetch("https://mernecomnoor.vercel.app/api/categories")
       .then((res) => res.json())
       .then((data) => {
         setCategories(data.data);
@@ -62,17 +62,14 @@ const UpdateProduct = () => {
 
     const token = localStorage.getItem("token");
 
-    fetch(
-      `https://mern-ecom-backend-henna.vercel.app/api/product/${product.data._id}`,
-      {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json", Authorization: token },
-        body: JSON.stringify(service),
-      }
-    )
+    fetch(`https://mernecomnoor.vercel.app/api/product/${product.data._id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", Authorization: token },
+      body: JSON.stringify(service),
+    })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (data.success) {
           Swal.fire({
             title: "Success!",

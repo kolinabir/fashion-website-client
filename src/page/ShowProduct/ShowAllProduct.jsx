@@ -26,7 +26,7 @@ const ShowAllProduct = () => {
     const loadAllProduct = async () => {
       try {
         const response = await fetch(
-          "https://mern-ecom-backend-henna.vercel.app/api/product"
+          "https://mernecomnoor.vercel.app/api/product"
         );
         if (response.ok) {
           const data = await response.json();
@@ -45,7 +45,7 @@ const ShowAllProduct = () => {
     const loadAllCategory = async () => {
       try {
         const response = await fetch(
-          "https://mern-ecom-backend-henna.vercel.app/api/categories/"
+          "https://mernecomnoor.vercel.app/api/categories/"
         );
         if (response.ok) {
           const data = await response.json();
@@ -83,8 +83,8 @@ const ShowAllProduct = () => {
     try {
       const url =
         categoryId === "all"
-          ? "https://mern-ecom-backend-henna.vercel.app/api/product"
-          : `https://mern-ecom-backend-henna.vercel.app/api/product/category/${categoryId}`;
+          ? "https://mernecomnoor.vercel.app/api/product"
+          : `https://mernecomnoor.vercel.app/api/product/category/${categoryId}`;
 
       const response = await fetch(url);
       if (response.ok) {
@@ -117,7 +117,7 @@ const ShowAllProduct = () => {
         />
         <link
           rel="canonical"
-          href="https://mern-ecom-backend-henna.vercel.app/api/product/"
+          href="https://mernecomnoor.vercel.app/api/product/"
         />
       </Helmet>
       <div className="container mx-auto">

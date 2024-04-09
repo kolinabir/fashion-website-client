@@ -12,7 +12,7 @@ const AddProduct = () => {
 
   useEffect(() => {
     // Fetch categories from the API
-    fetch("https://mern-ecom-backend-henna.vercel.app/api/categories")
+    fetch("https://mernecomnoor.vercel.app/api/categories")
       .then((res) => res.json())
       .then((data) => {
         setCategories(data.data);
@@ -62,11 +62,11 @@ const AddProduct = () => {
       quantity,
     };
 
-    console.log(service);
+    // console.log(service);
 
     const token = localStorage.getItem("token");
 
-    fetch("https://mern-ecom-backend-henna.vercel.app/api/product", {
+    fetch("https://mernecomnoor.vercel.app/api/product", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: token },
       body: JSON.stringify(service),
@@ -207,7 +207,7 @@ const AddProduct = () => {
               </div>
               <div className="relative z-0 w-full mb-6 group">
                 <input
-                  type="tel"
+                  type="text"
                   name="description"
                   id="description"
                   className="block py-2.5 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"

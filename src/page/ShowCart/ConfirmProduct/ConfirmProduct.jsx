@@ -1,5 +1,5 @@
 const ConfirmServices = ({ booking, handleBookingConfirm }) => {
-  console.log(booking);
+  // console.log(booking);
   const {
     _id,
     district,

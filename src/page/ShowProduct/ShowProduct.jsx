@@ -29,7 +29,7 @@ const ShowProduct = () => {
         />
         <link
           rel="canonical"
-          href="https://mern-ecom-backend-henna.vercel.app/api/product/"
+          href="https://mernecomnoor.vercel.app/api/product/"
         />
       </Helmet>
       <div className="py-6">
