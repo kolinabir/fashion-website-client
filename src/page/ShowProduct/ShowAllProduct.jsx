@@ -26,7 +26,7 @@ const ShowAllProduct = () => {
     const loadAllProduct = async () => {
       try {
         const response = await fetch(
-          "https://mern-ecom-backend-henna.vercel.app/api/product"
+          "https://mernecomnoor.vercel.app/api/product"
         );
         if (response.ok) {
           const data = await response.json();
@@ -45,7 +45,7 @@ const ShowAllProduct = () => {
     const loadAllCategory = async () => {
       try {
         const response = await fetch(
-          "https://mern-ecom-backend-henna.vercel.app/api/categories/"
+          "https://mernecomnoor.vercel.app/api/categories/"
         );
         if (response.ok) {
           const data = await response.json();
@@ -83,8 +83,8 @@ const ShowAllProduct = () => {
     try {
       const url =
         categoryId === "all"
-          ? "https://mern-ecom-backend-henna.vercel.app/api/product"
-          : `https://mern-ecom-backend-henna.vercel.app/api/product/category/${categoryId}`;
+          ? "https://mernecomnoor.vercel.app/api/product"
+          : `https://mernecomnoor.vercel.app/api/product/category/${categoryId}`;
 
       const response = await fetch(url);
       if (response.ok) {
@@ -111,6 +111,14 @@ const ShowAllProduct = () => {
     <div className="mx-3 md:mx-20 lg:mx-36">
       <Helmet>
         <title>AN NOOR | All Products</title>
+        <meta
+          name="description"
+          content="All products available on AN NOOR online store. Shop for the latest products at the best prices."
+        />
+        <link
+          rel="canonical"
+          href="https://mernecomnoor.vercel.app/api/product/"
+        />
       </Helmet>
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center">

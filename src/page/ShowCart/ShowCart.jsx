@@ -10,21 +10,38 @@ import { Link, useNavigate } from "react-router-dom";
 
 const ShowCart = () => {
   const [cart, setCart] = useState([]);
-  const [allCart, setAllCart] = useState([]);
   const [loading, setLoading] = useState(true); // Added loading state
+  const [orderLoading, setOrderLoading] = useState(false); // Added order loading state
   const { user, setCartChange, cartChange } = useContext(AuthContext);
   const navigate = useNavigate();
-  const shippingFee = 120;
+  const shippingFee = 100;
   const handleOrder = () => {
-    setLoading(true);
     const customerName = document.getElementById("name").value;
     const phoneNumber = document.getElementById("phoneNo").value;
     const address = document.getElementById("address").value;
+    if (phoneNumber.length !== 11 || isNaN(phoneNumber)) {
+      Swal.fire({
+        title: "Error!",
+        text: ` Please provide a valid phone number!`,
+        icon: "error",
+        confirmButtonText: "Okay",
+      });
+      return;
+    }
+    if (!customerName || !phoneNumber || !address) {
+      Swal.fire({
+        title: "Error!",
+        text: ` Please fill all the fields!`,
+        icon: "error",
+        confirmButtonText: "Okay",
+      });
+      return;
+    }
+
     let productsAll = [];
+    // console.log(cart);
     if (user) {
       productsAll = cart?.orders[0]?.products?.map((order) => {
-        console.log(order);
-
         return {
           productId: order.productId._id,
           quantity: Number(order.quantity),
@@ -33,7 +50,7 @@ const ShowCart = () => {
     } else {
       productsAll = cart.map((product) => {
         return {
-          productId: product.productId._id,
+          productId: product._id,
           quantity: product.quantity,
         };
       });
@@ -44,10 +61,11 @@ const ShowCart = () => {
       address,
       phoneNumber: Number(phoneNumber),
     };
-    console.log(cart);
+    setOrderLoading(true);
     const token = localStorage.getItem("token");
-    // https://mern-ecom-backend-henna.vercel.app/api/order
-    fetch("https://mern-ecom-backend-henna.vercel.app/api/order", {
+    // https://mernecomnoor.vercel.app/api/order
+    //https://mernecomnoor.vercel.app/api/order
+    fetch("https://mernecomnoor.vercel.app/api/order", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: token },
       body: JSON.stringify(order),
@@ -57,11 +75,15 @@ const ShowCart = () => {
         if (data.success) {
           Swal.fire({
             title: "Success!",
-            text: "Order Completed Successfully!",
+            text: "Order Completed Successfully! Soon you will get a call from us!",
             icon: "success",
             confirmButtonText: "Cool",
           });
           navigate("/products");
+          // Clear the cart after successful order
+          localStorage.removeItem("cart");
+          setCart([]);
+          setCartChange(!cartChange);
         } else {
           Swal.fire({
             title: "Error!",
@@ -70,9 +92,11 @@ const ShowCart = () => {
             confirmButtonText: "Okay",
           });
         }
+        // setOrderLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setOrderLoading(false);
       });
   };
 
@@ -86,7 +110,7 @@ const ShowCart = () => {
         if (user != null) {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            `https://mern-ecom-backend-henna.vercel.app/api/cart/${user._id}`,
+            `https://mernecomnoor.vercel.app/api/cart/${user._id}`,
             {
               headers: {
                 Authorization: token,
@@ -100,7 +124,7 @@ const ShowCart = () => {
           const cartData = JSON.parse(localStorage.getItem("cart")) || [];
           for (const item of cartData) {
             const response = await fetch(
-              `https://mern-ecom-backend-henna.vercel.app/api/product/${item.productId}`
+              `https://mernecomnoor.vercel.app/api/product/${item.productId}`
             );
             const data = await response.json();
             const mainData = data.data;
@@ -129,28 +153,22 @@ const ShowCart = () => {
 
   const handleDelete = (itemId) => {
     if (user) {
-      fetch(
-        `https://mern-ecom-backend-henna.vercel.app/api/cart/delete/${itemId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      )
+      fetch(`https://mernecomnoor.vercel.app/api/cart/delete/${itemId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
-            console.log("Item deleted successfully");
+            // console.log("Item deleted successfully");
             // Fetch the updated cart data again
-            fetch(
-              `https://mern-ecom-backend-henna.vercel.app/api/cart/${user._id}`,
-              {
-                headers: {
-                  Authorization: localStorage.getItem("token"),
-                },
-              }
-            )
+            fetch(`https://mernecomnoor.vercel.app/api/cart/${user._id}`, {
+              headers: {
+                Authorization: localStorage.getItem("token"),
+              },
+            })
               .then((response) => response.json())
               .then((data) => {
                 setCart(data.data);
@@ -297,160 +315,180 @@ const ShowCart = () => {
               )}
             </div>
             <div>
-              {(cart?.orders?.length > 0 &&
+              {/* {cart?.orders?.length > 0 &&
+                console.log(cart.orders[0].products.length)} */}
+              {(!loading &&
+                cart?.orders?.length > 0 &&
                 cart.orders[0].products.length > 0) ||
-                (cart.length > 0 ? (
-                  <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
-                    <p className="text-xl font-medium">Payment Details</p>
-                    <p className="text-gray-400">
-                      Complete your order by providing your payment details.
-                    </p>
-                    <div className="">
-                      <label
-                        htmlFor="name"
-                        className="mt-4 mb-2 block text-sm font-medium"
-                      >
-                        Name
-                      </label>
-                      <div className="relative">
-                        <input
-                          type="text"
-                          id="name"
-                          name="name"
-                          className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                          placeholder="Your full name here"
-                        />
-                        <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 text-gray-400"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <label
-                        htmlFor="phoneNo"
-                        className="mt-4 mb-2 block text-sm font-medium"
-                      >
-                        Phone Number
-                      </label>
-                      <div className="relative">
-                        <input
-                          type="tel"
-                          id="phoneNo"
-                          name="phoneNo"
-                          className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                          placeholder="01234567891"
-                        />
-                        <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 text-gray-400"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <label
-                        htmlFor="address"
-                        className="mt-4 mb-2 block text-sm font-medium"
-                      >
-                        Billing Address
-                      </label>
-                      <div className="flex flex-col sm:flex-row">
-                        <div className="relative !w-full flex-shrink-0 sm:w-7/12">
-                          <input
-                            type="text"
-                            id="address"
-                            name="address"
-                            className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                            placeholder="Address"
+              cart.length > 0 ? (
+                <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
+                  <p className="text-xl font-medium">Payment Details</p>
+                  <p className="text-gray-400">
+                    Complete your order by providing your payment details.
+                  </p>
+                  <div className="">
+                    <label
+                      htmlFor="name"
+                      className="mt-4 mb-2 block text-sm font-medium"
+                    >
+                      Name
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                        placeholder="Your full name here"
+                      />
+                      <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 text-gray-400"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"
                           />
-                          <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                            <img
-                              className="h-4 w-4 object-contain"
-                              src="https://flagpack.xyz/_nuxt/4c829b6c0131de7162790d2f897a90fd.svg"
-                              alt=""
-                            />
-                          </div>
+                        </svg>
+                      </div>
+                    </div>
+                    <label
+                      htmlFor="phoneNo"
+                      className="mt-4 mb-2 block text-sm font-medium"
+                    >
+                      Phone Number
+                    </label>
+                    <div className="relative">
+                      <input
+                        required
+                        type="number"
+                        id="phoneNo"
+                        name="phoneNo"
+                        className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                        placeholder="01234567891"
+                      />
+                      <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 text-gray-400"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <label
+                      htmlFor="address"
+                      className="mt-4 mb-2 block text-sm font-medium"
+                    >
+                      Billing Address
+                    </label>
+                    <div className="flex flex-col sm:flex-row">
+                      <div className="relative !w-full flex-shrink-0 sm:w-7/12">
+                        <input
+                          required
+                          type="text"
+                          id="address"
+                          name="address"
+                          className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                          placeholder="Address"
+                        />
+                        <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
+                          <img
+                            className="h-4 w-4 object-contain"
+                            src="https://flagpack.xyz/_nuxt/4c829b6c0131de7162790d2f897a90fd.svg"
+                            alt=""
+                          />
                         </div>
                       </div>
+                    </div>
 
-                      <div className="mt-6 border-t border-b py-2">
-                        <div className="flex items-center justify-between">
-                          <p className="text-sm font-medium text-gray-900">
-                            Subtotal
-                          </p>
-                          <p className="font-semibold text-gray-900">
-                            {cart?.totalPrice}
-                            {!user && totalPriceForNu} TK
-                          </p>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <p className="text-sm font-medium text-gray-900">
-                            Shipping
-                          </p>
-                          <p className="font-semibold text-gray-900">
-                            {shippingFee}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="mt-6 flex items-center justify-between">
+                    <div className="mt-6 border-t border-b py-2">
+                      <div className="flex items-center justify-between">
                         <p className="text-sm font-medium text-gray-900">
-                          Total
+                          Subtotal
                         </p>
-                        <p className="text-2xl font-semibold text-gray-900">
-                          {user ? (
-                            <p className="text-2xl font-semibold text-gray-900">
-                              {cart?.totalPrice + shippingFee} TK
-                            </p>
-                          ) : (
-                            <p className="text-2xl font-semibold text-gray-900">
-                              {totalPriceForNu + shippingFee} TK
-                            </p>
-                          )}
+                        <p className="font-semibold text-gray-900">
+                          {cart?.totalPrice}
+                          {!user && totalPriceForNu} TK
+                        </p>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm font-medium text-gray-900">
+                          Shipping
+                        </p>
+                        <p className="font-semibold text-gray-900">
+                          {shippingFee}
                         </p>
                       </div>
                     </div>
+                    <div className="mt-6 flex items-center justify-between">
+                      <p className="text-sm font-medium text-gray-900">Total</p>
+                      <p className="text-2xl font-semibold text-gray-900">
+                        {user ? (
+                          <p className="text-2xl font-semibold text-gray-900">
+                            {cart?.totalPrice + shippingFee} TK
+                          </p>
+                        ) : (
+                          <p className="text-2xl font-semibold text-gray-900">
+                            {totalPriceForNu + shippingFee} TK
+                          </p>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                  {
                     <button
                       onClick={handleOrder}
-                      className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
+                      className="mt-6 w-full py-3 bg-[#349234] text-white rounded-md font-semibold hover:bg-indigo-700 transition duration-300 ease-in-out"
                     >
-                      Place Order
+                      {orderLoading ? (
+                        <DotLoader
+                          size={20}
+                          color="#10B981"
+                          loading={orderLoading}
+                        />
+                      ) : (
+                        "Place Order"
+                      )}
                     </button>
-                  </div>
-                ) : (
-                  <div className="text-center my-32">
-                    <p className="text-xl font-medium">No items in the cart</p>
-                    <Link
-                      to="/products"
-                      className="text-blue-500
+                  }
+                </div>
+              ) : (
+                <div className="text-center my-32 ">
+                  {!loading && (
+                    <div>
+                      <p className="text-xl font-medium">
+                        No items in the cart
+                      </p>
+                      <Link
+                        to="/products"
+                        className="text-blue-500
                 hover:text-blue-700 font-semibold
                  border-b-2 border-blue-500 bg-transparent
                 "
-                    >
-                      {" "}
-                      Go to products
-                    </Link>
-                  </div>
-                ))}
+                      >
+                        {" "}
+                        Go to products
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

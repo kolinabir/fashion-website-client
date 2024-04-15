@@ -15,7 +15,7 @@ const AuthProvider = ({ children }) => {
       if (token) {
         try {
           const response = await fetch(
-            "https://mern-ecom-backend-henna.vercel.app/api/auth/check-auth",
+            "https://mernecomnoor.vercel.app/api/auth/check-auth",
             {
               headers: {
                 Authorization: token,
@@ -24,7 +24,7 @@ const AuthProvider = ({ children }) => {
           );
           if (response.ok) {
             const data = await response.json(); // Convert the ReadableStream to JSON
-            console.log(data);
+            // console.log(data);
             setUser(data.data); // Assuming the user object is directly under the "user" key in the response data
           } else {
             // Handle invalid token or other errors
@@ -51,7 +51,7 @@ const AuthProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        "https://mern-ecom-backend-henna.vercel.app/api/auth/login",
+        "https://mernecomnoor.vercel.app/api/auth/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

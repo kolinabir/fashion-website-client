@@ -8,7 +8,7 @@ const Category = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://mern-ecom-backend-henna.vercel.app/api/categories/"
+          "https://mernecomnoor.vercel.app/api/categories/"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch categories");

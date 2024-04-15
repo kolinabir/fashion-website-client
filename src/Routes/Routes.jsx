@@ -139,10 +139,6 @@ const Routes = createBrowserRouter([
             <LazySingleProduct />
           </Suspense>
         ),
-        loader: ({ params }) =>
-          fetch(
-            `https://mern-ecom-backend-henna.vercel.app/api/product/${params.id}`
-          ),
       },
       {
         path: "/manageProduct",
@@ -192,9 +188,7 @@ const Routes = createBrowserRouter([
           </PrivetsRoutes>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://mern-ecom-backend-henna.vercel.app/api/product/${params.id}`
-          ),
+          fetch(`https://mernecomnoor.vercel.app/api/product/${params.id}`),
       },
     ],
   },

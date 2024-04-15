@@ -19,7 +19,7 @@ const OrderStatus = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          `https://mern-ecom-backend-henna.vercel.app/api/order?status=${status}`,
+          `https://mernecomnoor.vercel.app/api/order?status=${status}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -31,7 +31,7 @@ const OrderStatus = () => {
           throw new Error("Failed to fetch data");
         }
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         setOrders(data.data);
         setLoading(false); // Set loading to false after data is fetched
       } catch (error) {
@@ -56,7 +56,7 @@ const OrderStatus = () => {
       if (result.isConfirmed) {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          `https://mern-ecom-backend-henna.vercel.app/api/order/change-status/${orderId}`,
+          `https://mernecomnoor.vercel.app/api/order/change-status/${orderId}`,
           {
             method: "PATCH",
             headers: {

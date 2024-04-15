@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
@@ -7,17 +6,35 @@ import { DotLoader } from "react-spinners";
 import "../SingleProduct/Main.style.scss";
 import Images from "../SingleProduct/ImageGallery/ImageGallery";
 import useShoppingCart from "../../hooks/useShoppingCart";
+import { useParams } from "react-router-dom";
 
 const SingleProduct = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [cartAmount, setcartAmount] = useState(1);
+  const [productDetail, setProductDetail] = useState([]);
+  const { id } = useParams();
+
+  useEffect(() => {
+    setIsLoading(true); // Set isLoading to true when data is being fetched
+    fetch(`https://mernecomnoor.vercel.app/api/product/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setProductDetail(data.data);
+        setIsLoading(false); // Set isLoading to false once data is loaded
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [id]);
+
+  //use params to get the id of the product from the url
+
   const { handleAddToCart } = useShoppingCart();
   // console.log(cartAmount);
   // const [sneakerAmountFinal, setSneakerAmountFinal] = useState(0);
 
   const { user } = useContext(AuthContext);
-  const product = useLoaderData();
-  console.log(product);
+
   const [activeTab, setActiveTab] = useState("description");
 
   const [selectedSize, setSelectedSize] = useState("");
@@ -34,8 +51,11 @@ const SingleProduct = () => {
   };
 
   useEffect(() => {
+    //make the screen scroll to top when the component is mounted
+    window.scrollTo(0, 0);
+
     setIsLoading(false); // Set isLoading to false once data is loaded
-  }, [product]);
+  }, [productDetail]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,7 +65,7 @@ const SingleProduct = () => {
     const additionalInfo = form.additionalInfo.value || "N/A";
     const phoneNumber = Number(form.phoneNumber.value);
     const booking = {
-      productId: product.data._id,
+      productId: productDetail?._id,
       quantity: Number(form.quantity.value),
     };
     const service = {
@@ -58,7 +78,7 @@ const SingleProduct = () => {
 
     const token = localStorage.getItem("token");
 
-    fetch("https://mern-ecom-backend-henna.vercel.app/api/order", {
+    fetch("https://ecomannoor.vercel.app/api/order", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: token },
       body: JSON.stringify(service),
@@ -96,16 +116,10 @@ const SingleProduct = () => {
     setActiveTab(tab);
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <DotLoader color="#36d7b7" />{" "}
-      </div>
-    );
-  }
-
   const increase = () => {
-    setcartAmount(cartAmount + 1);
+    if (cartAmount < productDetail?.quantity) {
+      setcartAmount(cartAmount + 1);
+    }
   };
 
   const decrease = () => {
@@ -117,26 +131,52 @@ const SingleProduct = () => {
   return (
     <div className="mx-2 md:mx-0 overflow-hidden">
       <div className="container mx-auto my-6">
+        {
+          // Show a loader if the data is still loading
+          isLoading && (
+            <div className="flex justify-center items-center h-screen">
+              <DotLoader color="#000" />
+            </div>
+          )
+        }
         <Helmet>
-          <title>AN NOOR | Checkout</title>
+          <title>AN NOOR </title>
+          <meta
+            name="description"
+            content={`Buy ${productDetail?.title} at the best price from AN NOOR. ${productDetail?.description}`}
+          />
+          <link
+            rel="canonical"
+            href={`https://mernecomnoor.vercel.app/api/product/${productDetail?._id}`}
+          />
         </Helmet>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
           <div>
             <div className="images">
-              <Images product={product} />
+              {/* <Images product={productDetail} /> */}
+              {
+                // Show a loader if the data is still loading
+                !isLoading && productDetail?.image?.length > 0 ? (
+                  <Images product={productDetail} />
+                ) : (
+                  <div className="flex justify-center items-center h-96">
+                    <DotLoader color="#000" />
+                  </div>
+                )
+              }
             </div>
           </div>
           <div className="right-side">
             <div className="wrapper">
               <h2 className="text-3xl md:text-2xl font-light mb-4 text-gray-700">
-                {product?.data.title}
+                {productDetail?.title || "Loading..."}
               </h2>
               <hr className="w-10 border-2 mt-5" />
               <p className="text-lg md:text-xl mt-2 text-black font-semibold mb-2">
-                ৳ {product.data?.price}
+                ৳ {productDetail?.price}
               </p>
               <p className="text-base md:text-lg text-blue-gray-900  mb-2">
-                {product?.data.policy}
+                {productDetail?.policy}
               </p>
               <div className="relative">
                 <label
@@ -150,10 +190,10 @@ const SingleProduct = () => {
                   onChange={(e) => handleSizeChange(e.target.value)}
                   className="text-base md:text-lg text-blue-gray-700 mb-2 appearance-none bg-white border border-blue-gray-200 rounded px-3 py-2 pr-8 leading-tight focus:outline-none focus:border-blue-500"
                 >
-                  <option disabled selected>
+                  {/* <option disabled selected>
                     Select Size
-                  </option>
-                  {product?.data?.sizes?.map((sizes, index) =>
+                  </option> */}
+                  {productDetail?.sizes?.map((sizes, index) =>
                     sizes.split(",").map((size, subIndex) => (
                       <option key={`${index}-${subIndex}`} value={size}>
                         {size}
@@ -175,11 +215,11 @@ const SingleProduct = () => {
                   onChange={(e) => handleColorChange(e.target.value)}
                   className="text-base md:text-lg text-blue-gray-700 mb-2 appearance-none bg-white border border-blue-gray-200 rounded px-3 py-2 pr-8 leading-tight focus:outline-none focus:border-blue-500"
                 >
-                  <option disabled selected>
+                  {/* <option disabled selected>
                     Select Color
-                  </option>
+                  </option> */}
 
-                  {product?.data?.color?.map((color, index) => (
+                  {productDetail?.color?.map((color, index) => (
                     <option key={index} value={color}>
                       {color}
                     </option>
@@ -212,7 +252,7 @@ const SingleProduct = () => {
                 <button
                   className="btn btn-outline"
                   onClick={() =>
-                    handleAddToCart(product.data._id, Number(cartAmount))
+                    handleAddToCart(productDetail._id, Number(cartAmount))
                   }
                 >
                   Add to Cart
@@ -229,7 +269,7 @@ const SingleProduct = () => {
               <div className="mt-5">
                 <div>
                   <p>
-                    {product.data.quantity > 0 ? (
+                    {productDetail.quantity > 0 ? (
                       <span className="text-green-500">In Stock</span>
                     ) : (
                       <span className="text-red-500">Out of Stock</span>
@@ -240,7 +280,7 @@ const SingleProduct = () => {
                   <div>
                     ................................................................................
                   </div>
-                  Category: {product?.data.category.name}
+                  Category: {productDetail?.category?.name}
                   <div>
                     ................................................................................
                   </div>
@@ -354,74 +394,95 @@ const SingleProduct = () => {
               </dialog>
             </div>
           </div>
-
-          <div className="mt-4">
-            <div className="flex md:flex-row justify-between items-center">
-              <button
-                className={`tab-btn mb-2 md:mb-0 ${
-                  activeTab === "description" ? "active" : ""
+        </div>
+        <div className="mt-4 md:mx-20 lg:mx-36">
+          <div className="flex  md:flex-row justify-between items-center">
+            <button
+              className={`tab-btn mb-2 md:mb-0 ${
+                activeTab === "description" ? "active" : ""
+              }`}
+              onClick={() => handleTabClick("description")}
+            >
+              <span
+                className={`${
+                  activeTab === "description"
+                    ? "border-b-2 border-blue-500"
+                    : ""
                 }`}
-                onClick={() => handleTabClick("description")}
               >
-                <span
-                  className={`${
-                    activeTab === "description"
-                      ? "border-b-2 border-blue-500"
-                      : ""
-                  }`}
-                >
-                  Description
-                </span>
-              </button>
+                Description
+              </span>
+            </button>
 
-              <button
-                className={`tab-btn ${activeTab === "reviews" ? "active" : ""}`}
-                onClick={() => handleTabClick("reviews")}
+            <button
+              className={`tab-btn ${activeTab === "reviews" ? "active" : ""}`}
+              onClick={() => handleTabClick("reviews")}
+            >
+              <span
+                className={`${
+                  activeTab === "reviews" ? "border-b-2 border-blue-500" : ""
+                }`}
               >
-                <span
-                  className={`${
-                    activeTab === "reviews" ? "border-b-2 border-blue-500" : ""
-                  }`}
-                >
-                  Reviews
-                </span>
-              </button>
-            </div>
-            <div className="tab-content">
-              {activeTab === "description" && (
-                <div className="mt-8">
-                  <p className="text-base md:text-lg text-blue-gray-900 mb-4">
-                    {product?.data.description}
-                  </p>
-                  {/* Display other description data here */}
-                </div>
-              )}
-              {activeTab === "reviews" && (
-                <div className="mt-8">
-                  {product.data.review.length === 0 && (
-                    <p className="text-base md:text-lg text-red-700 mb-4">
-                      No reviews yet.
+                Reviews
+              </span>
+            </button>
+          </div>
+          <div className="tab-content">
+            {activeTab === "description" && (
+              <div className="mt-8">
+                <p className="text-base md:text-lg text-blue-gray-900 mb-5">
+                  Title: {productDetail?.description?.title}
+                </p>
+                {/* whyShouldBuy is array */}
+                <h1 className="text-base md:text-xl font-semibold mb-2">
+                  Why Should You Buy This Product?{" "}
+                </h1>
+                {productDetail?.description?.whyShouldBuy?.map(
+                  (item, index) => (
+                    <p
+                      key={index}
+                      className="text-base md:text-lg text-blue-gray-900 mb-2"
+                    >
+                      {index + 1}: {item}
                     </p>
-                  )}
-                  {product.data.review.map((review) => (
-                    <div key={review._id} className="mb-4">
-                      <div className="flex items-center mb-2">
-                        <span className="text-xl font-bold text-blue-500">
-                          Rating: {review.rating} / 5
-                        </span>
-                        <span className="text-gray-600 ml-2">|</span>
-                        <span className="text-gray-600 ml-2">
-                          By User: {product.data.addedBy.username}
-                        </span>
-                      </div>
-                      <p className="text-base md:text-lg text-blue-gray-900 mb-2">
-                        {review.review}
-                      </p>
-                    </div>
-                  ))}
+                  )
+                )}
+                <div className=" text-base md:text-lg mt-3">
+                  Extra Description:{" "}
+                  <h1 className=" text-base md:text-lg text-blue-gray-900 mb-2">
+                    <h1 className="">
+                      {productDetail?.description?.extraInfo}
+                    </h1>
+                  </h1>
                 </div>
-              )}
-            </div>
+                {/* Display other description data here */}
+              </div>
+            )}
+            {activeTab === "reviews" && (
+              <div className="mt-8">
+                {productDetail.review.length === 0 && (
+                  <p className="text-base md:text-lg text-red-700 mb-4">
+                    No reviews yet.
+                  </p>
+                )}
+                {productDetail.review.map((review) => (
+                  <div key={review._id} className="mb-4">
+                    <div className="flex items-center mb-2">
+                      <span className="text-xl font-bold text-blue-500">
+                        Rating: {review.rating} / 5
+                      </span>
+                      <span className="text-gray-600 ml-2">|</span>
+                      <span className="text-gray-600 ml-2">
+                        By User: {productDetail.addedBy.username}
+                      </span>
+                    </div>
+                    <p className="text-base md:text-lg text-blue-gray-900 mb-2">
+                      {review.review}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

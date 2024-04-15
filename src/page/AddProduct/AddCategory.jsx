@@ -7,8 +7,8 @@ const AddCategory = () => {
     const category = {
       name: e.target.category.value,
     };
-    console.log(category);
-    fetch("https://mern-ecom-backend-henna.vercel.app/api/categories/", {
+    // console.log(category);
+    fetch("https://mernecomnoor.vercel.app/api/categories/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -18,7 +18,7 @@ const AddCategory = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (data) {
           alert("Category added successfully");
         }
@@ -31,7 +31,7 @@ const AddCategory = () => {
   return (
     <div className="flex">
       <div>
-      <MainDashboard></MainDashboard>
+        <MainDashboard></MainDashboard>
       </div>
 
       <div className="container mx-auto mt-4 md:mt-10 h-[650px]">

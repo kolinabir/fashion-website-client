@@ -7,27 +7,24 @@ const useShoppingCart = () => {
 
   const addToCart = (product, cartAmount) => {
     // Logic to add product to cart
-    fetch(
-      "https://mern-ecom-backend-henna.vercel.app/api/cart/addProductToCart",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          products: [
-            {
-              productId: product,
-              quantity: Number(cartAmount),
-            },
-          ],
-        }),
-      }
-    )
+    fetch("https://mernecomnoor.vercel.app/api/cart/addProductToCart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        products: [
+          {
+            productId: product,
+            quantity: Number(cartAmount),
+          },
+        ],
+      }),
+    })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         toast.success("Product added to cart!");
       })
       .catch((err) => {
@@ -60,7 +57,7 @@ const useShoppingCart = () => {
   };
 
   const handleAddToCart = (product, cartAmount) => {
-    console.log(product);
+    // console.log(product);
     if (user) {
       addToCart(product, cartAmount);
     } else {
