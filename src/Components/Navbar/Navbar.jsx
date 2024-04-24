@@ -5,6 +5,7 @@ import { FaCartArrowDown, FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { getCartItems } from "../../api/api";
 import { useQuery } from "@tanstack/react-query";
+import MetaPixel from "../pixel/MetaPixel";
 
 const Navbar = () => {
   const { user, signOut, cartChange } = useContext(AuthContext);
@@ -52,6 +53,7 @@ const Navbar = () => {
 
   return (
     <div className="shadow-md bg-white">
+      <MetaPixel/>
       <div className="md:mx-20 lg:mx-36">
         <nav className="sticky inset-0 z-10 block h-max w-full max-w-full border border-white/100 bg-white  py-2 px-4 text-white rounded-md  lg:px-8 lg:py-4">
           <div className="flex items-center text-gray-900">
